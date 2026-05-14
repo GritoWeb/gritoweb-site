@@ -1,0 +1,105 @@
+/* Design tokens.
+   Variables defined inside @theme are exposed as Tailwind v4 utilities
+   (e.g. --color-blue → text-blue / bg-blue / border-blue).
+   Reference: gritoweb-projeto/pages/styleguide.jsx. */
+
+@theme {
+  /* ── Colors — brand ────────────────────────────────────── */
+
+  --color-blue: #1A5EAB;
+  --color-orange: #FE9D2B;
+  --color-ink: #080717;
+  --color-paper: #F6F5F2;
+
+  /* ── Colors — blue scale ───────────────────────────────── */
+
+  --color-blue-200: #69B1F9;
+  --color-blue-400: #3DA6FC;
+  --color-blue-600: #1B7AC9;
+  --color-blue-800: #1A5EAB;
+
+  /* ── Colors — orange scale ─────────────────────────────── */
+
+  --color-orange-100: #FFD7AA;
+  --color-orange-300: #FCB065;
+  --color-orange-500: #FE9D2B;
+  --color-orange-700: #B06A17;
+
+  /* ── Colors — semantic ─────────────────────────────────── */
+
+  --color-success: #1AAB93;
+
+  /* ── Colors — neutrals & surface ───────────────────────── */
+
+  --color-paper-dim: #EEEEEE;
+  --color-line: #E7E7E7;
+  --color-card: #FCFBF8;
+  --color-ink-soft: #282828;
+  --color-mute: #707070;
+
+  /* ── Fonts ─────────────────────────────────────────────── */
+
+  --font-display: "Lexend", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-body: "Lato", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", "Menlo", monospace;
+
+  /* ── Type scale ────────────────────────────────────────── */
+
+  --text-display: 5.5rem;
+  --text-display--line-height: 1.02;
+  --text-display--letter-spacing: -0.01em;
+  --text-display--font-weight: 900;
+
+  --text-h1: 3.5rem;
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.005em;
+  --text-h1--font-weight: 700;
+
+  --text-h2: 2.75rem;
+  --text-h2--line-height: 1.1;
+  --text-h2--font-weight: 700;
+
+  --text-h3: 2.125rem;
+  --text-h3--line-height: 1.2;
+  --text-h3--font-weight: 500;
+
+  --text-h4: 1.375rem;
+  --text-h4--line-height: 1.27;
+  --text-h4--font-weight: 500;
+
+  --text-h5: 1.125rem;
+  --text-h5--line-height: 1.4;
+  --text-h5--font-weight: 500;
+
+  --text-h6: 0.9375rem;
+  --text-h6--line-height: 1.4;
+  --text-h6--font-weight: 600;
+
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.66;
+  --text-body--font-weight: 400;
+
+  --text-small: 0.875rem;
+  --text-small--line-height: 1.5;
+
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--line-height: 1.23;
+  --text-eyebrow--letter-spacing: 0.12em;
+  --text-eyebrow--font-weight: 700;
+
+  --text-mono: 0.75rem;
+  --text-mono--line-height: 1.5;
+
+  /* ── Font weights ──────────────────────────────────────── */
+
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-black: 900;
+
+  /* ── Shadows ───────────────────────────────────────────── */
+
+  --shadow-1: 0 2px 6px rgba(8, 7, 23, 0.04), 0 1px 2px rgba(8, 7, 23, 0.04);
+  --shadow-2: 0 12px 32px rgba(8, 7, 23, 0.08), 0 4px 12px rgba(8, 7, 23, 0.04);
+}
