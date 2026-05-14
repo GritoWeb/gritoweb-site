@@ -182,7 +182,7 @@ export interface Media {
 export interface Page {
   id: number;
   title: string;
-  layout: (FaqBlockBlock | SectionTestimonialsBlock)[];
+  layout: (FaqBlockBlock | SectionTestimonialsBlock | SectionCtaBlock | ContactSectionBlock | SectionContactBlock)[];
   publishedAt?: string | null;
   /**
    * URL slug da página. Use "home" para a página inicial.
@@ -236,6 +236,65 @@ export interface SectionTestimonialsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'homeSectionTestimonials';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionCtaBlock".
+ */
+export interface SectionCtaBlock {
+  variant: 'blue' | 'orange' | 'white';
+  eyebrow?: string | null;
+  titleMain: string;
+  titleSecondary: string;
+  titleSecondaryColor: 'blue' | 'white' | 'orange';
+  description?: string | null;
+  cta1Label: string;
+  cta1Href: string;
+  cta1Variant: 'primary' | 'blue' | 'ghost' | 'white';
+  cta2Label?: string | null;
+  cta2Href?: string | null;
+  cta2Variant?: ('primary' | 'blue' | 'ghost' | 'white') | null;
+  image?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'homeSectionCta';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactSectionBlock".
+ */
+export interface ContactSectionBlock {
+  eyebrow?: string | null;
+  heading?: string | null;
+  sidebarEyebrow?: string | null;
+  successTitle?: string | null;
+  successMessage?: string | null;
+  channels?:
+    | {
+        icon: 'email' | 'phone' | 'whatsapp' | 'instagram' | 'linkedin' | 'location';
+        label: string;
+        value: string;
+        hint?: string | null;
+        href?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contactSection';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionContactBlock".
+ */
+export interface SectionContactBlock {
+  email: string;
+  emailHref: string;
+  phone: string;
+  phoneHref: string;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'homeSectionContact';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -456,6 +515,9 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         faqBlock?: T | FaqBlockBlockSelect<T>;
         homeSectionTestimonials?: T | SectionTestimonialsBlockSelect<T>;
+        homeSectionCta?: T | SectionCtaBlockSelect<T>;
+        contactSection?: T | ContactSectionBlockSelect<T>;
+        homeSectionContact?: T | SectionContactBlockSelect<T>;
       };
   publishedAt?: T;
   slug?: T;
@@ -501,6 +563,62 @@ export interface SectionTestimonialsBlockSelect<T extends boolean = true> {
         surface?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionCtaBlock_select".
+ */
+export interface SectionCtaBlockSelect<T extends boolean = true> {
+  variant?: T;
+  eyebrow?: T;
+  titleMain?: T;
+  titleSecondary?: T;
+  titleSecondaryColor?: T;
+  description?: T;
+  cta1Label?: T;
+  cta1Href?: T;
+  cta1Variant?: T;
+  cta2Label?: T;
+  cta2Href?: T;
+  cta2Variant?: T;
+  image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactSectionBlock_select".
+ */
+export interface ContactSectionBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  sidebarEyebrow?: T;
+  successTitle?: T;
+  successMessage?: T;
+  channels?:
+    | T
+    | {
+        icon?: T;
+        label?: T;
+        value?: T;
+        hint?: T;
+        href?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionContactBlock_select".
+ */
+export interface SectionContactBlockSelect<T extends boolean = true> {
+  email?: T;
+  emailHref?: T;
+  phone?: T;
+  phoneHref?: T;
   id?: T;
   blockName?: T;
 }

@@ -4,6 +4,9 @@ import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { FaqBlock } from '../../blocks/FaqBlock/config'
 import { SectionTestimonials } from '../../blocks/SectionTestimonials/config'
+import { SectionCta } from '../../blocks/SectionCta/config'
+import { ContactSection } from '../../blocks/ContactSection/config'
+import { SectionContact } from '../../blocks/SectionContact/config'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
@@ -52,7 +55,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [FaqBlock, SectionTestimonials],
+              blocks: [FaqBlock, SectionTestimonials, SectionCta, ContactSection, SectionContact],
               required: true,
               admin: {
                 initCollapsed: true,

@@ -4,10 +4,16 @@ import type { Page } from '@/payload-types'
 
 import { FaqBlockComponent } from '@/blocks/FaqBlock/Component'
 import { SectionTestimonialsComponent } from '@/blocks/SectionTestimonials/Component'
+import { SectionCtaComponent } from '@/blocks/SectionCta/Component'
+import { ContactSectionComponent } from '@/blocks/ContactSection/Component'
+import { SectionContactComponent } from '@/blocks/SectionContact/Component'
 
 const blockComponents = {
   faqBlock: FaqBlockComponent,
   homeSectionTestimonials: SectionTestimonialsComponent,
+  homeSectionCta: SectionCtaComponent,
+  contactSection: ContactSectionComponent,
+  homeSectionContact: SectionContactComponent,
 }
 
 export const RenderBlocks: React.FC<{

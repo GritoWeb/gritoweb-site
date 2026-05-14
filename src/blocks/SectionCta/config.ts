@@ -1,0 +1,115 @@
+import type { Block } from 'payload'
+
+export const SectionCta: Block = {
+  slug: 'homeSectionCta',
+  interfaceName: 'SectionCtaBlock',
+  labels: { singular: 'CTA Banner', plural: 'CTA Banners' },
+  fields: [
+    {
+      name: 'variant',
+      label: 'Color variant',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Blue', value: 'blue' },
+        { label: 'Orange', value: 'orange' },
+        { label: 'White', value: 'white' },
+      ],
+      defaultValue: 'orange',
+    },
+    {
+      name: 'eyebrow',
+      label: 'Eyebrow',
+      type: 'text',
+      defaultValue: 'Próximo passo',
+    },
+    {
+      name: 'titleMain',
+      label: 'Title — line 1',
+      type: 'text',
+      required: true,
+      defaultValue: 'Tem um projeto',
+    },
+    {
+      name: 'titleSecondary',
+      label: 'Title — line 2',
+      type: 'text',
+      required: true,
+      defaultValue: 'em mente?',
+    },
+    {
+      name: 'titleSecondaryColor',
+      label: 'Line 2 color',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Blue', value: 'blue' },
+        { label: 'White', value: 'white' },
+        { label: 'Orange', value: 'orange' },
+      ],
+      defaultValue: 'blue',
+    },
+    {
+      name: 'description',
+      label: 'Description',
+      type: 'textarea',
+    },
+    {
+      name: 'cta1Label',
+      label: 'Button 1 — text',
+      type: 'text',
+      required: true,
+      defaultValue: 'Agendar uma call',
+    },
+    {
+      name: 'cta1Href',
+      label: 'Button 1 — link',
+      type: 'text',
+      required: true,
+      defaultValue: '#',
+    },
+    {
+      name: 'cta1Variant',
+      label: 'Button 1 — variant',
+      type: 'select',
+      required: true,
+      options: [
+        { label: 'Primary (orange)', value: 'primary' },
+        { label: 'Blue', value: 'blue' },
+        { label: 'Ghost', value: 'ghost' },
+        { label: 'White', value: 'white' },
+      ],
+      defaultValue: 'blue',
+    },
+    {
+      name: 'cta2Label',
+      label: 'Button 2 — text',
+      type: 'text',
+      defaultValue: 'Baixar portfólio (PDF)',
+    },
+    {
+      name: 'cta2Href',
+      label: 'Button 2 — link',
+      type: 'text',
+      defaultValue: '#',
+    },
+    {
+      name: 'cta2Variant',
+      label: 'Button 2 — variant',
+      type: 'select',
+      options: [
+        { label: 'Primary (orange)', value: 'primary' },
+        { label: 'Blue', value: 'blue' },
+        { label: 'Ghost', value: 'ghost' },
+        { label: 'White', value: 'white' },
+      ],
+      defaultValue: 'white',
+    },
+    {
+      name: 'image',
+      label: 'Side image',
+      type: 'upload',
+      relationTo: 'media',
+    },
+  ],
+}
