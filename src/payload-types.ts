@@ -190,6 +190,20 @@ export interface Media {
 export interface Page {
   id: number;
   title: string;
+  hero: {
+    type: 'none' | 'defaultHero';
+    eyebrow?: string | null;
+    /**
+     * Use *palavra* para laranja. Use \n para quebra de linha.
+     */
+    heroTitle?: string | null;
+    heroDescription?: string | null;
+    cta1Label?: string | null;
+    cta1Href?: string | null;
+    cta2Label?: string | null;
+    cta2Href?: string | null;
+    heroImage?: (number | null) | Media;
+  };
   layout: (
     | FaqBlockBlock
     | SectionAboutBlock
@@ -878,6 +892,19 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
+  hero?:
+    | T
+    | {
+        type?: T;
+        eyebrow?: T;
+        heroTitle?: T;
+        heroDescription?: T;
+        cta1Label?: T;
+        cta1Href?: T;
+        cta2Label?: T;
+        cta2Href?: T;
+        heroImage?: T;
+      };
   layout?:
     | T
     | {

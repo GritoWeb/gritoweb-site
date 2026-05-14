@@ -1,0 +1,42 @@
+import React from 'react'
+
+export function HeroSection({
+  eyebrow,
+  title,
+  description,
+  actions,
+  media,
+  trustLine,
+  className = '',
+}: {
+  eyebrow?: string
+  title: React.ReactNode
+  description?: string
+  actions?: React.ReactNode
+  media?: React.ReactNode
+  trustLine?: string
+  className?: string
+}) {
+  const hasMedia = !!media
+  const root = ['relative px-12 py-16', className].filter(Boolean).join(' ')
+  const inner = hasMedia
+    ? 'max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1.1fr_1fr] items-center gap-12'
+    : 'max-w-7xl mx-auto'
+
+  return (
+    <section className={root}>
+      <div className={inner}>
+        <div>
+          {eyebrow && <p className="font-eyebrow m-0 mb-3">{eyebrow}</p>}
+          <h1 className="m-0 text-blue">{title}</h1>
+          {description && <p className="body-text text-mute mt-4 max-w-xl">{description}</p>}
+          {actions && <div className="mt-6 flex flex-wrap gap-3">{actions}</div>}
+          {trustLine && <p className="text-xs text-ink-soft mt-7 max-w-xl">{trustLine}</p>}
+        </div>
+        {hasMedia && (
+          <div className="flex justify-center items-center min-h-[420px]">{media}</div>
+        )}
+      </div>
+    </section>
+  )
+}

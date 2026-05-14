@@ -17,6 +17,7 @@ import { ChecklistGrid } from '../../blocks/ChecklistGrid/config'
 import { PullQuote } from '../../blocks/PullQuote/config'
 import { PortfolioListing } from '../../blocks/PortfolioListing/config'
 import { BlogListing } from '../../blocks/BlogListing/config'
+import { hero } from '../../heros/config'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
@@ -60,6 +61,10 @@ export const Pages: CollectionConfig<'pages'> = {
     {
       type: 'tabs',
       tabs: [
+        {
+          fields: [hero],
+          label: 'Hero',
+        },
         {
           fields: [
             {

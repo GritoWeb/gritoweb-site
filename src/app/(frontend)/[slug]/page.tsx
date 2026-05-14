@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { RenderHero } from '@/heros/RenderHero'
 
 export const dynamic = 'force-dynamic'
 
@@ -23,6 +24,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   return (
     <article>
+      <RenderHero {...page.hero} />
       <RenderBlocks blocks={page.layout} />
     </article>
   )
