@@ -3,6 +3,12 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { FaqBlock } from '../../blocks/FaqBlock/config'
+import { SectionAbout } from '../../blocks/SectionAbout/config'
+import { SectionLogoCloud } from '../../blocks/SectionLogoCloud/config'
+import { SectionProcess } from '../../blocks/SectionProcess/config'
+import { SectionProjects } from '../../blocks/SectionProjects/config'
+import { SectionServices } from '../../blocks/SectionServices/config'
+import { SectionStats } from '../../blocks/SectionStats/config'
 import { SectionTestimonials } from '../../blocks/SectionTestimonials/config'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
@@ -52,7 +58,16 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [FaqBlock, SectionTestimonials],
+              blocks: [
+                FaqBlock,
+                SectionAbout,
+                SectionLogoCloud,
+                SectionProcess,
+                SectionProjects,
+                SectionServices,
+                SectionStats,
+                SectionTestimonials,
+              ],
               required: true,
               admin: {
                 initCollapsed: true,

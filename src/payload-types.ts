@@ -182,7 +182,16 @@ export interface Media {
 export interface Page {
   id: number;
   title: string;
-  layout: (FaqBlockBlock | SectionTestimonialsBlock)[];
+  layout: (
+    | FaqBlockBlock
+    | SectionAboutBlock
+    | SectionLogoCloudBlock
+    | SectionProcessBlock
+    | SectionProjectsBlock
+    | SectionServicesBlock
+    | SectionStatsBlock
+    | SectionTestimonialsBlock
+  )[];
   publishedAt?: string | null;
   /**
    * URL slug da página. Use "home" para a página inicial.
@@ -211,6 +220,162 @@ export interface FaqBlockBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'faqBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionAboutBlock".
+ */
+export interface SectionAboutBlock {
+  eyebrow: string;
+  /**
+   * Use *palavra* para laranja. Use \n para quebra de linha.
+   */
+  title: string;
+  description: string;
+  ctaLabel: string;
+  ctaHref: string;
+  features: {
+    title: string;
+    description: string;
+    id?: string | null;
+  }[];
+  image: number | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'homeSectionAbout';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionLogoCloudBlock".
+ */
+export interface SectionLogoCloudBlock {
+  eyebrow: string;
+  /**
+   * Use *palavra* para laranja.
+   */
+  title: string;
+  description?: string | null;
+  partners: {
+    name: string;
+    glyph:
+      | 'circle'
+      | 'triangle'
+      | 'square'
+      | 'diamond'
+      | 'arc'
+      | 'plus'
+      | 'hexagon'
+      | 'rings'
+      | 'halfcircle'
+      | 'wave'
+      | 'chevron'
+      | 'bars';
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'homeSectionLogoCloud';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionProcessBlock".
+ */
+export interface SectionProcessBlock {
+  background?: ('dark' | 'white') | null;
+  eyebrow: string;
+  /**
+   * Use *palavra* para laranja. Use \n para quebra de linha.
+   */
+  title: string;
+  description?: string | null;
+  /**
+   * The step number that will be highlighted in orange (0 = first).
+   */
+  highlightIndex?: number | null;
+  steps: {
+    title: string;
+    description?: string | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'homeSectionProcess';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionProjectsBlock".
+ */
+export interface SectionProjectsBlock {
+  eyebrow: string;
+  /**
+   * Use *palavra* para laranja. Use \n para quebra de linha.
+   */
+  title: string;
+  portfolioLabel?: string | null;
+  portfolioHref?: string | null;
+  projects: {
+    tag: string;
+    tagVariant: 'blue' | 'orange';
+    accent: 'blue' | 'orange';
+    client: string;
+    year: string;
+    title: string;
+    result?: string | null;
+    motifType: 'tagMark' | 'dashboard' | 'arrowCurve';
+    href?: string | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'homeSectionProjects';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionServicesBlock".
+ */
+export interface SectionServicesBlock {
+  eyebrow?: string | null;
+  /**
+   * Use *palavra* para laranja. Use \n para quebra de linha.
+   */
+  title?: string | null;
+  description?: string | null;
+  services: {
+    name: string;
+    variant: 'blue' | 'orange';
+    description: string;
+    iconType: 'globe' | 'cart' | 'landing' | 'screen' | 'brand' | 'code';
+    /**
+     * ✓ items that appear below the description.
+     */
+    bullets?:
+      | {
+          text: string;
+          id?: string | null;
+        }[]
+      | null;
+    ctaLabel?: string | null;
+    ctaHref?: string | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'homeSectionServices';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionStatsBlock".
+ */
+export interface SectionStatsBlock {
+  showDecoration?: boolean | null;
+  stats: {
+    value: string;
+    label: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'homeSectionStats';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -455,6 +620,12 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         faqBlock?: T | FaqBlockBlockSelect<T>;
+        homeSectionAbout?: T | SectionAboutBlockSelect<T>;
+        homeSectionLogoCloud?: T | SectionLogoCloudBlockSelect<T>;
+        homeSectionProcess?: T | SectionProcessBlockSelect<T>;
+        homeSectionProjects?: T | SectionProjectsBlockSelect<T>;
+        homeSectionServices?: T | SectionServicesBlockSelect<T>;
+        homeSectionStats?: T | SectionStatsBlockSelect<T>;
         homeSectionTestimonials?: T | SectionTestimonialsBlockSelect<T>;
       };
   publishedAt?: T;
@@ -476,6 +647,135 @@ export interface FaqBlockBlockSelect<T extends boolean = true> {
     | {
         question?: T;
         answer?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionAboutBlock_select".
+ */
+export interface SectionAboutBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  description?: T;
+  ctaLabel?: T;
+  ctaHref?: T;
+  features?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionLogoCloudBlock_select".
+ */
+export interface SectionLogoCloudBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  description?: T;
+  partners?:
+    | T
+    | {
+        name?: T;
+        glyph?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionProcessBlock_select".
+ */
+export interface SectionProcessBlockSelect<T extends boolean = true> {
+  background?: T;
+  eyebrow?: T;
+  title?: T;
+  description?: T;
+  highlightIndex?: T;
+  steps?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionProjectsBlock_select".
+ */
+export interface SectionProjectsBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  portfolioLabel?: T;
+  portfolioHref?: T;
+  projects?:
+    | T
+    | {
+        tag?: T;
+        tagVariant?: T;
+        accent?: T;
+        client?: T;
+        year?: T;
+        title?: T;
+        result?: T;
+        motifType?: T;
+        href?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionServicesBlock_select".
+ */
+export interface SectionServicesBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  description?: T;
+  services?:
+    | T
+    | {
+        name?: T;
+        variant?: T;
+        description?: T;
+        iconType?: T;
+        bullets?:
+          | T
+          | {
+              text?: T;
+              id?: T;
+            };
+        ctaLabel?: T;
+        ctaHref?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionStatsBlock_select".
+ */
+export interface SectionStatsBlockSelect<T extends boolean = true> {
+  showDecoration?: T;
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
         id?: T;
       };
   id?: T;
