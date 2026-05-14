@@ -70,6 +70,10 @@ export interface Config {
     users: User;
     media: Media;
     pages: Page;
+    portfolios: Portfolio;
+    'portfolio-tags': PortfolioTag;
+    posts: Post;
+    tags: Tag;
     'payload-kv': PayloadKv;
     'payload-jobs': PayloadJob;
     'payload-locked-documents': PayloadLockedDocument;
@@ -81,6 +85,10 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    portfolios: PortfoliosSelect<false> | PortfoliosSelect<true>;
+    'portfolio-tags': PortfolioTagsSelect<false> | PortfolioTagsSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-jobs': PayloadJobsSelect<false> | PayloadJobsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -189,6 +197,9 @@ export interface Page {
     | ContactSectionBlock
     | SectionContactBlock
     | ChecklistGridBlock
+    | PullQuoteBlock
+    | PortfolioListingBlock
+    | BlogListingBlock
   )[];
   publishedAt?: string | null;
   /**
@@ -324,6 +335,159 @@ export interface ChecklistGridBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PullQuoteBlock".
+ */
+export interface PullQuoteBlock {
+  eyebrow?: string | null;
+  quote: string;
+  author?: string | null;
+  role?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'pullQuote';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PortfolioListingBlock".
+ */
+export interface PortfolioListingBlock {
+  eyebrow?: string | null;
+  /**
+   * Use *palavra* para laranja. Use \n para quebra de linha.
+   */
+  title?: string | null;
+  showFilters?: boolean | null;
+  showViewToggle?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'portfolioListing';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogListingBlock".
+ */
+export interface BlogListingBlock {
+  /**
+   * Appears as a banner above the listing. Leave empty to hide.
+   */
+  featuredPost?: (number | null) | Post;
+  eyebrow?: string | null;
+  /**
+   * Use *palavra* para laranja. Use \n para quebra de linha.
+   */
+  title?: string | null;
+  postsPerPage?: number | null;
+  showSearch?: boolean | null;
+  showFilters?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'blogListing';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  title: string;
+  /**
+   * Short text shown in the posts listing. Recommended maximum: 160 characters.
+   */
+  excerpt?: string | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedPosts?: (number | Post)[] | null;
+  tags?: (number | Tag)[] | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
+  /**
+   * Imagem exibida nos cards de listagem de posts.
+   */
+  featuredImage?: (number | null) | Media;
+  publishedAt?: string | null;
+  authors?: (number | User)[] | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portfolios".
+ */
+export interface Portfolio {
+  id: number;
+  title: string;
+  client: string;
+  summary?: string | null;
+  image: number | Media;
+  tag?: (number | null) | PortfolioTag;
+  tagVariant?: ('blue' | 'orange') | null;
+  accent?: ('blue' | 'orange') | null;
+  year?: string | null;
+  result?: string | null;
+  publishedAt?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portfolio-tags".
+ */
+export interface PortfolioTag {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -449,6 +613,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'pages';
         value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'portfolios';
+        value: number | Portfolio;
+      } | null)
+    | ({
+        relationTo: 'portfolio-tags';
+        value: number | PortfolioTag;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'tags';
+        value: number | Tag;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -545,6 +725,9 @@ export interface PagesSelect<T extends boolean = true> {
         contactSection?: T | ContactSectionBlockSelect<T>;
         homeSectionContact?: T | SectionContactBlockSelect<T>;
         checklistGrid?: T | ChecklistGridBlockSelect<T>;
+        pullQuote?: T | PullQuoteBlockSelect<T>;
+        portfolioListing?: T | PortfolioListingBlockSelect<T>;
+        blogListing?: T | BlogListingBlockSelect<T>;
       };
   publishedAt?: T;
   slug?: T;
@@ -665,6 +848,113 @@ export interface ChecklistGridBlockSelect<T extends boolean = true> {
       };
   id?: T;
   blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PullQuoteBlock_select".
+ */
+export interface PullQuoteBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  quote?: T;
+  author?: T;
+  role?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PortfolioListingBlock_select".
+ */
+export interface PortfolioListingBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  showFilters?: T;
+  showViewToggle?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogListingBlock_select".
+ */
+export interface BlogListingBlockSelect<T extends boolean = true> {
+  featuredPost?: T;
+  eyebrow?: T;
+  title?: T;
+  postsPerPage?: T;
+  showSearch?: T;
+  showFilters?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portfolios_select".
+ */
+export interface PortfoliosSelect<T extends boolean = true> {
+  title?: T;
+  client?: T;
+  summary?: T;
+  image?: T;
+  tag?: T;
+  tagVariant?: T;
+  accent?: T;
+  year?: T;
+  result?: T;
+  publishedAt?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "portfolio-tags_select".
+ */
+export interface PortfolioTagsSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  excerpt?: T;
+  content?: T;
+  relatedPosts?: T;
+  tags?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  featuredImage?: T;
+  publishedAt?: T;
+  authors?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -849,10 +1139,19 @@ export interface TaskSchedulePublish {
   input: {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
-    doc?: {
-      relationTo: 'pages';
-      value: number | Page;
-    } | null;
+    doc?:
+      | ({
+          relationTo: 'pages';
+          value: number | Page;
+        } | null)
+      | ({
+          relationTo: 'portfolios';
+          value: number | Portfolio;
+        } | null)
+      | ({
+          relationTo: 'posts';
+          value: number | Post;
+        } | null);
     global?: string | null;
     user?: (number | null) | User;
   };

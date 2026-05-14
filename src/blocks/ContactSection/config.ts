@@ -4,6 +4,8 @@ export const ContactSection: Block = {
   slug: 'contactSection',
   interfaceName: 'ContactSectionBlock',
   labels: { singular: 'Contact Section (Form)', plural: 'Contact Sections (Form)' },
+  imageURL: '/images/blocks/contactSection.png',
+  imageAltText: 'Contact Section (Form)',
   fields: [
     {
       name: 'eyebrow',
@@ -31,7 +33,8 @@ export const ContactSection: Block = {
       name: 'successMessage',
       label: 'Success message',
       type: 'textarea',
-      defaultValue: 'Recebemos sua mensagem. Em até 3 dias úteis um de nós entra em contato.',
+      defaultValue:
+        'Recebemos sua mensagem. Em até 3 dias úteis um de nós entra em contato.',
     },
     {
       name: 'channels',
@@ -53,10 +56,28 @@ export const ContactSection: Block = {
             { label: 'Location', value: 'location' },
           ],
         },
-        { name: 'label', label: 'Label', type: 'text', required: true },
-        { name: 'value', label: 'Displayed value', type: 'text', required: true },
-        { name: 'hint', label: 'Hint (optional)', type: 'text' },
-        { name: 'href', label: 'Link (optional)', type: 'text' },
+        {
+          name: 'label',
+          label: 'Label',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'value',
+          label: 'Displayed value',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'hint',
+          label: 'Hint (optional)',
+          type: 'text',
+        },
+        {
+          name: 'href',
+          label: 'Link (optional)',
+          type: 'text',
+        },
       ],
     },
   ],

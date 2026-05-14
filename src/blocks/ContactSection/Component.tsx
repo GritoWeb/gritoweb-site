@@ -3,7 +3,7 @@
 import React, { useState, useId, Children, cloneElement, isValidElement } from 'react'
 import type { ContactSectionBlock } from '@/payload-types'
 
-// ── Icons ─────────────────────────────────────────────────────────────────────
+// ── Icons ────────────────────────────────────────────────────────────────────
 
 const icons: Record<string, React.ReactNode> = {
   email: (
@@ -106,10 +106,14 @@ function FormField({
       )}
       {enhancedChild}
       {hint && !error && (
-        <p id={hintId} className="mt-2 text-xs text-mute">{hint}</p>
+        <p id={hintId} className="mt-2 text-xs text-mute">
+          {hint}
+        </p>
       )}
       {error && (
-        <p id={errorId} className="mt-2 text-xs text-orange" role="alert">{error}</p>
+        <p id={errorId} className="mt-2 text-xs text-orange" role="alert">
+          {error}
+        </p>
       )}
     </div>
   )
@@ -155,29 +159,50 @@ function Button({
 
 function IconBadge({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
-    <span className={['inline-flex items-center justify-center shrink-0 h-10 w-10 rounded-xl bg-blue/10 text-blue', className].filter(Boolean).join(' ')}>
+    <span
+      className={[
+        'inline-flex items-center justify-center shrink-0',
+        'h-10 w-10 rounded-xl',
+        'bg-blue/10 text-blue',
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+    >
       {children}
     </span>
   )
 }
 
-function ChannelRow({ iconKey, label, value, hint, href }: {
+// ── ChannelRow ────────────────────────────────────────────────────────────────
+
+const valueLinkClasses =
+  'block font-display font-medium text-base text-ink no-underline leading-snug rounded-sm transition-colors duration-150 motion-reduce:transition-none hover:text-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper'
+
+function ChannelRow({
+  iconKey,
+  label,
+  value,
+  hint,
+  href,
+}: {
   iconKey: string
   label: string
   value: string
   hint?: string | null
   href?: string | null
 }) {
-  const valueLinkClasses =
-    'block font-display font-medium text-base text-ink no-underline leading-snug rounded-sm transition-colors duration-150 motion-reduce:transition-none hover:text-blue focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper'
-
   return (
     <div className="flex items-start gap-3.5">
       <IconBadge>{icons[iconKey] ?? icons.email}</IconBadge>
       <div className="min-w-0">
-        <p className="m-0 mb-1 font-display font-bold text-[11px] uppercase tracking-[0.14em] text-ink">{label}</p>
+        <p className="m-0 mb-1 font-display font-bold text-[11px] uppercase tracking-[0.14em] text-ink">
+          {label}
+        </p>
         {href ? (
-          <a href={href} className={valueLinkClasses}>{value}</a>
+          <a href={href} className={valueLinkClasses}>
+            {value}
+          </a>
         ) : (
           <p className="m-0 font-display font-medium text-base text-ink leading-snug">{value}</p>
         )}
@@ -186,6 +211,8 @@ function ChannelRow({ iconKey, label, value, hint, href }: {
     </div>
   )
 }
+
+// ── SVG helpers ───────────────────────────────────────────────────────────────
 
 const ArrowRight = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
@@ -249,29 +276,62 @@ export const ContactSectionComponent: React.FC<ContactSectionBlock> = ({
       )}
 
       <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-[1.5fr_1fr] gap-20 items-start">
+        {/* Form column */}
         <div>
           {sent ? (
             <div className="py-10">
-              <div aria-hidden="true" className="inline-flex h-14 w-14 rounded-full bg-success/15 text-success items-center justify-center mb-5">
+              <div
+                aria-hidden="true"
+                className="inline-flex h-14 w-14 rounded-full bg-success/15 text-success items-center justify-center mb-5"
+              >
                 <CheckIcon />
               </div>
               <h3 className="m-0 text-blue text-[26px] font-bold">{successTitle}</h3>
               <p className="mt-2.5 text-ink-soft max-w-sm">{successMessage}</p>
-              <Button variant="ghost" className="mt-6" onClick={handleReset}>Enviar outra</Button>
+              <Button variant="ghost" className="mt-6" onClick={handleReset}>
+                Enviar outra
+              </Button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-7" noValidate>
               <FormField label="Nome">
-                <Input name="name" placeholder="Seu nome" value={form.name} onChange={handleChange} required autoComplete="name" />
+                <Input
+                  name="name"
+                  placeholder="Seu nome"
+                  value={form.name}
+                  onChange={handleChange}
+                  required
+                  autoComplete="name"
+                />
               </FormField>
+
               <FormField label="E-mail">
-                <Input name="email" type="email" placeholder="seu@email.com" value={form.email} onChange={handleChange} required autoComplete="email" />
+                <Input
+                  name="email"
+                  type="email"
+                  placeholder="seu@email.com"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  autoComplete="email"
+                />
               </FormField>
+
               <FormField label="Mensagem">
-                <Textarea name="message" rows={4} placeholder="Conta um pouco do projeto, do prazo, do que precisa…" value={form.message} onChange={handleChange} required />
+                <Textarea
+                  name="message"
+                  rows={4}
+                  placeholder="Conta um pouco do projeto, do prazo, do que precisa…"
+                  value={form.message}
+                  onChange={handleChange}
+                  required
+                />
               </FormField>
+
               <div className="mt-2 flex flex-wrap items-center justify-between gap-3.5">
-                <p className="m-0 text-[13px] text-ink-soft">Seus dados são usados apenas para retorno.</p>
+                <p className="m-0 text-[13px] text-ink-soft">
+                  Seus dados são usados apenas para retorno.
+                </p>
                 <Button type="submit" icon={<ArrowRight />} disabled={loading}>
                   {loading ? 'Enviando…' : 'Enviar mensagem'}
                 </Button>
@@ -280,6 +340,7 @@ export const ContactSectionComponent: React.FC<ContactSectionBlock> = ({
           )}
         </div>
 
+        {/* Sidebar */}
         {channels && channels.length > 0 && (
           <aside aria-label="Canais de contato">
             <p className="font-eyebrow m-0 mb-4">{sidebarEyebrow}</p>

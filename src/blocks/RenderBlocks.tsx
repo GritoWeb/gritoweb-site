@@ -8,6 +8,9 @@ import { SectionCtaComponent } from '@/blocks/SectionCta/Component'
 import { ContactSectionComponent } from '@/blocks/ContactSection/Component'
 import { SectionContactComponent } from '@/blocks/SectionContact/Component'
 import { ChecklistGridComponent } from '@/blocks/ChecklistGrid/Component'
+import { PullQuoteComponent } from '@/blocks/PullQuote/Component'
+import { PortfolioListingComponent } from '@/blocks/PortfolioListing/Component'
+import { BlogListingComponent } from '@/blocks/BlogListing/Component'
 
 const blockComponents = {
   faqBlock: FaqBlockComponent,
@@ -16,6 +19,9 @@ const blockComponents = {
   contactSection: ContactSectionComponent,
   homeSectionContact: SectionContactComponent,
   checklistGrid: ChecklistGridComponent,
+  pullQuote: PullQuoteComponent,
+  portfolioListing: PortfolioListingComponent,
+  blogListing: BlogListingComponent,
 }
 
 export const RenderBlocks: React.FC<{
