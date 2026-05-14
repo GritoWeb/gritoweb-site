@@ -3,9 +3,11 @@ import React, { Fragment } from 'react'
 import type { Page } from '@/payload-types'
 
 import { FaqBlockComponent } from '@/blocks/FaqBlock/Component'
+import { SectionTestimonialsComponent } from '@/blocks/SectionTestimonials/Component'
 
 const blockComponents = {
   faqBlock: FaqBlockComponent,
+  homeSectionTestimonials: SectionTestimonialsComponent,
 }
 
 export const RenderBlocks: React.FC<{
@@ -23,7 +25,7 @@ export const RenderBlocks: React.FC<{
           if (Block) {
             return (
               <div key={index}>
-                <Block {...block} />
+                <Block {...(block as any)} />
               </div>
             )
           }

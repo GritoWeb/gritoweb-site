@@ -3,6 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { FaqBlock } from '../../blocks/FaqBlock/config'
+import { SectionTestimonials } from '../../blocks/SectionTestimonials/config'
 import { populatePublishedAt } from '../../hooks/populatePublishedAt'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePage } from './hooks/revalidatePage'
@@ -51,7 +52,7 @@ export const Pages: CollectionConfig<'pages'> = {
             {
               name: 'layout',
               type: 'blocks',
-              blocks: [FaqBlock],
+              blocks: [FaqBlock, SectionTestimonials],
               required: true,
               admin: {
                 initCollapsed: true,

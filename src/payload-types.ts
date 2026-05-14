@@ -182,7 +182,7 @@ export interface Media {
 export interface Page {
   id: number;
   title: string;
-  layout: FaqBlockBlock[];
+  layout: (FaqBlockBlock | SectionTestimonialsBlock)[];
   publishedAt?: string | null;
   /**
    * URL slug da página. Use "home" para a página inicial.
@@ -211,6 +211,31 @@ export interface FaqBlockBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'faqBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionTestimonialsBlock".
+ */
+export interface SectionTestimonialsBlock {
+  eyebrow: string;
+  /**
+   * Use *palavra* para laranja. Use \n para quebra de linha.
+   */
+  title: string;
+  description?: string | null;
+  ratingValue: string;
+  reviewCount: string;
+  testimonials: {
+    quote: string;
+    author: string;
+    role?: string | null;
+    avatarVariant: 'blue' | 'orange';
+    surface: 'paper' | 'card';
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'homeSectionTestimonials';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -430,6 +455,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         faqBlock?: T | FaqBlockBlockSelect<T>;
+        homeSectionTestimonials?: T | SectionTestimonialsBlockSelect<T>;
       };
   publishedAt?: T;
   slug?: T;
@@ -450,6 +476,29 @@ export interface FaqBlockBlockSelect<T extends boolean = true> {
     | {
         question?: T;
         answer?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionTestimonialsBlock_select".
+ */
+export interface SectionTestimonialsBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  description?: T;
+  ratingValue?: T;
+  reviewCount?: T;
+  testimonials?:
+    | T
+    | {
+        quote?: T;
+        author?: T;
+        role?: T;
+        avatarVariant?: T;
+        surface?: T;
         id?: T;
       };
   id?: T;
