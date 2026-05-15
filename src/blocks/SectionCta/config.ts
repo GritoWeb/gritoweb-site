@@ -24,30 +24,14 @@ export const SectionCta: Block = {
       defaultValue: 'Próximo passo',
     },
     {
-      name: 'titleMain',
-      label: 'Title — line 1',
+      name: 'title',
+      label: 'Title',
       type: 'text',
       required: true,
-      defaultValue: 'Tem um projeto',
-    },
-    {
-      name: 'titleSecondary',
-      label: 'Title — line 2',
-      type: 'text',
-      required: true,
-      defaultValue: 'em mente?',
-    },
-    {
-      name: 'titleSecondaryColor',
-      label: 'Line 2 color',
-      type: 'select',
-      required: true,
-      options: [
-        { label: 'Blue', value: 'blue' },
-        { label: 'White', value: 'white' },
-        { label: 'Orange', value: 'orange' },
-      ],
-      defaultValue: 'blue',
+      defaultValue: 'Tem um projeto *em mente?*',
+      admin: {
+        description: 'Use *palavra* para destacar em laranja. Use \\n para quebrar linha.',
+      },
     },
     {
       name: 'description',

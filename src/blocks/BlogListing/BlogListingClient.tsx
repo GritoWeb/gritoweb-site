@@ -53,12 +53,6 @@ const SearchIcon = () => (
   </svg>
 )
 
-const ArrowRight = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-    <path d="M5 12h14M13 5l7 7-7 7" />
-  </svg>
-)
-
 // ── Primitives ────────────────────────────────────────────────────────────────
 
 const filterPillBase = [
@@ -133,56 +127,58 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
   const imageUrl =
     post.image && typeof post.image === 'object' && post.image.url ? post.image.url : null
 
+  const formattedDate = post.date
+    ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(
+        new Date(post.date),
+      )
+    : null
+
   return (
-    <a
-      href={`/posts/${post.slug}`}
-      className="group relative flex flex-col md:flex-row rounded-3xl overflow-hidden border border-line bg-white no-underline text-inherit mb-14 transition-shadow duration-150 hover:shadow-[0_12px_40px_rgba(8,7,23,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
-    >
-      <div className="flex flex-col justify-center gap-5 px-8 py-10 md:py-14 md:w-[55%] shrink-0">
-        <div className="flex items-center gap-3">
-          {post.categoryLabel && (
-            <span className="inline-flex items-center px-3 py-1.5 rounded-full font-body text-xs font-bold uppercase tracking-[0.04em] bg-orange/15 text-orange-700">
-              {post.categoryLabel}
+    <article className="max-w-7xl mx-auto mb-14">
+      <a
+        href={`/posts/${post.slug}`}
+        className="grid grid-cols-1 md:grid-cols-[1.15fr_1fr] bg-white rounded-[28px] overflow-hidden border border-line no-underline text-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+      >
+        <div className="relative bg-blue text-white p-12 flex flex-col justify-center min-h-[380px]">
+          <span className="font-body font-bold text-xs uppercase tracking-[0.12em] text-white/85">
+            ⭐ Post em destaque
+          </span>
+          <h2 className="m-0 mt-4 font-display font-bold text-white text-[44px] leading-[1.1]">
+            {post.title}
+          </h2>
+          {post.excerpt && <p className="mt-4 max-w-xl text-white/85">{post.excerpt}</p>}
+          <div className="flex flex-wrap items-center gap-4 mt-6 text-sm text-white/90">
+            {post.categoryLabel && (
+              <span className="inline-flex items-center px-3 py-1.5 rounded-full font-body text-xs font-bold uppercase tracking-[0.04em] bg-orange text-white">
+                {post.categoryLabel}
+              </span>
+            )}
+            {formattedDate && <time dateTime={post.date ?? undefined}>{formattedDate}</time>}
+          </div>
+          <div className="mt-7">
+            <span className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-orange text-white font-display font-bold text-sm">
+              Ler o post →
+            </span>
+          </div>
+        </div>
+        <div className="bg-paper-dim flex items-center justify-center p-10 relative">
+          {imageUrl ? (
+            <Image
+              src={imageUrl}
+              alt={post.image?.alt ?? post.title}
+              width={400}
+              height={360}
+              sizes="(max-width: 768px) 100vw, 40vw"
+              className="w-full h-auto object-contain max-h-[320px]"
+            />
+          ) : (
+            <span className="font-display font-black text-[8rem] text-blue/10 select-none">
+              {post.title.charAt(0).toUpperCase()}
             </span>
           )}
-          {post.date && (
-            <time dateTime={post.date} className="font-mono text-xs text-mute">
-              {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(
-                new Date(post.date),
-              )}
-            </time>
-          )}
         </div>
-
-        <h2 className="m-0 text-h3 font-bold leading-tight text-ink group-hover:text-blue transition-colors duration-150">
-          {post.title}
-        </h2>
-
-        {post.excerpt && (
-          <p className="m-0 text-base text-mute leading-relaxed line-clamp-3">{post.excerpt}</p>
-        )}
-
-        <span className="inline-flex items-center gap-2 font-display font-medium text-sm text-blue self-start mt-1">
-          Ler o post <ArrowRight />
-        </span>
-      </div>
-
-      <div className="relative md:flex-1 min-h-[240px] md:min-h-0 bg-blue/8 overflow-hidden">
-        {imageUrl ? (
-          <Image
-            src={imageUrl}
-            alt={post.image?.alt ?? post.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 45vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <span className="absolute inset-0 flex items-center justify-center font-display font-black text-[8rem] text-blue/10 select-none">
-            {post.title.charAt(0).toUpperCase()}
-          </span>
-        )}
-      </div>
-    </a>
+      </a>
+    </article>
   )
 }
 

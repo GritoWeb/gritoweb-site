@@ -4,6 +4,7 @@ import type { SectionCtaBlock } from '@/payload-types'
 import type { Media } from '@/payload-types'
 import { CtaBanner } from '@/components/sections/CtaBanner'
 import { Button } from '@/components/ui/Button'
+import { parseTitle } from '@/utilities/parseTitle'
 
 const ArrowRight = () => (
   <svg
@@ -18,18 +19,10 @@ const ArrowRight = () => (
   </svg>
 )
 
-const titleSecondaryColorClass: Record<string, string> = {
-  blue: 'text-blue',
-  white: 'text-white',
-  orange: 'text-orange',
-}
-
 export const SectionCtaComponent: React.FC<SectionCtaBlock> = ({
   variant,
   eyebrow,
-  titleMain,
-  titleSecondary,
-  titleSecondaryColor,
+  title,
   description,
   cta1Label,
   cta1Href,
@@ -40,19 +33,12 @@ export const SectionCtaComponent: React.FC<SectionCtaBlock> = ({
   image,
 }) => {
   const media = image as Media | null
-  const colorClass = titleSecondaryColorClass[titleSecondaryColor ?? 'blue'] ?? 'text-blue'
 
   return (
     <CtaBanner
       variant={(variant as 'blue' | 'orange' | 'white') ?? 'orange'}
       eyebrow={eyebrow ?? undefined}
-      title={
-        <>
-          {titleMain}
-          <br />
-          <span className={colorClass}>{titleSecondary}</span>
-        </>
-      }
+      title={parseTitle(title)}
       description={description ?? undefined}
       actions={
         <>

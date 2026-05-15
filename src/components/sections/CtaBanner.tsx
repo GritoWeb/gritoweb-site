@@ -9,7 +9,7 @@ const ctaBannerVariant: Record<string, string> = {
 const ctaBannerText: Record<string, { eyebrow: string; title: string; desc: string }> = {
   blue:   { eyebrow: 'text-white/85',  title: 'text-white', desc: 'text-white/85' },
   orange: { eyebrow: 'text-white/85',  title: 'text-white', desc: 'text-white/85' },
-  white:  { eyebrow: 'text-mute',      title: 'text-blue',  desc: 'text-mute'     },
+  white:  { eyebrow: 'text-blue',      title: 'text-blue',  desc: 'text-mute'     },
 }
 
 export function CtaBanner({

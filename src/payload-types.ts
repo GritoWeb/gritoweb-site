@@ -438,9 +438,10 @@ export interface SectionTestimonialsBlock {
 export interface SectionCtaBlock {
   variant: 'blue' | 'orange' | 'white';
   eyebrow?: string | null;
-  titleMain: string;
-  titleSecondary: string;
-  titleSecondaryColor: 'blue' | 'white' | 'orange';
+  /**
+   * Use *palavra* para destacar em laranja. Use \n para quebrar linha.
+   */
+  title: string;
   description?: string | null;
   cta1Label: string;
   cta1Href: string;
@@ -1107,9 +1108,7 @@ export interface SectionTestimonialsBlockSelect<T extends boolean = true> {
 export interface SectionCtaBlockSelect<T extends boolean = true> {
   variant?: T;
   eyebrow?: T;
-  titleMain?: T;
-  titleSecondary?: T;
-  titleSecondaryColor?: T;
+  title?: T;
   description?: T;
   cta1Label?: T;
   cta1Href?: T;
