@@ -5,12 +5,7 @@ import type { LatestPortfoliosBlock, Portfolio, Media, PortfolioTag } from '@/pa
 import { PortfolioCardGrid, type PortfolioItem } from '@/blocks/PortfolioListing/PortfolioListingClient'
 import { Button } from '@/components/Button'
 import { parseTitle } from '@/utilities/parseTitle'
-
-const ArrowRight = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-    <path d="M5 12h14M13 5l7 7-7 7" />
-  </svg>
-)
+import { ArrowIcon } from '@/components/ui/ArrowIcon'
 
 export const LatestPortfoliosComponent: React.FC<LatestPortfoliosBlock> = async ({
   eyebrow,
@@ -67,7 +62,7 @@ export const LatestPortfoliosComponent: React.FC<LatestPortfoliosBlock> = async 
             {title && <h2 className="m-0 text-blue">{parseTitle(title)}</h2>}
           </header>
           {buttonLabel && (
-            <Button variant="ghost" href={buttonHref ?? '/portfolio'} icon={<ArrowRight />}>
+            <Button variant="ghost" href={buttonHref ?? '/portfolio'} icon={<ArrowIcon size={16} />}>
               {buttonLabel}
             </Button>
           )}

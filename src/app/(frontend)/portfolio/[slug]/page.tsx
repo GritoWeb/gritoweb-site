@@ -8,6 +8,7 @@ import Link from 'next/link'
 
 import type { Portfolio, Media, PortfolioTag } from '@/payload-types'
 import { parseTitle } from '@/utilities/parseTitle'
+import { ArrowIcon } from '@/components/ui/ArrowIcon'
 import { Button } from '@/components/Button'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { MetaStrip } from '@/components/ui/MetaStrip'
@@ -121,7 +122,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
             <div className="flex flex-wrap gap-2.5 mt-7">
               {p.siteUrl && (
                 <Button href={p.siteUrl} variant="primary">
-                  Ver o site ao vivo →
+                  Ver o site ao vivo <ArrowIcon size={14} />
                 </Button>
               )}
               <Button href={p.nextProjectHref ?? '/portfolio'} variant="ghost">
@@ -166,7 +167,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
             <div>
               <p className="font-eyebrow m-0 mb-3">O desafio</p>
               {p.challengeTitle && (
-                <h2 className="m-0">{parseTitle(p.challengeTitle)}</h2>
+                <h2 className="m-0 text-blue">{parseTitle(p.challengeTitle)}</h2>
               )}
             </div>
             {p.challengeBody && (
@@ -185,14 +186,14 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
         <section className="bg-white border-y border-line px-6 md:px-12 py-16">
           <div className="max-w-7xl mx-auto">
             <div className="mb-10">
-              <p className="font-eyebrow m-0 mb-3">Processo</p>
-              <h2 className="m-0">Como fizemos</h2>
+              <p className="font-eyebrow text-orange m-0 mb-3">Processo</p>
+              <h2 className="m-0 text-blue">Como fizemos</h2>
             </div>
             <ol className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 list-none p-0 m-0">
               {p.processSteps.map((step) => (
                 <li key={step.id ?? step.number}>
                   {step.number && (
-                    <p className="m-0 font-display font-black text-[56px] leading-none text-paper-dim">
+                    <p className="m-0 font-display font-black text-[56px] leading-none text-orange">
                       {step.number}
                     </p>
                   )}
@@ -244,7 +245,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
           <div className="max-w-7xl mx-auto">
             <div className="mb-8">
               <p className="font-eyebrow m-0 mb-3">Resultados</p>
-              <h2 className="m-0">O que *aconteceu* depois</h2>
+              <h2 className="m-0 text-blue">O que <span className="text-orange">aconteceu</span> depois</h2>
             </div>
             <ResultsGrid stats={p.stats as { value: string; label: string }[]} />
           </div>
@@ -302,7 +303,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
                 <h2 className="m-0">Projetos relacionados</h2>
               </div>
               <Link href="/portfolio" className="font-display font-medium text-sm text-blue no-underline hover:opacity-75 transition-opacity">
-                Ver portfólio completo →
+                Ver portfólio completo <ArrowIcon size={14} />
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

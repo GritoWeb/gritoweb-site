@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react'
 import Image from 'next/image'
 import type { Media } from '@/payload-types'
 import { parseTitle } from '@/utilities/parseTitle'
+import { ArrowIcon } from '@/components/ui/ArrowIcon'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -54,11 +55,6 @@ const ListIcon = () => (
   </svg>
 )
 
-const ArrowRight = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-    <path d="M5 12h14M13 5l7 7-7 7" />
-  </svg>
-)
 
 // ── Primitives ────────────────────────────────────────────────────────────────
 
@@ -125,7 +121,7 @@ export function PortfolioCardGrid({ item }: { item: PortfolioItem }) {
       </div>
       <div className="px-6 pb-5 flex justify-end">
         <span className="inline-flex items-center gap-1.5 font-display text-sm font-medium text-mute">
-          <ArrowRight />
+          <ArrowIcon size={14} />
         </span>
       </div>
     </a>
@@ -168,7 +164,7 @@ function PortfolioCardList({ item }: { item: PortfolioItem }) {
           <p className="m-0 mt-1 font-body text-sm font-medium text-blue">{item.result}</p>
         )}
       </div>
-      <ArrowRight />
+      <ArrowIcon size={14} />
     </a>
   )
 }

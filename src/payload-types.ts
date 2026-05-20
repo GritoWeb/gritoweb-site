@@ -281,26 +281,9 @@ export interface SectionAboutBlock {
  */
 export interface SectionLogoCloudBlock {
   eyebrow: string;
-  /**
-   * Use *palavra* para laranja.
-   */
-  title: string;
   description?: string | null;
   partners: {
-    name: string;
-    glyph:
-      | 'circle'
-      | 'triangle'
-      | 'square'
-      | 'diamond'
-      | 'arc'
-      | 'plus'
-      | 'hexagon'
-      | 'rings'
-      | 'halfcircle'
-      | 'wave'
-      | 'chevron'
-      | 'bars';
+    logo: number | Media;
     id?: string | null;
   }[];
   id?: string | null;
@@ -1089,13 +1072,11 @@ export interface SectionAboutBlockSelect<T extends boolean = true> {
  */
 export interface SectionLogoCloudBlockSelect<T extends boolean = true> {
   eyebrow?: T;
-  title?: T;
   description?: T;
   partners?:
     | T
     | {
-        name?: T;
-        glyph?: T;
+        logo?: T;
         id?: T;
       };
   id?: T;

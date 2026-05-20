@@ -6,12 +6,7 @@ import { HeroSection } from '@/components/sections'
 import { Button } from '@/home/primitives'
 import { parseTitle } from '@/utilities/parseTitle'
 import { Sparkle } from '@/home/illustrations'
-
-const ArrowRight = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-    <path d="M5 12h14M13 5l7 7-7 7" />
-  </svg>
-)
+import { ArrowIcon } from '@/components/ui/ArrowIcon'
 
 export const DefaultHero: React.FC<Page['hero']> = ({
   eyebrow,
@@ -35,7 +30,7 @@ export const DefaultHero: React.FC<Page['hero']> = ({
         hasActions ? (
           <>
             {cta1Label && (
-              <Button href={cta1Href ?? '#'} icon={<ArrowRight />}>
+              <Button href={cta1Href ?? '#'} icon={<ArrowIcon size={16} />}>
                 {cta1Label}
               </Button>
             )}

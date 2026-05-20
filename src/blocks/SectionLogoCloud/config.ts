@@ -3,9 +3,9 @@ import type { Block } from 'payload'
 export const SectionLogoCloud: Block = {
   slug: 'homeSectionLogoCloud',
   interfaceName: 'SectionLogoCloudBlock',
-  labels: { singular: 'Logo Cloud', plural: 'Logo Cloud' },
+  labels: { singular: 'Empresas parceiras', plural: 'Empresas parceiras' },
   imageURL: '/block-previews/logo-cloud.png',
-  imageAltText: 'Logo Cloud',
+  imageAltText: 'Empresas parceiras',
   fields: [
     {
       name: 'eyebrow',
@@ -13,14 +13,6 @@ export const SectionLogoCloud: Block = {
       type: 'text',
       required: true,
       defaultValue: 'Clientes',
-    },
-    {
-      name: 'title',
-      label: 'Título',
-      type: 'text',
-      required: true,
-      defaultValue: 'Empresas que *confiam* na gente',
-      admin: { description: 'Use *palavra* para laranja.' },
     },
     {
       name: 'description',
@@ -38,30 +30,11 @@ export const SectionLogoCloud: Block = {
       },
       fields: [
         {
-          name: 'name',
-          label: 'Client Name',
-          type: 'text',
+          name: 'logo',
+          label: 'Logo',
+          type: 'upload',
+          relationTo: 'media',
           required: true,
-        },
-        {
-          name: 'glyph',
-          label: 'Icon',
-          type: 'select',
-          required: true,
-          options: [
-            { label: 'Circle', value: 'circle' },
-            { label: 'Triangle', value: 'triangle' },
-            { label: 'Square', value: 'square' },
-            { label: 'Diamond', value: 'diamond' },
-            { label: 'Arc', value: 'arc' },
-            { label: 'Plus (+)', value: 'plus' },
-            { label: 'Hexagon', value: 'hexagon' },
-            { label: 'Rings', value: 'rings' },
-            { label: 'Half-circle', value: 'halfcircle' },
-            { label: 'Wave', value: 'wave' },
-            { label: 'Chevron', value: 'chevron' },
-            { label: 'Bars', value: 'bars' },
-          ],
         },
       ],
     },

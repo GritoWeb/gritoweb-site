@@ -1,4 +1,5 @@
 import React from 'react'
+import { ArrowIcon } from '@/components/ui/ArrowIcon'
 
 // ── ProjectCard ───────────────────────────────────────────────────────────────
 
@@ -120,7 +121,7 @@ export function ServiceCard({
           href={href}
           className={`mt-auto inline-flex items-center gap-1.5 font-display font-medium text-sm no-underline ${ctaColor}`}
         >
-          {ctaLabel} →
+          {ctaLabel} <ArrowIcon size={14} />
         </a>
       )}
     </div>
@@ -130,7 +131,7 @@ export function ServiceCard({
 // ── LogoMark ──────────────────────────────────────────────────────────────────
 
 type LogoMarkProps = {
-  name: string
+  name?: string
   icon?: React.ReactNode
 }
 
@@ -140,7 +141,7 @@ export function LogoMark({ name, icon }: LogoMarkProps) {
       <div className="w-14 h-14 rounded-2xl border border-line bg-white flex items-center justify-center text-ink">
         {icon}
       </div>
-      <span className="font-body text-xs text-mute text-center">{name}</span>
+      {name && <span className="font-body text-xs text-mute text-center">{name}</span>}
     </div>
   )
 }

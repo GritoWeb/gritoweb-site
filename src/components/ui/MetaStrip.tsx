@@ -13,10 +13,10 @@ export function MetaStrip({ items }: { items: MetaItem[] }) {
           key={item.label}
           className={`px-6 py-6 ${index < items.length - 1 ? 'md:border-r border-line' : ''}`}
         >
-          <dt className="font-body font-bold text-xs uppercase tracking-[0.12em] text-mute">
+          <dt className="font-body font-bold text-xs uppercase tracking-[0.12em] text-orange">
             {item.label}
           </dt>
-          <dd className="m-0 mt-1.5 font-display font-bold text-[22px] text-ink">{item.value}</dd>
+          <dd className="m-0 mt-1.5 font-display font-bold text-[22px] text-blue">{item.value}</dd>
         </div>
       ))}
     </dl>

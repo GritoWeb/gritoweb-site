@@ -5,12 +5,7 @@ import type { LatestPostsBlock, Post, Tag, Media } from '@/payload-types'
 import { PostCard, type PostItem } from '@/blocks/BlogListing/BlogListingClient'
 import { Button } from '@/components/Button'
 import { parseTitle } from '@/utilities/parseTitle'
-
-const ArrowRight = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-    <path d="M5 12h14M13 5l7 7-7 7" />
-  </svg>
-)
+import { ArrowIcon } from '@/components/ui/ArrowIcon'
 
 export const LatestPostsComponent: React.FC<LatestPostsBlock> = async ({
   eyebrow,
@@ -63,7 +58,7 @@ export const LatestPostsComponent: React.FC<LatestPostsBlock> = async ({
             {title && <h2 className="m-0 text-blue">{parseTitle(title)}</h2>}
           </header>
           {buttonLabel && (
-            <Button variant="ghost" href={buttonHref ?? '/posts'} icon={<ArrowRight />}>
+            <Button variant="ghost" href={buttonHref ?? '/posts'} icon={<ArrowIcon size={16} />}>
               {buttonLabel}
             </Button>
           )}

@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 
 import type { Post, Media, Tag, User } from '@/payload-types'
+import { ArrowIcon } from '@/components/ui/ArrowIcon'
 import { parseTitle } from '@/utilities/parseTitle'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
 import { Avatar } from '@/components/ui/Avatar'
@@ -183,7 +184,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
                 <h2 className="m-0">Posts relacionados</h2>
               </div>
               <Link href="/blog" className="font-display font-medium text-sm text-blue no-underline hover:opacity-75 transition-opacity">
-                Ver todos os posts →
+                Ver todos os posts <ArrowIcon size={14} />
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

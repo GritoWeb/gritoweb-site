@@ -5,19 +5,7 @@ import type { Media } from '@/payload-types'
 import { CtaBanner } from '@/components/sections/CtaBanner'
 import { Button } from '@/components/ui/Button'
 import { parseTitle } from '@/utilities/parseTitle'
-
-const ArrowRight = () => (
-  <svg
-    width="16"
-    height="16"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.5"
-  >
-    <path d="M5 12h14M13 5l7 7-7 7" />
-  </svg>
-)
+import { ArrowIcon } from '@/components/ui/ArrowIcon'
 
 export const SectionCtaComponent: React.FC<SectionCtaBlock> = ({
   variant,
@@ -45,7 +33,7 @@ export const SectionCtaComponent: React.FC<SectionCtaBlock> = ({
           <Button
             href={cta1Href}
             variant={(cta1Variant as ButtonProps['variant']) ?? 'blue'}
-            icon={<ArrowRight />}
+            icon={<ArrowIcon size={16} />}
           >
             {cta1Label}
           </Button>

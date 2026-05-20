@@ -2,6 +2,7 @@
 
 import React, { useState, useId, Children, cloneElement, isValidElement } from 'react'
 import type { ContactSectionBlock } from '@/payload-types'
+import { ArrowIcon } from '@/components/ui/ArrowIcon'
 
 // ── Icons ────────────────────────────────────────────────────────────────────
 
@@ -214,12 +215,6 @@ function ChannelRow({
 
 // ── SVG helpers ───────────────────────────────────────────────────────────────
 
-const ArrowRight = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
-    <path d="M5 12h14M13 5l7 7-7 7" />
-  </svg>
-)
-
 const CheckIcon = () => (
   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true">
     <path d="M20 6L9 17l-5-5" />
@@ -332,7 +327,7 @@ export const ContactSectionComponent: React.FC<ContactSectionBlock> = ({
                 <p className="m-0 text-[13px] text-ink-soft">
                   Seus dados são usados apenas para retorno.
                 </p>
-                <Button type="submit" icon={<ArrowRight />} disabled={loading}>
+                <Button type="submit" icon={<ArrowIcon size={16} />} disabled={loading}>
                   {loading ? 'Enviando…' : 'Enviar mensagem'}
                 </Button>
               </div>

@@ -4,6 +4,7 @@ import React, { useState, useMemo } from 'react'
 import Image from 'next/image'
 import type { Media } from '@/payload-types'
 import { parseTitle } from '@/utilities/parseTitle'
+import { ArrowIcon } from '@/components/ui/ArrowIcon'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -114,7 +115,7 @@ export function PostCard({ post, index }: { post: PostItem; index: number }) {
         <h3 className="m-0 font-bold text-[22px] leading-tight">{post.title}</h3>
         {post.excerpt && <p className="m-0 text-sm text-mute line-clamp-3">{post.excerpt}</p>}
         <span className="mt-2 font-display font-medium text-sm text-blue inline-flex items-center gap-1.5">
-          Ler o post <span className="text-base" aria-hidden="true">→</span>
+          Ler o post <ArrowIcon size={14} />
         </span>
       </div>
     </a>
@@ -157,7 +158,7 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
           </div>
           <div className="mt-7">
             <span className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-orange text-white font-display font-bold text-sm">
-              Ler o post →
+              Ler o post <ArrowIcon size={14} />
             </span>
           </div>
         </div>
@@ -237,7 +238,7 @@ export function BlogListingClient({
   }
 
   return (
-    <section className="px-6 md:px-12 py-24">
+    <section className="px-6 md:px-12 !pt-0 py-24">
       <div className="max-w-7xl mx-auto">
         {featuredPost && <FeaturedPostBanner post={featuredPost} />}
 
@@ -323,7 +324,7 @@ export function BlogListingClient({
               aria-label="Página anterior"
               className="h-10 w-10 inline-flex items-center justify-center rounded-full font-display font-medium cursor-pointer transition-colors duration-150 motion-reduce:transition-none bg-transparent text-blue border-[1.5px] border-line hover:border-blue disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             >
-              ←
+              <ArrowIcon size={16} direction="left" />
             </button>
 
             {buildPages().map((p, i) =>
@@ -355,7 +356,7 @@ export function BlogListingClient({
               aria-label="Próxima página"
               className="h-10 w-10 inline-flex items-center justify-center rounded-full font-display font-medium cursor-pointer transition-colors duration-150 motion-reduce:transition-none bg-transparent text-blue border-[1.5px] border-line hover:border-blue disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             >
-              →
+              <ArrowIcon size={16} />
             </button>
           </nav>
         )}
