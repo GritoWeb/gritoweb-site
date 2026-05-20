@@ -71,6 +71,9 @@
       "sharp",
       "esbuild",
       "unrs-resolver"
+    ],
+    "ignoredBuiltDependencies": [
+      "workerd"
     ]
   },
   "cloudflare": {
