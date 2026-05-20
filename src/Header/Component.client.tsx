@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import React, { useTransition } from 'react'
 
 import type { Header } from '@/payload-types'
 import type { Page } from '@/payload-types'
@@ -10,6 +10,7 @@ import { LogoWord } from '@/components/Logo/Logo'
 
 interface HeaderClientProps {
   data: Header
+  locale: string
 }
 
 type NavItem = NonNullable<Header['navItems']>[number]
@@ -25,13 +26,23 @@ function resolveHref(link: NavItem['link']): string {
 const linkBase =
   'no-underline font-body font-bold text-xs uppercase tracking-[0.12em] transition-colors duration-150 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper rounded-sm'
 
-export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
+export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
   const pathname = usePathname()
+  const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+
   const navItems = (data?.navItems ?? []).map((item) => ({
     id: item.id ?? item.link.label,
     label: item.link.label,
     href: resolveHref(item.link),
   }))
+
+  const otherLocale = locale === 'pt' ? 'en' : 'pt'
+
+  async function switchLocale() {
+    await fetch(`/api/set-locale?locale=${otherLocale}`, { method: 'POST' })
+    startTransition(() => router.refresh())
+  }
 
   return (
     <header className="flex items-center justify-between gap-6 flex-wrap px-12 py-[22px] bg-paper border-b border-line">
@@ -59,6 +70,17 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
               </li>
             )
           })}
+
+          <li>
+            <button
+              onClick={switchLocale}
+              disabled={isPending}
+              aria-label={`Switch to ${otherLocale === 'en' ? 'English' : 'Português'}`}
+              className={`${linkBase} text-blue hover:text-orange bg-transparent border-0 cursor-pointer p-0 ${isPending ? 'opacity-50' : ''}`}
+            >
+              {otherLocale.toUpperCase()}
+            </button>
+          </li>
         </ul>
       </nav>
     </header>

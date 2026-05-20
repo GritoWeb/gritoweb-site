@@ -21,12 +21,14 @@ export const SectionCta: Block = {
       name: 'eyebrow',
       label: 'Eyebrow',
       type: 'text',
+      localized: true,
       defaultValue: 'Próximo passo',
     },
     {
       name: 'title',
       label: 'Title',
       type: 'text',
+      localized: true,
       required: true,
       defaultValue: 'Tem um projeto *em mente?*',
       admin: {
@@ -37,11 +39,13 @@ export const SectionCta: Block = {
       name: 'description',
       label: 'Description',
       type: 'textarea',
+      localized: true,
     },
     {
       name: 'cta1Label',
       label: 'Button 1 — text',
       type: 'text',
+      localized: true,
       required: true,
       defaultValue: 'Agendar uma call',
     },
@@ -69,6 +73,7 @@ export const SectionCta: Block = {
       name: 'cta2Label',
       label: 'Button 2 — text',
       type: 'text',
+      localized: true,
       defaultValue: 'Baixar portfólio (PDF)',
     },
     {

@@ -26,6 +26,7 @@ export const hero: Field = {
       name: 'eyebrow',
       label: 'Eyebrow (opcional)',
       type: 'text',
+      localized: true,
       admin: {
         condition: (_, { type } = {}) => type === 'defaultHero',
       },
@@ -34,6 +35,7 @@ export const hero: Field = {
       name: 'heroTitle',
       label: 'Título',
       type: 'text',
+      localized: true,
       required: false,
       defaultValue: 'Sites que *gritam*,\nnegócios que *escalam*.',
       admin: {
@@ -45,6 +47,7 @@ export const hero: Field = {
       name: 'heroDescription',
       label: 'Descrição',
       type: 'textarea',
+      localized: true,
       admin: {
         condition: (_, { type } = {}) => type === 'defaultHero',
       },
@@ -53,6 +56,7 @@ export const hero: Field = {
       name: 'cta1Label',
       label: 'Botão 1 — texto',
       type: 'text',
+      localized: true,
       admin: {
         condition: (_, { type } = {}) => type === 'defaultHero',
       },
@@ -69,6 +73,7 @@ export const hero: Field = {
       name: 'cta2Label',
       label: 'Botão 2 — texto',
       type: 'text',
+      localized: true,
       admin: {
         condition: (_, { type } = {}) => type === 'defaultHero',
       },

@@ -58,6 +58,14 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  localization: {
+    locales: [
+      { label: 'Português', code: 'pt' },
+      { label: 'English', code: 'en' },
+    ],
+    defaultLocale: 'pt',
+    fallback: true,
+  },
   collections: [Users, Media, Pages, Portfolios, PortfolioTags, Posts, Tags],
   globals: [HeaderGlobal, FooterGlobal],
   editor: lexicalEditor(),

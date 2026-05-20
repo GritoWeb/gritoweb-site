@@ -56,6 +56,7 @@ export const Posts: CollectionConfig<'posts'> = {
     {
       name: 'title',
       type: 'text',
+      localized: true,
       required: true,
     },
     {
@@ -68,6 +69,7 @@ export const Posts: CollectionConfig<'posts'> = {
               name: 'excerpt',
               label: 'Excerpt',
               type: 'textarea',
+              localized: true,
               admin: {
                 description: 'Short text shown in the posts listing. Recommended maximum: 160 characters.',
               },
@@ -75,6 +77,7 @@ export const Posts: CollectionConfig<'posts'> = {
             {
               name: 'content',
               type: 'richText',
+              localized: true,
               editor: lexicalEditor({
                 features: ({ rootFeatures }) => [
                   ...rootFeatures,
@@ -118,11 +121,13 @@ export const Posts: CollectionConfig<'posts'> = {
               name: 'title',
               label: 'Meta Title',
               type: 'text',
+              localized: true,
             },
             {
               name: 'description',
               label: 'Meta Description',
               type: 'textarea',
+              localized: true,
             },
             {
               name: 'image',

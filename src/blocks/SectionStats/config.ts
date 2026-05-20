@@ -33,6 +33,7 @@ export const SectionStats: Block = {
           name: 'label',
           label: 'Label (e.g.: Projects delivered)',
           type: 'text',
+          localized: true,
           required: true,
         },
       ],

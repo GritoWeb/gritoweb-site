@@ -11,22 +11,26 @@ export const PullQuote: Block = {
       name: 'eyebrow',
       label: 'Eyebrow',
       type: 'text',
+      localized: true,
     },
     {
       name: 'quote',
       label: 'Quote',
       type: 'textarea',
+      localized: true,
       required: true,
     },
     {
       name: 'author',
       label: 'Author name',
       type: 'text',
+      localized: true,
     },
     {
       name: 'role',
       label: 'Role / Company',
       type: 'text',
+      localized: true,
     },
   ],
 }

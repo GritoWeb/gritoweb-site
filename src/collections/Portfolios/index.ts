@@ -36,6 +36,7 @@ export const Portfolios: CollectionConfig<'portfolios'> = {
       name: 'title',
       label: 'Project title',
       type: 'text',
+      localized: true,
       required: true,
     },
     {
@@ -48,6 +49,7 @@ export const Portfolios: CollectionConfig<'portfolios'> = {
       name: 'summary',
       label: 'Summary (subtítulo do hero)',
       type: 'textarea',
+      localized: true,
       admin: { description: 'Aparece abaixo do título na página do case.' },
     },
     {

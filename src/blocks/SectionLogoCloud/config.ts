@@ -11,6 +11,7 @@ export const SectionLogoCloud: Block = {
       name: 'eyebrow',
       label: 'Eyebrow',
       type: 'text',
+      localized: true,
       required: true,
       defaultValue: 'Clientes',
     },
@@ -18,6 +19,7 @@ export const SectionLogoCloud: Block = {
       name: 'description',
       label: 'Description',
       type: 'textarea',
+      localized: true,
     },
     {
       name: 'partners',

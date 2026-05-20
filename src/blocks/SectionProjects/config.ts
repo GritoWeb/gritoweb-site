@@ -9,6 +9,7 @@ export const SectionProjects: Block = {
       name: 'eyebrow',
       label: 'Eyebrow',
       type: 'text',
+      localized: true,
       required: true,
       defaultValue: 'Trabalhos recentes',
     },
@@ -16,6 +17,7 @@ export const SectionProjects: Block = {
       name: 'title',
       label: 'Título',
       type: 'text',
+      localized: true,
       required: true,
       defaultValue: 'Projetos que *colocamos pra rodar*',
       admin: { description: 'Use *palavra* para laranja. Use \\n para quebra de linha.' },
@@ -24,6 +26,7 @@ export const SectionProjects: Block = {
       name: 'portfolioLabel',
       label: 'Portfolio button — text',
       type: 'text',
+      localized: true,
       defaultValue: 'Ver portfólio completo',
     },
     {
@@ -46,6 +49,7 @@ export const SectionProjects: Block = {
           name: 'tag',
           label: 'Project tag',
           type: 'text',
+          localized: true,
           required: true,
         },
         {
@@ -86,12 +90,14 @@ export const SectionProjects: Block = {
           name: 'title',
           label: 'Project title',
           type: 'text',
+          localized: true,
           required: true,
         },
         {
           name: 'result',
           label: 'Result (e.g.: +38% avg. ticket)',
           type: 'text',
+          localized: true,
         },
         {
           name: 'motifType',

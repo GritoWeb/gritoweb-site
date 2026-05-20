@@ -1,6 +1,6 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { draftMode } from 'next/headers'
+import { draftMode, headers as getHeaders } from 'next/headers'
 import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
@@ -18,7 +18,10 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { slug } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
 
-  const page = await queryPageBySlug({ slug: decodedSlug })
+  const headersList = await getHeaders()
+  const locale = (headersList.get('x-locale') ?? 'pt') as 'pt' | 'en'
+
+  const page = await queryPageBySlug({ slug: decodedSlug, locale, draft })
 
   if (!page) notFound()
 
@@ -30,18 +33,20 @@ export default async function Page({ params: paramsPromise }: Args) {
   )
 }
 
-const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
-  const { isEnabled: draft } = await draftMode()
-  const payload = await getPayload({ config: configPromise })
+const queryPageBySlug = cache(
+  async ({ slug, locale, draft }: { slug: string; locale: 'pt' | 'en'; draft: boolean }) => {
+    const payload = await getPayload({ config: configPromise })
 
-  const result = await payload.find({
-    collection: 'pages',
-    draft,
-    limit: 1,
-    pagination: false,
-    overrideAccess: draft,
-    where: { slug: { equals: slug } },
-  })
+    const result = await payload.find({
+      collection: 'pages',
+      draft,
+      limit: 1,
+      pagination: false,
+      overrideAccess: draft,
+      locale,
+      where: { slug: { equals: slug } },
+    })
 
-  return result.docs?.[0] || null
-})
+    return result.docs?.[0] ?? null
+  },
+)

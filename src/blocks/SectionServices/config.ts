@@ -11,12 +11,14 @@ export const SectionServices: Block = {
       name: 'eyebrow',
       label: 'Eyebrow',
       type: 'text',
+      localized: true,
       defaultValue: 'Serviços',
     },
     {
       name: 'title',
       label: 'Título',
       type: 'text',
+      localized: true,
       defaultValue: 'Soluções *inteligentes*\npara o seu negócio',
       admin: { description: 'Use *palavra* para laranja. Use \\n para quebra de linha.' },
     },
@@ -24,6 +26,7 @@ export const SectionServices: Block = {
       name: 'description',
       label: 'Sidebar description',
       type: 'textarea',
+      localized: true,
     },
     {
       name: 'services',
@@ -39,6 +42,7 @@ export const SectionServices: Block = {
           name: 'name',
           label: 'Service name',
           type: 'text',
+          localized: true,
           required: true,
         },
         {
@@ -56,6 +60,7 @@ export const SectionServices: Block = {
           name: 'description',
           label: 'Description',
           type: 'textarea',
+          localized: true,
           required: true,
         },
         {
@@ -85,6 +90,7 @@ export const SectionServices: Block = {
               name: 'text',
               label: 'Item text',
               type: 'text',
+              localized: true,
               required: true,
             },
           ],
@@ -93,6 +99,7 @@ export const SectionServices: Block = {
           name: 'ctaLabel',
           label: 'CTA text',
           type: 'text',
+          localized: true,
           defaultValue: 'Conheça',
         },
         {
