@@ -5,12 +5,14 @@ import type { Media } from '@/payload-types'
 import { HeroSection } from '@/components/sections'
 import { Button } from '@/home/primitives'
 import { parseTitle } from '@/utilities/parseTitle'
+import { titleMaxWidthClass, type TitleMaxWidth } from '@/utilities/titleMaxWidthClass'
 import { Sparkle } from '@/home/illustrations'
 import { ArrowIcon } from '@/components/ui/ArrowIcon'
 
 export const DefaultHero: React.FC<Page['hero']> = ({
   eyebrow,
   heroTitle,
+  titleMaxWidth,
   heroDescription,
   cta1Label,
   cta1Href,
@@ -25,6 +27,7 @@ export const DefaultHero: React.FC<Page['hero']> = ({
     <HeroSection
       eyebrow={eyebrow ?? undefined}
       title={heroTitle ? parseTitle(heroTitle, 'font-light') : ''}
+      titleClassName={titleMaxWidthClass(titleMaxWidth as TitleMaxWidth | null | undefined)}
       description={heroDescription ?? undefined}
       actions={
         hasActions ? (

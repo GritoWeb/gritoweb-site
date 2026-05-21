@@ -194,9 +194,13 @@ export interface Page {
     type: 'none' | 'defaultHero';
     eyebrow?: string | null;
     /**
-     * Use *palavra* para laranja. Use \n para quebra de linha.
+     * Use *word* for orange. Use \n for line break.
      */
     heroTitle?: string | null;
+    /**
+     * Limits the title width only on screens ≥ 1024px (desktop).
+     */
+    titleMaxWidth?: ('none' | 'sm' | 'md' | 'lg' | 'xl') | null;
     heroDescription?: string | null;
     cta1Label?: string | null;
     cta1Href?: string | null;
@@ -225,7 +229,7 @@ export interface Page {
   )[];
   publishedAt?: string | null;
   /**
-   * URL slug da página. Use "home" para a página inicial.
+   * Page URL slug. Use "home" for the homepage.
    */
   slug: string;
   updatedAt: string;
@@ -239,11 +243,11 @@ export interface Page {
 export interface FaqBlockBlock {
   eyebrow?: string | null;
   /**
-   * Use *palavra* para laranja. Use \n para quebra de linha.
+   * Use *word* for orange. Use \n for line break.
    */
   title: string;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   defaultOpenIndex?: number | null;
@@ -263,11 +267,11 @@ export interface FaqBlockBlock {
 export interface SectionAboutBlock {
   eyebrow: string;
   /**
-   * Use *palavra* para laranja. Use \n para quebra de linha.
+   * Use *word* for orange. Use \n for line break.
    */
   title: string;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   description: string;
@@ -290,11 +294,11 @@ export interface SectionAboutBlock {
 export interface SectionLogoCloudBlock {
   eyebrow: string;
   /**
-   * Use *palavra* para laranja. Use \n para quebra de linha.
+   * Use *word* for orange. Use \n for line break.
    */
   title?: string | null;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   description?: string | null;
@@ -314,11 +318,11 @@ export interface SectionProcessBlock {
   background?: ('dark' | 'white') | null;
   eyebrow: string;
   /**
-   * Use *palavra* para laranja. Use \n para quebra de linha.
+   * Use *word* for orange. Use \n for line break.
    */
   title: string;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   description?: string | null;
@@ -342,11 +346,11 @@ export interface SectionProcessBlock {
 export interface SectionProjectsBlock {
   eyebrow: string;
   /**
-   * Use *palavra* para laranja. Use \n para quebra de linha.
+   * Use *word* for orange. Use \n for line break.
    */
   title: string;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   portfolioLabel?: string | null;
@@ -374,11 +378,11 @@ export interface SectionProjectsBlock {
 export interface SectionServicesBlock {
   eyebrow?: string | null;
   /**
-   * Use *palavra* para laranja. Use \n para quebra de linha.
+   * Use *word* for orange. Use \n for line break.
    */
   title?: string | null;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   description?: string | null;
@@ -426,11 +430,11 @@ export interface SectionStatsBlock {
 export interface SectionTestimonialsBlock {
   eyebrow: string;
   /**
-   * Use *palavra* para laranja. Use \n para quebra de linha.
+   * Use *word* for orange. Use \n for line break.
    */
   title: string;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   description?: string | null;
@@ -456,11 +460,11 @@ export interface SectionCtaBlock {
   variant: 'blue' | 'orange' | 'white';
   eyebrow?: string | null;
   /**
-   * Use *palavra* para destacar em laranja. Use \n para quebrar linha.
+   * Use *word* to highlight in orange. Use \n for line break.
    */
   title: string;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   description?: string | null;
@@ -519,11 +523,11 @@ export interface SectionContactBlock {
 export interface ChecklistGridBlock {
   eyebrow?: string | null;
   /**
-   * Use *palavra* para laranja. Use \n para quebra de linha.
+   * Use *word* for orange. Use \n for line break.
    */
   title: string;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   items: {
@@ -555,11 +559,11 @@ export interface PullQuoteBlock {
 export interface PortfolioListingBlock {
   eyebrow?: string | null;
   /**
-   * Use *palavra* para laranja. Use \n para quebra de linha.
+   * Use *word* for orange. Use \n for line break.
    */
   title?: string | null;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   showFilters?: boolean | null;
@@ -579,11 +583,11 @@ export interface BlogListingBlock {
   featuredPost?: (number | null) | Post;
   eyebrow?: string | null;
   /**
-   * Use *palavra* para laranja. Use \n para quebra de linha.
+   * Use *word* for orange. Use \n for line break.
    */
   title?: string | null;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   postsPerPage?: number | null;
@@ -627,7 +631,7 @@ export interface Post {
     image?: (number | null) | Media;
   };
   /**
-   * Imagem exibida nos cards de listagem de posts.
+   * Image shown on post listing cards.
    */
   featuredImage?: (number | null) | Media;
   publishedAt?: string | null;
@@ -663,11 +667,11 @@ export interface Tag {
 export interface LatestPostsBlock {
   eyebrow?: string | null;
   /**
-   * Use *palavra* para laranja. Use \n para quebra de linha.
+   * Use *word* for orange. Use \n for line break.
    */
   title?: string | null;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   buttonLabel?: string | null;
@@ -683,11 +687,11 @@ export interface LatestPostsBlock {
 export interface LatestPortfoliosBlock {
   eyebrow?: string | null;
   /**
-   * Use *palavra* para laranja. Use \n para quebra de linha.
+   * Use *word* for orange. Use \n for line break.
    */
   title?: string | null;
   /**
-   * Limita a largura do título apenas em telas ≥ 1024px (desktop).
+   * Limits the title width only on screens ≥ 1024px (desktop).
    */
   titleMaxWidth: 'none' | 'sm' | 'md' | 'lg' | 'xl';
   buttonLabel?: string | null;
@@ -705,7 +709,7 @@ export interface Portfolio {
   title: string;
   client: string;
   /**
-   * Aparece abaixo do título na página do case.
+   * Appears below the title on the case page.
    */
   summary?: string | null;
   image: number | Media;
@@ -714,30 +718,30 @@ export interface Portfolio {
   accent?: ('blue' | 'orange') | null;
   year?: string | null;
   /**
-   * Exibido no card da listagem. Ex: +38% ticket médio
+   * Shown on the listing card. Ex: +38% average ticket
    */
   result?: string | null;
   siteUrl?: string | null;
   /**
-   * Botão "Próximo projeto" no hero.
+   * "Next project" button in the hero.
    */
   nextProjectHref?: string | null;
   publishedAt?: string | null;
   sector?: string | null;
   /**
-   * Ex: Site, POS, Reservas
+   * Ex: Site, POS, Reservations
    */
   deliverables?: string | null;
   /**
-   * Ex: 10 semanas
+   * Ex: 10 weeks
    */
   duration?: string | null;
   /**
-   * Use *palavra* para laranja.
+   * Use *word* for orange.
    */
   challengeTitle?: string | null;
   /**
-   * Parágrafos separados por linha em branco.
+   * Paragraphs separated by a blank line.
    */
   challengeBody?: string | null;
   processSteps?:
@@ -769,7 +773,7 @@ export interface Portfolio {
          */
         value?: string | null;
         /**
-         * Ex: Ticket médio após redesign
+         * Ex: Average ticket after redesign
          */
         label?: string | null;
         id?: string | null;
@@ -1049,6 +1053,7 @@ export interface PagesSelect<T extends boolean = true> {
         type?: T;
         eyebrow?: T;
         heroTitle?: T;
+        titleMaxWidth?: T;
         heroDescription?: T;
         cta1Label?: T;
         cta1Href?: T;

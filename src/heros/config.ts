@@ -1,5 +1,7 @@
 import type { Field } from 'payload'
 
+import { titleMaxWidth } from '../fields/titleMaxWidth'
+
 export const hero: Field = {
   name: 'hero',
   type: 'group',
@@ -24,7 +26,7 @@ export const hero: Field = {
     },
     {
       name: 'eyebrow',
-      label: 'Eyebrow (opcional)',
+      label: 'Eyebrow (optional)',
       type: 'text',
       localized: true,
       admin: {
@@ -33,19 +35,26 @@ export const hero: Field = {
     },
     {
       name: 'heroTitle',
-      label: 'Título',
+      label: 'Title',
       type: 'text',
       localized: true,
       required: false,
       defaultValue: 'Sites que *gritam*,\nnegócios que *escalam*.',
       admin: {
         condition: (_, { type } = {}) => type === 'defaultHero',
-        description: 'Use *palavra* para laranja. Use \\n para quebra de linha.',
+        description: 'Use *word* for orange. Use \\n for line break.',
+      },
+    },
+    {
+      ...titleMaxWidth,
+      admin: {
+        ...(titleMaxWidth.admin ?? {}),
+        condition: (_, { type } = {}) => type === 'defaultHero',
       },
     },
     {
       name: 'heroDescription',
-      label: 'Descrição',
+      label: 'Description',
       type: 'textarea',
       localized: true,
       admin: {
@@ -54,7 +63,7 @@ export const hero: Field = {
     },
     {
       name: 'cta1Label',
-      label: 'Botão 1 — texto',
+      label: 'Button 1 — text',
       type: 'text',
       localized: true,
       admin: {
@@ -63,7 +72,7 @@ export const hero: Field = {
     },
     {
       name: 'cta1Href',
-      label: 'Botão 1 — link',
+      label: 'Button 1 — link',
       type: 'text',
       admin: {
         condition: (_, { type } = {}) => type === 'defaultHero',
@@ -71,7 +80,7 @@ export const hero: Field = {
     },
     {
       name: 'cta2Label',
-      label: 'Botão 2 — texto',
+      label: 'Button 2 — text',
       type: 'text',
       localized: true,
       admin: {
@@ -80,7 +89,7 @@ export const hero: Field = {
     },
     {
       name: 'cta2Href',
-      label: 'Botão 2 — link',
+      label: 'Button 2 — link',
       type: 'text',
       admin: {
         condition: (_, { type } = {}) => type === 'defaultHero',
@@ -88,7 +97,7 @@ export const hero: Field = {
     },
     {
       name: 'heroImage',
-      label: 'Imagem',
+      label: 'Image',
       type: 'upload',
       relationTo: 'media',
       admin: {

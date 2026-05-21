@@ -3,6 +3,7 @@ import React from 'react'
 export function HeroSection({
   eyebrow,
   title,
+  titleClassName = '',
   description,
   actions,
   media,
@@ -11,6 +12,7 @@ export function HeroSection({
 }: {
   eyebrow?: string
   title: React.ReactNode
+  titleClassName?: string
   description?: string
   actions?: React.ReactNode
   media?: React.ReactNode
@@ -22,13 +24,14 @@ export function HeroSection({
   const inner = hasMedia
     ? 'max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1.1fr_1fr] items-center gap-12'
     : 'max-w-7xl mx-auto'
+  const titleClasses = ['m-0 text-blue', titleClassName].filter(Boolean).join(' ')
 
   return (
     <section className={root}>
       <div className={inner}>
         <div>
           {eyebrow && <p className="font-eyebrow m-0 mb-3">{eyebrow}</p>}
-          <h1 className="m-0 text-blue">{title}</h1>
+          <h1 className={titleClasses}>{title}</h1>
           {description && <p className="body-text text-mute mt-4 max-w-xl">{description}</p>}
           {actions && <div className="mt-6 flex flex-wrap gap-3">{actions}</div>}
           {trustLine && <p className="text-xs text-ink-soft mt-7 max-w-xl">{trustLine}</p>}
