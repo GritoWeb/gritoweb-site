@@ -9,7 +9,7 @@ type LogoCloudProps = {
 
 export function LogoCloud({ eyebrow, title, description, items }: LogoCloudProps) {
   return (
-    <section className="px-6 md:px-12 py-16 bg-paper border-y border-line">
+    <section className="px-6 md:px-12 py-16 bg-white border-y border-line">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10">
           {eyebrow && <p className="font-eyebrow m-0 mb-3">{eyebrow}</p>}

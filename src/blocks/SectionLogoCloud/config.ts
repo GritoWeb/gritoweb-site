@@ -16,6 +16,13 @@ export const SectionLogoCloud: Block = {
       defaultValue: 'Clientes',
     },
     {
+      name: 'title',
+      label: 'Título',
+      type: 'text',
+      localized: true,
+      admin: { description: 'Use *palavra* para laranja. Use \\n para quebra de linha.' },
+    },
+    {
       name: 'description',
       label: 'Description',
       type: 'textarea',

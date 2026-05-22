@@ -1,7 +1,9 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-d1-sqlite'
 
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
-  await db.run(sql`CREATE TABLE \`pages_blocks_faq_block_items_locales\` (
+  // safe wrapper — skips ops already applied by prior manual migrations
+  const run = async (q: any) => { try { await db.run(q) } catch {} }
+  await run(sql`CREATE TABLE \`pages_blocks_faq_block_items_locales\` (
   	\`question\` text,
   	\`answer\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -10,8 +12,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_faq_block_items\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_faq_block_items_locales_locale_parent_id_unique\` ON \`pages_blocks_faq_block_items_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_faq_block_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_faq_block_items_locales_locale_parent_id_unique\` ON \`pages_blocks_faq_block_items_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_faq_block_locales\` (
   	\`eyebrow\` text,
   	\`title\` text DEFAULT 'Perguntas *frequentes*',
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -20,8 +22,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_faq_block\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_faq_block_locales_locale_parent_id_unique\` ON \`pages_blocks_faq_block_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_home_section_about_features_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_faq_block_locales_locale_parent_id_unique\` ON \`pages_blocks_faq_block_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_home_section_about_features_locales\` (
   	\`title\` text,
   	\`description\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -30,8 +32,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_home_section_about_features\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_about_features_locales_locale_pare\` ON \`pages_blocks_home_section_about_features_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_home_section_about_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_about_features_locales_locale_pare\` ON \`pages_blocks_home_section_about_features_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_home_section_about_locales\` (
   	\`eyebrow\` text DEFAULT 'Sobre nós',
   	\`title\` text DEFAULT 'Um estúdio *pequeno* com
   entregas *de gente grande*.',
@@ -43,8 +45,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_home_section_about\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_about_locales_locale_parent_id_uni\` ON \`pages_blocks_home_section_about_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_home_section_logo_cloud_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_about_locales_locale_parent_id_uni\` ON \`pages_blocks_home_section_about_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_home_section_logo_cloud_locales\` (
   	\`eyebrow\` text DEFAULT 'Clientes',
   	\`title\` text DEFAULT 'Empresas que *confiam* na gente',
   	\`description\` text,
@@ -54,8 +56,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_home_section_logo_cloud\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_logo_cloud_locales_locale_parent_i\` ON \`pages_blocks_home_section_logo_cloud_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_home_section_process_steps_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_logo_cloud_locales_locale_parent_i\` ON \`pages_blocks_home_section_logo_cloud_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_home_section_process_steps_locales\` (
   	\`title\` text,
   	\`description\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -64,8 +66,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_home_section_process_steps\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_process_steps_locales_locale_paren\` ON \`pages_blocks_home_section_process_steps_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_home_section_process_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_process_steps_locales_locale_paren\` ON \`pages_blocks_home_section_process_steps_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_home_section_process_locales\` (
   	\`eyebrow\` text DEFAULT 'Como trabalhamos',
   	\`title\` text DEFAULT 'Um *processo claro*, do briefing ao go-live',
   	\`description\` text,
@@ -75,8 +77,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_home_section_process\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_process_locales_locale_parent_id_u\` ON \`pages_blocks_home_section_process_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_home_section_projects_projects_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_process_locales_locale_parent_id_u\` ON \`pages_blocks_home_section_process_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_home_section_projects_projects_locales\` (
   	\`tag\` text,
   	\`title\` text,
   	\`result\` text,
@@ -86,8 +88,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_home_section_projects_projects\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_projects_projects_locales_locale_p\` ON \`pages_blocks_home_section_projects_projects_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_home_section_projects_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_projects_projects_locales_locale_p\` ON \`pages_blocks_home_section_projects_projects_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_home_section_projects_locales\` (
   	\`eyebrow\` text DEFAULT 'Trabalhos recentes',
   	\`title\` text DEFAULT 'Projetos que *colocamos pra rodar*',
   	\`portfolio_label\` text DEFAULT 'Ver portfólio completo',
@@ -97,8 +99,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_home_section_projects\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_projects_locales_locale_parent_id_\` ON \`pages_blocks_home_section_projects_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_home_section_services_services_bullets_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_projects_locales_locale_parent_id_\` ON \`pages_blocks_home_section_projects_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_home_section_services_services_bullets_locales\` (
   	\`text\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`_locale\` text NOT NULL,
@@ -106,8 +108,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_home_section_services_services_bullets\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_services_services_bullets_locales_\` ON \`pages_blocks_home_section_services_services_bullets_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_home_section_services_services_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_services_services_bullets_locales_\` ON \`pages_blocks_home_section_services_services_bullets_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_home_section_services_services_locales\` (
   	\`name\` text,
   	\`description\` text,
   	\`cta_label\` text DEFAULT 'Conheça',
@@ -117,8 +119,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_home_section_services_services\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_services_services_locales_locale_p\` ON \`pages_blocks_home_section_services_services_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_home_section_services_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_services_services_locales_locale_p\` ON \`pages_blocks_home_section_services_services_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_home_section_services_locales\` (
   	\`eyebrow\` text DEFAULT 'Serviços',
   	\`title\` text DEFAULT 'Soluções *inteligentes*
   para o seu negócio',
@@ -129,8 +131,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_home_section_services\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_services_locales_locale_parent_id_\` ON \`pages_blocks_home_section_services_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_home_section_stats_stats_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_services_locales_locale_parent_id_\` ON \`pages_blocks_home_section_services_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_home_section_stats_stats_locales\` (
   	\`label\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`_locale\` text NOT NULL,
@@ -138,8 +140,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_home_section_stats_stats\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_stats_stats_locales_locale_parent_\` ON \`pages_blocks_home_section_stats_stats_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`hst_testimonials_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_stats_stats_locales_locale_parent_\` ON \`pages_blocks_home_section_stats_stats_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`hst_testimonials_locales\` (
   	\`quote\` text,
   	\`author\` text,
   	\`role\` text,
@@ -149,8 +151,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`hst_testimonials\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`hst_testimonials_locales_locale_parent_id_unique\` ON \`hst_testimonials_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`hst_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`hst_testimonials_locales_locale_parent_id_unique\` ON \`hst_testimonials_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`hst_locales\` (
   	\`eyebrow\` text DEFAULT 'Depoimentos',
   	\`title\` text DEFAULT 'Quem trabalhou com a gente *volta*',
   	\`description\` text,
@@ -161,8 +163,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`hst\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`hst_locales_locale_parent_id_unique\` ON \`hst_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_home_section_cta_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`hst_locales_locale_parent_id_unique\` ON \`hst_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_home_section_cta_locales\` (
   	\`eyebrow\` text DEFAULT 'Próximo passo',
   	\`title\` text DEFAULT 'Tem um projeto *em mente?*',
   	\`description\` text,
@@ -174,8 +176,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_home_section_cta\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_cta_locales_locale_parent_id_uniqu\` ON \`pages_blocks_home_section_cta_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_contact_section_channels_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_home_section_cta_locales_locale_parent_id_uniqu\` ON \`pages_blocks_home_section_cta_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_contact_section_channels_locales\` (
   	\`label\` text,
   	\`value\` text,
   	\`hint\` text,
@@ -185,8 +187,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_contact_section_channels\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_contact_section_channels_locales_locale_parent_\` ON \`pages_blocks_contact_section_channels_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_contact_section_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_contact_section_channels_locales_locale_parent_\` ON \`pages_blocks_contact_section_channels_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_contact_section_locales\` (
   	\`eyebrow\` text,
   	\`heading\` text,
   	\`sidebar_eyebrow\` text DEFAULT 'Fale direto',
@@ -198,8 +200,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_contact_section\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_contact_section_locales_locale_parent_id_unique\` ON \`pages_blocks_contact_section_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_checklist_grid_items_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_contact_section_locales_locale_parent_id_unique\` ON \`pages_blocks_contact_section_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_checklist_grid_items_locales\` (
   	\`title\` text,
   	\`description\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -208,8 +210,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_checklist_grid_items\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_checklist_grid_items_locales_locale_parent_id_u\` ON \`pages_blocks_checklist_grid_items_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_checklist_grid_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_checklist_grid_items_locales_locale_parent_id_u\` ON \`pages_blocks_checklist_grid_items_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_checklist_grid_locales\` (
   	\`eyebrow\` text,
   	\`title\` text DEFAULT 'Por que *a diferença* nessa parceria',
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -218,8 +220,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_checklist_grid\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_checklist_grid_locales_locale_parent_id_unique\` ON \`pages_blocks_checklist_grid_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_pull_quote_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_checklist_grid_locales_locale_parent_id_unique\` ON \`pages_blocks_checklist_grid_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_pull_quote_locales\` (
   	\`eyebrow\` text,
   	\`quote\` text,
   	\`author\` text,
@@ -230,8 +232,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_pull_quote\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_pull_quote_locales_locale_parent_id_unique\` ON \`pages_blocks_pull_quote_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_portfolio_listing_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_pull_quote_locales_locale_parent_id_unique\` ON \`pages_blocks_pull_quote_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_portfolio_listing_locales\` (
   	\`eyebrow\` text DEFAULT 'Portfólio',
   	\`title\` text DEFAULT '*Projetos* que colocamos pra rodar',
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -240,8 +242,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_portfolio_listing\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_portfolio_listing_locales_locale_parent_id_uniq\` ON \`pages_blocks_portfolio_listing_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_blocks_blog_listing_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_portfolio_listing_locales_locale_parent_id_uniq\` ON \`pages_blocks_portfolio_listing_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_blocks_blog_listing_locales\` (
   	\`eyebrow\` text DEFAULT 'Arquivo',
   	\`title\` text DEFAULT '*Últimos posts*',
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -250,8 +252,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages_blocks_blog_listing\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_blocks_blog_listing_locales_locale_parent_id_unique\` ON \`pages_blocks_blog_listing_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`pages_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_blocks_blog_listing_locales_locale_parent_id_unique\` ON \`pages_blocks_blog_listing_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`pages_locales\` (
   	\`title\` text,
   	\`hero_eyebrow\` text,
   	\`hero_hero_title\` text DEFAULT 'Sites que *gritam*,
@@ -265,8 +267,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`pages_locales_locale_parent_id_unique\` ON \`pages_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_faq_block_items_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`pages_locales_locale_parent_id_unique\` ON \`pages_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_faq_block_items_locales\` (
   	\`question\` text,
   	\`answer\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -275,8 +277,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_faq_block_items\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_faq_block_items_locales_locale_parent_id_uni\` ON \`_pages_v_blocks_faq_block_items_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_faq_block_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_faq_block_items_locales_locale_parent_id_uni\` ON \`_pages_v_blocks_faq_block_items_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_faq_block_locales\` (
   	\`eyebrow\` text,
   	\`title\` text DEFAULT 'Perguntas *frequentes*',
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -285,8 +287,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_faq_block\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_faq_block_locales_locale_parent_id_unique\` ON \`_pages_v_blocks_faq_block_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_home_section_about_features_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_faq_block_locales_locale_parent_id_unique\` ON \`_pages_v_blocks_faq_block_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_home_section_about_features_locales\` (
   	\`title\` text,
   	\`description\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -295,8 +297,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_home_section_about_features\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_about_features_locales_locale_p\` ON \`_pages_v_blocks_home_section_about_features_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_home_section_about_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_about_features_locales_locale_p\` ON \`_pages_v_blocks_home_section_about_features_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_home_section_about_locales\` (
   	\`eyebrow\` text DEFAULT 'Sobre nós',
   	\`title\` text DEFAULT 'Um estúdio *pequeno* com
   entregas *de gente grande*.',
@@ -308,8 +310,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_home_section_about\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_about_locales_locale_parent_id_\` ON \`_pages_v_blocks_home_section_about_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_home_section_logo_cloud_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_about_locales_locale_parent_id_\` ON \`_pages_v_blocks_home_section_about_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_home_section_logo_cloud_locales\` (
   	\`eyebrow\` text DEFAULT 'Clientes',
   	\`title\` text DEFAULT 'Empresas que *confiam* na gente',
   	\`description\` text,
@@ -319,8 +321,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_home_section_logo_cloud\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_logo_cloud_locales_locale_paren\` ON \`_pages_v_blocks_home_section_logo_cloud_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_home_section_process_steps_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_logo_cloud_locales_locale_paren\` ON \`_pages_v_blocks_home_section_logo_cloud_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_home_section_process_steps_locales\` (
   	\`title\` text,
   	\`description\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -329,8 +331,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_home_section_process_steps\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_process_steps_locales_locale_pa\` ON \`_pages_v_blocks_home_section_process_steps_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_home_section_process_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_process_steps_locales_locale_pa\` ON \`_pages_v_blocks_home_section_process_steps_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_home_section_process_locales\` (
   	\`eyebrow\` text DEFAULT 'Como trabalhamos',
   	\`title\` text DEFAULT 'Um *processo claro*, do briefing ao go-live',
   	\`description\` text,
@@ -340,8 +342,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_home_section_process\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_process_locales_locale_parent_i\` ON \`_pages_v_blocks_home_section_process_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_home_section_projects_projects_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_process_locales_locale_parent_i\` ON \`_pages_v_blocks_home_section_process_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_home_section_projects_projects_locales\` (
   	\`tag\` text,
   	\`title\` text,
   	\`result\` text,
@@ -351,8 +353,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_home_section_projects_projects\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_projects_projects_locales_local\` ON \`_pages_v_blocks_home_section_projects_projects_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_home_section_projects_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_projects_projects_locales_local\` ON \`_pages_v_blocks_home_section_projects_projects_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_home_section_projects_locales\` (
   	\`eyebrow\` text DEFAULT 'Trabalhos recentes',
   	\`title\` text DEFAULT 'Projetos que *colocamos pra rodar*',
   	\`portfolio_label\` text DEFAULT 'Ver portfólio completo',
@@ -362,8 +364,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_home_section_projects\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_projects_locales_locale_parent_\` ON \`_pages_v_blocks_home_section_projects_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_home_section_services_services_bullets_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_projects_locales_locale_parent_\` ON \`_pages_v_blocks_home_section_projects_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_home_section_services_services_bullets_locales\` (
   	\`text\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`_locale\` text NOT NULL,
@@ -371,8 +373,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_home_section_services_services_bullets\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_services_services_bullets_local\` ON \`_pages_v_blocks_home_section_services_services_bullets_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_home_section_services_services_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_services_services_bullets_local\` ON \`_pages_v_blocks_home_section_services_services_bullets_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_home_section_services_services_locales\` (
   	\`name\` text,
   	\`description\` text,
   	\`cta_label\` text DEFAULT 'Conheça',
@@ -382,8 +384,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_home_section_services_services\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_services_services_locales_local\` ON \`_pages_v_blocks_home_section_services_services_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_home_section_services_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_services_services_locales_local\` ON \`_pages_v_blocks_home_section_services_services_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_home_section_services_locales\` (
   	\`eyebrow\` text DEFAULT 'Serviços',
   	\`title\` text DEFAULT 'Soluções *inteligentes*
   para o seu negócio',
@@ -394,8 +396,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_home_section_services\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_services_locales_locale_parent_\` ON \`_pages_v_blocks_home_section_services_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_home_section_stats_stats_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_services_locales_locale_parent_\` ON \`_pages_v_blocks_home_section_services_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_home_section_stats_stats_locales\` (
   	\`label\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`_locale\` text NOT NULL,
@@ -403,8 +405,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_home_section_stats_stats\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_stats_stats_locales_locale_pare\` ON \`_pages_v_blocks_home_section_stats_stats_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_hst_v_testimonials_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_stats_stats_locales_locale_pare\` ON \`_pages_v_blocks_home_section_stats_stats_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_hst_v_testimonials_locales\` (
   	\`quote\` text,
   	\`author\` text,
   	\`role\` text,
@@ -414,8 +416,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_hst_v_testimonials\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_hst_v_testimonials_locales_locale_parent_id_unique\` ON \`_hst_v_testimonials_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_hst_v_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_hst_v_testimonials_locales_locale_parent_id_unique\` ON \`_hst_v_testimonials_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_hst_v_locales\` (
   	\`eyebrow\` text DEFAULT 'Depoimentos',
   	\`title\` text DEFAULT 'Quem trabalhou com a gente *volta*',
   	\`description\` text,
@@ -426,8 +428,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_hst_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_hst_v_locales_locale_parent_id_unique\` ON \`_hst_v_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_home_section_cta_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_hst_v_locales_locale_parent_id_unique\` ON \`_hst_v_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_home_section_cta_locales\` (
   	\`eyebrow\` text DEFAULT 'Próximo passo',
   	\`title\` text DEFAULT 'Tem um projeto *em mente?*',
   	\`description\` text,
@@ -439,8 +441,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_home_section_cta\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_cta_locales_locale_parent_id_un\` ON \`_pages_v_blocks_home_section_cta_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_contact_section_channels_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_home_section_cta_locales_locale_parent_id_un\` ON \`_pages_v_blocks_home_section_cta_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_contact_section_channels_locales\` (
   	\`label\` text,
   	\`value\` text,
   	\`hint\` text,
@@ -450,8 +452,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_contact_section_channels\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_contact_section_channels_locales_locale_pare\` ON \`_pages_v_blocks_contact_section_channels_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_contact_section_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_contact_section_channels_locales_locale_pare\` ON \`_pages_v_blocks_contact_section_channels_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_contact_section_locales\` (
   	\`eyebrow\` text,
   	\`heading\` text,
   	\`sidebar_eyebrow\` text DEFAULT 'Fale direto',
@@ -463,8 +465,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_contact_section\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_contact_section_locales_locale_parent_id_uni\` ON \`_pages_v_blocks_contact_section_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_checklist_grid_items_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_contact_section_locales_locale_parent_id_uni\` ON \`_pages_v_blocks_contact_section_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_checklist_grid_items_locales\` (
   	\`title\` text,
   	\`description\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -473,8 +475,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_checklist_grid_items\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_checklist_grid_items_locales_locale_parent_i\` ON \`_pages_v_blocks_checklist_grid_items_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_checklist_grid_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_checklist_grid_items_locales_locale_parent_i\` ON \`_pages_v_blocks_checklist_grid_items_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_checklist_grid_locales\` (
   	\`eyebrow\` text,
   	\`title\` text DEFAULT 'Por que *a diferença* nessa parceria',
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -483,8 +485,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_checklist_grid\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_checklist_grid_locales_locale_parent_id_uniq\` ON \`_pages_v_blocks_checklist_grid_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_pull_quote_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_checklist_grid_locales_locale_parent_id_uniq\` ON \`_pages_v_blocks_checklist_grid_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_pull_quote_locales\` (
   	\`eyebrow\` text,
   	\`quote\` text,
   	\`author\` text,
@@ -495,8 +497,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_pull_quote\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_pull_quote_locales_locale_parent_id_unique\` ON \`_pages_v_blocks_pull_quote_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_portfolio_listing_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_pull_quote_locales_locale_parent_id_unique\` ON \`_pages_v_blocks_pull_quote_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_portfolio_listing_locales\` (
   	\`eyebrow\` text DEFAULT 'Portfólio',
   	\`title\` text DEFAULT '*Projetos* que colocamos pra rodar',
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -505,8 +507,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_portfolio_listing\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_portfolio_listing_locales_locale_parent_id_u\` ON \`_pages_v_blocks_portfolio_listing_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_blocks_blog_listing_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_portfolio_listing_locales_locale_parent_id_u\` ON \`_pages_v_blocks_portfolio_listing_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_blocks_blog_listing_locales\` (
   	\`eyebrow\` text DEFAULT 'Arquivo',
   	\`title\` text DEFAULT '*Últimos posts*',
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -515,8 +517,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v_blocks_blog_listing\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_blog_listing_locales_locale_parent_id_unique\` ON \`_pages_v_blocks_blog_listing_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_pages_v_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_blocks_blog_listing_locales_locale_parent_id_unique\` ON \`_pages_v_blocks_blog_listing_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_pages_v_locales\` (
   	\`version_title\` text,
   	\`version_hero_eyebrow\` text,
   	\`version_hero_hero_title\` text DEFAULT 'Sites que *gritam*,
@@ -530,8 +532,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_pages_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_pages_v_locales_locale_parent_id_unique\` ON \`_pages_v_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`portfolios_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_pages_v_locales_locale_parent_id_unique\` ON \`_pages_v_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`portfolios_locales\` (
   	\`title\` text,
   	\`summary\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -540,8 +542,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`portfolios\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`portfolios_locales_locale_parent_id_unique\` ON \`portfolios_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_portfolios_v_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`portfolios_locales_locale_parent_id_unique\` ON \`portfolios_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_portfolios_v_locales\` (
   	\`version_title\` text,
   	\`version_summary\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
@@ -550,8 +552,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_portfolios_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_portfolios_v_locales_locale_parent_id_unique\` ON \`_portfolios_v_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`posts_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_portfolios_v_locales_locale_parent_id_unique\` ON \`_portfolios_v_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`posts_locales\` (
   	\`title\` text,
   	\`excerpt\` text,
   	\`content\` text,
@@ -563,8 +565,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`posts\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`posts_locales_locale_parent_id_unique\` ON \`posts_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`_posts_v_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`posts_locales_locale_parent_id_unique\` ON \`posts_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`_posts_v_locales\` (
   	\`version_title\` text,
   	\`version_excerpt\` text,
   	\`version_content\` text,
@@ -576,8 +578,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`_posts_v\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`_posts_v_locales_locale_parent_id_unique\` ON \`_posts_v_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`header_nav_items_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`_posts_v_locales_locale_parent_id_unique\` ON \`_posts_v_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`header_nav_items_locales\` (
   	\`link_label\` text NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`_locale\` text NOT NULL,
@@ -585,8 +587,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`_parent_id\`) REFERENCES \`header_nav_items\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`header_nav_items_locales_locale_parent_id_unique\` ON \`header_nav_items_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`footer_nav_items_locales\` (
+  await run(sql`CREATE UNIQUE INDEX \`header_nav_items_locales_locale_parent_id_unique\` ON \`header_nav_items_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await run(sql`CREATE TABLE \`footer_nav_items_locales\` (
   	\`link_label\` text NOT NULL,
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`_locale\` text NOT NULL,

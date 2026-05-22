@@ -281,6 +281,10 @@ export interface SectionAboutBlock {
  */
 export interface SectionLogoCloudBlock {
   eyebrow: string;
+  /**
+   * Use *palavra* para laranja. Use \n para quebra de linha.
+   */
+  title?: string | null;
   description?: string | null;
   partners: {
     logo: number | Media;
@@ -1072,6 +1076,7 @@ export interface SectionAboutBlockSelect<T extends boolean = true> {
  */
 export interface SectionLogoCloudBlockSelect<T extends boolean = true> {
   eyebrow?: T;
+  title?: T;
   description?: T;
   partners?:
     | T

@@ -1,59 +1,43 @@
-import { headers as getHeaders } from 'next/headers.js'
-import Image from 'next/image'
+import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import React from 'react'
-import { fileURLToPath } from 'url'
+import { draftMode, headers as getHeaders } from 'next/headers'
+import { notFound } from 'next/navigation'
+import React, { cache } from 'react'
 
-import config from '@/payload.config'
-import './styles.css'
+import { RenderBlocks } from '@/blocks/RenderBlocks'
+import { RenderHero } from '@/heros/RenderHero'
+
+export const dynamic = 'force-dynamic'
 
 export default async function HomePage() {
-  const headers = await getHeaders()
-  const payloadConfig = await config
-  const payload = await getPayload({ config: payloadConfig })
-  const { user } = await payload.auth({ headers })
+  const { isEnabled: draft } = await draftMode()
+  const headersList = await getHeaders()
+  const locale = (headersList.get('x-locale') ?? 'pt') as 'pt' | 'en'
 
-  const fileURL = `vscode://file/${fileURLToPath(import.meta.url)}`
+  const page = await queryHomePage({ locale, draft })
+
+  if (!page) notFound()
 
   return (
-    <div className="home">
-      <div className="content">
-        <picture>
-          <source srcSet="https://raw.githubusercontent.com/payloadcms/payload/3.x/packages/ui/src/assets/payload-favicon.svg" />
-          <Image
-            alt="Payload Logo"
-            height={65}
-            src="https://raw.githubusercontent.com/payloadcms/payload/3.x/packages/ui/src/assets/payload-favicon.svg"
-            width={65}
-          />
-        </picture>
-        {!user && <h1>Welcome to your new project.</h1>}
-        {user && <h1>Welcome back, {user.email}</h1>}
-        <div className="links">
-          <a
-            className="admin"
-            href={payloadConfig.routes.admin}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Go to admin panel
-          </a>
-          <a
-            className="docs"
-            href="https://payloadcms.com/docs"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Documentation
-          </a>
-        </div>
-      </div>
-      <div className="footer">
-        <p>Update this page by editing</p>
-        <a className="codeLink" href={fileURL}>
-          <code>app/(frontend)/page.tsx</code>
-        </a>
-      </div>
-    </div>
+    <article>
+      <RenderHero {...page.hero} />
+      <RenderBlocks blocks={page.layout} />
+    </article>
   )
 }
+
+const queryHomePage = cache(async ({ locale, draft }: { locale: 'pt' | 'en'; draft: boolean }) => {
+  const payload = await getPayload({ config: configPromise })
+
+  const result = await payload.find({
+    collection: 'pages',
+    draft,
+    limit: 1,
+    pagination: false,
+    overrideAccess: draft,
+    locale,
+    where: { slug: { equals: 'home' } },
+  })
+
+  return result.docs?.[0] ?? null
+})

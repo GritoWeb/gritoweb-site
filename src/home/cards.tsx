@@ -138,7 +138,7 @@ type LogoMarkProps = {
 export function LogoMark({ name, icon }: LogoMarkProps) {
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="w-14 h-14 rounded-2xl border border-line bg-white flex items-center justify-center text-ink">
+      <div className="w-14 h-14  bg-white flex items-center justify-center text-ink">
         {icon}
       </div>
       {name && <span className="font-body text-xs text-mute text-center">{name}</span>}
