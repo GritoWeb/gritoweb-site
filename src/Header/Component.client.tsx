@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import React, { useTransition, useState, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
+import React, { useState, useEffect } from 'react'
 
 import type { Header } from '@/payload-types'
 import type { Page } from '@/payload-types'
@@ -15,10 +15,10 @@ interface HeaderClientProps {
 
 type NavItem = NonNullable<Header['navItems']>[number]
 
-function resolveHref(link: NavItem['link']): string {
+function resolveHref(link: NavItem['link'], locale: string): string {
   if (link.type === 'reference' && link.reference && typeof link.reference.value === 'object') {
     const slug = (link.reference.value as Page).slug
-    return `/${slug}`
+    return `/${locale}/${slug}`
   }
   return link.url ?? '#'
 }
@@ -28,8 +28,6 @@ const linkBase =
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
   const pathname = usePathname()
-  const router = useRouter()
-  const [isPending, startTransition] = useTransition()
   const [isOpen, setIsOpen] = useState(false)
 
   // Close menu on route change
@@ -46,14 +44,14 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
   const navItems = (data?.navItems ?? []).map((item) => ({
     id: item.id ?? item.link.label,
     label: item.link.label,
-    href: resolveHref(item.link),
+    href: resolveHref(item.link, locale),
   }))
 
   const otherLocale = locale === 'pt' ? 'en' : 'pt'
 
-  async function switchLocale() {
-    await fetch(`/api/set-locale?locale=${otherLocale}`, { method: 'POST' })
-    startTransition(() => router.refresh())
+  function switchLocale() {
+    const rest = pathname.slice(locale.length + 1)
+    window.location.href = `/${otherLocale}${rest}`
   }
 
   return (
@@ -61,7 +59,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
       {/* Top bar */}
       <div className="flex items-center justify-between px-6 md:px-12 py-[22px]">
         <Link
-          href="/"
+          href={`/${locale}`}
           aria-label="GritoWeb — home"
           className="no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper rounded-md"
         >
@@ -88,9 +86,8 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
             <li>
               <button
                 onClick={switchLocale}
-                disabled={isPending}
                 aria-label={`Switch to ${otherLocale === 'en' ? 'English' : 'Português'}`}
-                className={`${linkBase} text-blue hover:text-orange bg-transparent border-0 cursor-pointer p-0 ${isPending ? 'opacity-50' : ''}`}
+                className={`${linkBase} text-blue hover:text-orange bg-transparent border-0 cursor-pointer p-0`}
               >
                 {otherLocale.toUpperCase()}
               </button>
@@ -166,10 +163,9 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
             style={{ transitionDelay: `${isOpen ? navItems.length * 100 : 0}ms` }}
           >
             <button
-              onClick={() => { void switchLocale() }}
-              disabled={isPending}
+              onClick={switchLocale}
               aria-label={`Switch to ${otherLocale === 'en' ? 'English' : 'Português'}`}
-              className={`${linkBase} text-blue hover:text-orange bg-transparent border-0 cursor-pointer p-0 ${isPending ? 'opacity-50' : ''}`}
+              className={`${linkBase} text-blue hover:text-orange bg-transparent border-0 cursor-pointer p-0`}
             >
               {otherLocale.toUpperCase()}
             </button>

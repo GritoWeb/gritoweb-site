@@ -1,6 +1,6 @@
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import { draftMode, headers as getHeaders } from 'next/headers'
+import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
 import React, { cache } from 'react'
 
@@ -10,18 +10,14 @@ import { RenderHero } from '@/heros/RenderHero'
 export const dynamic = 'force-dynamic'
 
 type Args = {
-  params: Promise<{ slug: string }>
+  params: Promise<{ locale: string }>
 }
 
-export default async function Page({ params: paramsPromise }: Args) {
+export default async function HomePage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug } = await paramsPromise
-  const decodedSlug = decodeURIComponent(slug)
+  const { locale } = await paramsPromise
 
-  const headersList = await getHeaders()
-  const locale = (headersList.get('x-locale') ?? 'pt') as 'pt' | 'en'
-
-  const page = await queryPageBySlug({ slug: decodedSlug, locale, draft })
+  const page = await queryHomePage({ locale: locale as 'pt' | 'en', draft })
 
   if (!page) notFound()
 
@@ -33,8 +29,8 @@ export default async function Page({ params: paramsPromise }: Args) {
   )
 }
 
-const queryPageBySlug = cache(
-  async ({ slug, locale, draft }: { slug: string; locale: 'pt' | 'en'; draft: boolean }) => {
+const queryHomePage = cache(
+  async ({ locale, draft }: { locale: 'pt' | 'en'; draft: boolean }) => {
     const payload = await getPayload({ config: configPromise })
 
     const result = await payload.find({
@@ -44,7 +40,7 @@ const queryPageBySlug = cache(
       pagination: false,
       overrideAccess: draft,
       locale,
-      where: { slug: { equals: slug } },
+      where: { slug: { equals: 'home' } },
     })
 
     return result.docs?.[0] ?? null

@@ -18,11 +18,11 @@ import { ChatMark } from '@/home/illustrations'
 
 export const dynamic = 'force-dynamic'
 
-type Args = { params: Promise<{ slug: string }> }
+type Args = { params: Promise<{ locale: string; slug: string }> }
 
 export default async function PostPage({ params: paramsPromise }: Args) {
-  const { slug } = await paramsPromise
-  const post = await queryPostBySlug({ slug: decodeURIComponent(slug) })
+  const { locale, slug } = await paramsPromise
+  const post = await queryPostBySlug({ slug: decodeURIComponent(slug), locale: locale as 'pt' | 'en' })
   if (!post) notFound()
 
   const p = post as Post
@@ -47,12 +47,13 @@ export default async function PostPage({ params: paramsPromise }: Args) {
     })
 
   const firstTag = tags[0] ?? null
+  const dateLocale = locale === 'en' ? 'en-US' : 'pt-BR'
   const publishedDate = p.publishedAt
-    ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date(p.publishedAt))
+    ? new Intl.DateTimeFormat(dateLocale, { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date(p.publishedAt))
     : null
 
   const breadcrumbItems = [
-    { label: 'Blog', href: '/blog' },
+    { label: 'Blog', href: `/${locale}/blog` },
     ...(firstTag ? [{ label: firstTag.title }] : []),
     { label: p.title },
   ]
@@ -145,7 +146,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
             {tags.map((tag) => (
               <Link
                 key={tag.id}
-                href={`/blog?tag=${tag.slug}`}
+                href={`/${locale}/blog?tag=${tag.slug}`}
                 className="inline-flex items-center px-3 py-1.5 rounded-full font-body text-xs font-bold uppercase tracking-[0.04em] bg-paper-dim text-ink-soft border border-line no-underline hover:border-blue hover:text-blue transition-colors"
               >
                 {tag.title}
@@ -183,7 +184,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
                 <p className="font-eyebrow m-0 mb-3">Continue lendo</p>
                 <h2 className="m-0">Posts relacionados</h2>
               </div>
-              <Link href="/blog" className="font-display font-medium text-sm text-blue no-underline hover:opacity-75 transition-opacity">
+              <Link href={`/${locale}/blog`} className="font-display font-medium text-sm text-blue no-underline hover:opacity-75 transition-opacity">
                 Ver todos os posts <ArrowIcon size={14} />
               </Link>
             </div>
@@ -208,7 +209,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
   )
 }
 
-const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryPostBySlug = cache(async ({ slug, locale }: { slug: string; locale: 'pt' | 'en' }) => {
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
 
@@ -217,6 +218,7 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
     draft,
     limit: 1,
     overrideAccess: draft,
+    locale,
     where: { slug: { equals: slug } },
     depth: 2,
   })

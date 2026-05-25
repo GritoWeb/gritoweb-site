@@ -18,7 +18,26 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Read locale from cookie, fall back to Accept-Language, then default
+  // Check if URL already has a valid locale prefix
+  const pathnameLocale = locales.find(
+    (loc) => pathname.startsWith(`/${loc}/`) || pathname === `/${loc}`,
+  )
+
+  if (pathnameLocale) {
+    // URL already has locale prefix — forward via header and keep cookie in sync
+    const requestHeaders = new Headers(request.headers)
+    requestHeaders.set('x-locale', pathnameLocale)
+
+    const response = NextResponse.next({ request: { headers: requestHeaders } })
+    response.cookies.set(cookieName, pathnameLocale, {
+      path: '/',
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: 'lax',
+    })
+    return response
+  }
+
+  // No locale prefix — detect locale and redirect
   const cookieLocale = request.cookies.get(cookieName)?.value
   const validCookieLocale = locales.includes(cookieLocale as (typeof locales)[number])
     ? (cookieLocale as (typeof locales)[number])
@@ -29,11 +48,9 @@ export function middleware(request: NextRequest) {
 
   const locale = validCookieLocale ?? browserLocale
 
-  // Forward locale as header so Server Components can read it
-  const requestHeaders = new Headers(request.headers)
-  requestHeaders.set('x-locale', locale)
-
-  return NextResponse.next({ request: { headers: requestHeaders } })
+  const newUrl = new URL(`/${locale}${pathname}`, request.url)
+  newUrl.search = request.nextUrl.search
+  return NextResponse.redirect(newUrl, 307)
 }
 
 export const config = {

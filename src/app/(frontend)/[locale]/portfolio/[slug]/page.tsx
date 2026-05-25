@@ -22,19 +22,18 @@ import { Sparkle, ChatMark } from '@/home/illustrations'
 
 export const dynamic = 'force-dynamic'
 
-type Args = { params: Promise<{ slug: string }> }
+type Args = { params: Promise<{ locale: string; slug: string }> }
 
 export default async function PortfolioPage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug } = await paramsPromise
-  const portfolio = await queryPortfolioBySlug({ slug: decodeURIComponent(slug) })
+  const { locale, slug } = await paramsPromise
+  const portfolio = await queryPortfolioBySlug({ slug: decodeURIComponent(slug), locale: locale as 'pt' | 'en' })
   if (!portfolio) notFound()
 
   const p = portfolio as Portfolio
   const tag = p.tag && typeof p.tag === 'object' ? (p.tag as PortfolioTag) : null
   const coverImage = p.image && typeof p.image === 'object' ? (p.image as Media) : null
 
-  // Meta strip
   const metaItems = [
     { label: 'Cliente', value: p.client },
     p.sector ? { label: 'Setor', value: p.sector } : null,
@@ -43,7 +42,6 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
     p.year && !p.sector && !p.deliverables && !p.duration ? { label: 'Ano', value: p.year } : null,
   ].filter(Boolean) as { label: string; value: string }[]
 
-  // Gallery
   const galleryItems: GalleryItem[] = (p.gallery ?? [])
     .map((item) => {
       const img = item.image && typeof item.image === 'object' ? (item.image as Media) : null
@@ -59,7 +57,6 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
     })
     .filter(Boolean) as GalleryItem[]
 
-  // Related portfolios
   const relatedPortfolios: PortfolioItem[] = ((p.relatedPortfolios as Portfolio[]) ?? [])
     .filter((r) => typeof r === 'object')
     .map((r) => {
@@ -81,7 +78,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
     })
 
   const breadcrumbItems = [
-    { label: 'Portfólio', href: '/portfolio' },
+    { label: 'Portfólio', href: `/${locale}/portfolio` },
     ...(tag ? [{ label: tag.title }] : []),
     { label: p.title },
   ]
@@ -125,7 +122,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
                   Ver o site ao vivo <ArrowIcon size={14} />
                 </Button>
               )}
-              <Button href={p.nextProjectHref ?? '/portfolio'} variant="ghost">
+              <Button href={p.nextProjectHref ?? `/${locale}/portfolio`} variant="ghost">
                 Próximo projeto
               </Button>
             </div>
@@ -302,7 +299,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
                 <p className="font-eyebrow m-0 mb-3">Continue navegando</p>
                 <h2 className="m-0">Projetos relacionados</h2>
               </div>
-              <Link href="/portfolio" className="font-display font-medium text-sm text-blue no-underline hover:opacity-75 transition-opacity">
+              <Link href={`/${locale}/portfolio`} className="font-display font-medium text-sm text-blue no-underline hover:opacity-75 transition-opacity">
                 Ver portfólio completo <ArrowIcon size={14} />
               </Link>
             </div>
@@ -327,7 +324,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
   )
 }
 
-const queryPortfolioBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryPortfolioBySlug = cache(async ({ slug, locale }: { slug: string; locale: 'pt' | 'en' }) => {
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
 
@@ -336,6 +333,7 @@ const queryPortfolioBySlug = cache(async ({ slug }: { slug: string }) => {
     draft,
     limit: 1,
     overrideAccess: draft,
+    locale,
     where: { slug: { equals: slug } },
     depth: 2,
   })
