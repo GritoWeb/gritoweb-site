@@ -39,8 +39,8 @@ export function FaleComAGente({
 
   return (
     <section className={root}>
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
-        <div className="flex items-center gap-6">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12">
+        <div className="flex flex-col text-center lg:text-start lg:flex-row items-center lg:gap-6">
           {chatMark}
           <p className="m-0 font-display leading-none">
             <span className="block font-light text-[42px] text-blue">Fale com</span>

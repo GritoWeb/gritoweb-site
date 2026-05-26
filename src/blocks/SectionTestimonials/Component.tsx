@@ -27,22 +27,24 @@ export const SectionTestimonialsComponent: React.FC<SectionTestimonialsBlock> = 
           >
             {parseTitle(title)}
           </SectionTitle>
-          <div className="mt-6 flex items-center gap-2">
-            <div className="flex gap-0.5">
-              {[0, 1, 2, 3, 4].map((index) => (
-                <svg
-                  key={index}
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="#FE9D2B"
-                  aria-hidden="true"
-                >
-                  <polygon points="12,2 15,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9,9" />
-                </svg>
-              ))}
+          <div className="mt-6 flex lg:flex-row flex-col items-baseline lg:items-center gap-2">
+            <div className='flex items-center'>
+              <div className="flex gap-0.5">
+                {[0, 1, 2, 3, 4].map((index) => (
+                  <svg
+                    key={index}
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="#FE9D2B"
+                    aria-hidden="true"
+                  >
+                    <polygon points="12,2 15,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9,9" />
+                  </svg>
+                ))}
+              </div>
+              <span className="font-display font-bold text-blue ml-1">{ratingValue}</span>
             </div>
-            <span className="font-display font-bold text-blue ml-1">{ratingValue}</span>
             <span className="text-mute text-sm">· {reviewCount}</span>
           </div>
         </>

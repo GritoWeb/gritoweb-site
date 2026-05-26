@@ -35,7 +35,7 @@ export function TestimonialCard({
       >
         &rdquo;
       </span>
-      <blockquote className="m-0 pr-10">
+      <blockquote className="m-0">
         <p className="m-0 font-display font-light text-lg text-ink leading-snug">{quote}</p>
       </blockquote>
       <figcaption className="mt-4.5 pt-4 border-t border-dashed border-line flex items-center gap-3.5">

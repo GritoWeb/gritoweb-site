@@ -37,7 +37,7 @@ export function HeroSection({
           {trustLine && <p className="text-xs text-ink-soft mt-7 max-w-xl">{trustLine}</p>}
         </div>
         {hasMedia && (
-          <div className="flex justify-center items-center min-h-[420px]">{media}</div>
+          <div className="flex justify-center items-center lg:min-h-[420px]">{media}</div>
         )}
       </div>
     </section>

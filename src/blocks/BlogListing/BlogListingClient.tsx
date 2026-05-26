@@ -129,8 +129,8 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
 
   const formattedDate = post.date
     ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(
-        new Date(post.date),
-      )
+      new Date(post.date),
+    )
     : null
 
   return (
@@ -139,8 +139,8 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
         href={`/posts/${post.slug}`}
         className="grid grid-cols-1 md:grid-cols-[1.15fr_1fr] bg-white rounded-[28px] overflow-hidden border border-line no-underline text-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
-        <div className="relative bg-blue text-white p-12 flex flex-col justify-center min-h-[380px]">
- 
+        <div className="relative bg-blue text-white p-5 lg:p-12 flex flex-col justify-center min-h-[380px]">
+
           <h2 className="m-0 mt-4 font-display font-bold text-white text-[44px] leading-[1.1]">
             {post.title}
           </h2>
@@ -151,7 +151,7 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
                 {post.categoryLabel}
               </span>
             )}
-           </div>
+          </div>
           <div className="mt-7">
             <span className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-orange text-white font-display font-bold text-sm">
               Ler o post <ArrowIcon size={14} />
@@ -286,11 +286,10 @@ export function BlogListingClient({
                     type="button"
                     onClick={() => handleFilterChange(opt.value)}
                     aria-pressed={active}
-                    className={`${filterPillBase} ${
-                      active
+                    className={`${filterPillBase} ${active
                         ? 'bg-blue text-white border-transparent'
                         : 'bg-transparent text-blue border-blue hover:bg-blue/5'
-                    }`}
+                      }`}
                   >
                     {opt.label}
                   </button>
@@ -339,11 +338,10 @@ export function BlogListingClient({
                   type="button"
                   onClick={() => setPage(p as number)}
                   aria-current={p === safePage ? 'page' : undefined}
-                  className={`h-10 w-10 inline-flex items-center justify-center rounded-full font-display font-medium cursor-pointer transition-colors duration-150 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper ${
-                    p === safePage
+                  className={`h-10 w-10 inline-flex items-center justify-center rounded-full font-display font-medium cursor-pointer transition-colors duration-150 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper ${p === safePage
                       ? 'bg-blue text-white border-0'
                       : 'bg-transparent text-blue border-[1.5px] border-line hover:border-blue'
-                  }`}
+                    }`}
                 >
                   {p}
                 </button>

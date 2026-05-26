@@ -64,6 +64,12 @@ export function TestimonialsCarousel({ items }: { items: TestimonialItem[] }) {
           width: 24px;
           transform: none;
         }
+
+        @media (max-width: 1024px) {
+          .testimonials-splide .splide__pagination {
+            justify-content: center;
+          }
+        }
       `}</style>
     </>
   )

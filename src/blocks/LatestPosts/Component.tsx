@@ -55,7 +55,7 @@ export const LatestPostsComponent: React.FC<LatestPostsBlock> = async ({
     <section className="px-5 py-20">
       <div className="max-w-7xl mx-auto">
         <div className="mb-10">
-          <header className="flex flex-row items-center justify-between gap-3">
+          <header className="flex lg:flex-row flex-col items-center justify-between gap-3">
             <div>
               {eyebrow && <p className="font-eyebrow m-0">{eyebrow}</p>}
               {title && (
@@ -68,13 +68,13 @@ export const LatestPostsComponent: React.FC<LatestPostsBlock> = async ({
                 </h2>
               )}
             </div>
-                    {buttonLabel && (
-          <div className="mt-10">
-            <Button variant="blue" href={buttonHref ?? '/posts'} icon={<ArrowIcon size={16} />}>
-              {buttonLabel}
-            </Button>
-          </div>
-        )}
+            {buttonLabel && (
+              <div className="mt-10">
+                <Button variant="blue" href={buttonHref ?? '/posts'} icon={<ArrowIcon size={16} />}>
+                  {buttonLabel}
+                </Button>
+              </div>
+            )}
           </header>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
