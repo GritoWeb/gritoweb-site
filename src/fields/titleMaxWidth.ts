@@ -1,6 +1,6 @@
-import type { Field } from 'payload'
+import type { SelectField } from 'payload'
 
-export const titleMaxWidth: Field = {
+export const titleMaxWidth: SelectField = {
   name: 'titleMaxWidth',
   label: 'Title max width (desktop)',
   type: 'select',
