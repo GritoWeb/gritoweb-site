@@ -26,7 +26,7 @@ export const DefaultHero: React.FC<Page['hero']> = ({
   return (
     <HeroSection
       eyebrow={eyebrow ?? undefined}
-      title={heroTitle ? parseTitle(heroTitle, 'font-light') : ''}
+      title={heroTitle ? parseTitle(heroTitle, 'font-normal') : ''}
       titleClassName={titleMaxWidthClass(titleMaxWidth as TitleMaxWidth | null | undefined)}
       description={heroDescription ?? undefined}
       actions={
