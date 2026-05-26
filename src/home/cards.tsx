@@ -123,7 +123,7 @@ export function ServiceCard({
         >
           {ctaLabel}
           <ArrowIcon
-            size={14}
+            size={24}
             className="transition-transform duration-150 ease-out group-hover:translate-x-1 motion-reduce:transform-none"
           />
         </a>

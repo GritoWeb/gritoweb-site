@@ -36,7 +36,7 @@ export const SectionCtaComponent: React.FC<SectionCtaBlock> = ({
           <Button
             href={cta1Href}
             variant={(cta1Variant as ButtonProps['variant']) ?? 'blue'}
-            icon={<ArrowIcon size={16} />}
+            icon={<ArrowIcon size={24} />}
           >
             {cta1Label}
           </Button>

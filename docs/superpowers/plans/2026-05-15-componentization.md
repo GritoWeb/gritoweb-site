@@ -1741,7 +1741,7 @@ export function PortfolioCardGrid({ item }: { item: PortfolioItem }) {
       </div>
       <div className="px-6 pb-5 flex justify-end">
         <span className="inline-flex items-center gap-1.5 font-display text-sm font-medium text-mute">
-          <ArrowRightIcon size={14} strokeWidth={2.5} />
+          <ArrowRightIcon size={24} strokeWidth={2.5} />
         </span>
       </div>
     </a>
@@ -1786,7 +1786,7 @@ export function PortfolioCardList({ item }: { item: PortfolioItem }) {
           <p className="m-0 mt-1 font-body text-sm font-medium text-blue">{item.result}</p>
         )}
       </div>
-      <ArrowRightIcon size={14} strokeWidth={2.5} />
+      <ArrowRightIcon size={24} strokeWidth={2.5} />
     </a>
   )
 }

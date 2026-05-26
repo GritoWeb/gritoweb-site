@@ -30,7 +30,7 @@ const buttonSize: Record<string, string> = {
 }
 
 const buttonBase = [
-  'inline-flex items-center justify-center gap-2',
+  'group inline-flex items-center justify-center gap-2',
   'rounded-full font-display font-medium no-underline',
   'transition-opacity duration-150 cursor-pointer',
   'motion-reduce:transition-none',
@@ -74,11 +74,21 @@ export function Button({
     .filter(Boolean)
     .join(' ')
 
+  const iconEl = icon ? (
+    <span className={
+      iconPosition === 'right'
+        ? 'transition-transform duration-150 ease-out group-hover:translate-x-1 motion-reduce:transform-none'
+        : 'transition-transform duration-150 ease-out group-hover:-translate-x-1 motion-reduce:transform-none'
+    }>
+      {icon}
+    </span>
+  ) : null
+
   const inner = (
     <>
-      {icon && iconPosition === 'left' && icon}
+      {iconEl && iconPosition === 'left' && iconEl}
       {children}
-      {icon && iconPosition === 'right' && icon}
+      {iconEl && iconPosition === 'right' && iconEl}
     </>
   )
 

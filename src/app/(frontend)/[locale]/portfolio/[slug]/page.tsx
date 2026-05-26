@@ -119,7 +119,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
             <div className="flex flex-wrap gap-2.5 mt-7">
               {p.siteUrl && (
                 <Button href={p.siteUrl} variant="primary">
-                  Ver o site ao vivo <ArrowIcon size={14} />
+                  Ver o site ao vivo <ArrowIcon size={24} />
                 </Button>
               )}
               <Button href={p.nextProjectHref ?? `/${locale}/portfolio`} variant="ghost">
@@ -300,7 +300,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
                 <h2 className="m-0">Projetos relacionados</h2>
               </div>
               <Link href={`/${locale}/portfolio`} className="font-display font-medium text-sm text-blue no-underline hover:opacity-75 transition-opacity">
-                Ver portfólio completo <ArrowIcon size={14} />
+                Ver portfólio completo <ArrowIcon size={24} />
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

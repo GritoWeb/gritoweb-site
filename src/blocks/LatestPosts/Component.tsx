@@ -70,7 +70,7 @@ export const LatestPostsComponent: React.FC<LatestPostsBlock> = async ({
             </div>
             {buttonLabel && (
               <div className="mt-10">
-                <Button variant="blue" href={buttonHref ?? '/posts'} icon={<ArrowIcon size={16} />}>
+                <Button variant="blue" href={buttonHref ?? '/posts'} icon={<ArrowIcon size={24} />}>
                   {buttonLabel}
                 </Button>
               </div>

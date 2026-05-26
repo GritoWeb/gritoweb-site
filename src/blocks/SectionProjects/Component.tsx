@@ -61,7 +61,7 @@ export const SectionProjectsComponent: React.FC<SectionProjectsBlock> = ({
             {parseTitle(title)}
           </SectionTitle>
           {portfolioLabel && (
-            <Button variant="ghost" href={portfolioHref ?? '#'} icon={<ArrowIcon size={16} />}>
+            <Button variant="ghost" href={portfolioHref ?? '#'} icon={<ArrowIcon size={24} />}>
               {portfolioLabel}
             </Button>
           )}

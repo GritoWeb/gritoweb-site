@@ -49,7 +49,7 @@ export const SectionAboutComponent: React.FC<SectionAboutBlock> = ({
           className="mt-7"
         />
         <div className="mt-8">
-          <Button variant="blue" href={ctaHref} icon={<ArrowIcon size={16} />}>
+          <Button variant="blue" href={ctaHref} icon={<ArrowIcon size={24} />}>
             {ctaLabel}
           </Button>
         </div>

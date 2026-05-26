@@ -35,7 +35,7 @@ export default function NotFound() {
         </p>
 
         <div className="mt-8 flex flex-wrap gap-3">
-          <Button href="/" icon={<ArrowIcon size={16} />}>
+          <Button href="/" icon={<ArrowIcon size={24} />}>
             Voltar ao início
           </Button>
         </div>

@@ -185,7 +185,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
                 <h2 className="m-0">Posts relacionados</h2>
               </div>
               <Link href={`/${locale}/blog`} className="font-display font-medium text-sm text-blue no-underline hover:opacity-75 transition-opacity">
-                Ver todos os posts <ArrowIcon size={14} />
+                Ver todos os posts <ArrowIcon size={24} />
               </Link>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

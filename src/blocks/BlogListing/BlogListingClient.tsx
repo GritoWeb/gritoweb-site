@@ -56,6 +56,39 @@ const SearchIcon = () => (
   </svg>
 )
 
+const FilterIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M3 5h18M6 12h12M10 19h4" />
+  </svg>
+)
+
+const ChevronIcon = ({ open }: { open: boolean }) => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    className={`transition-transform duration-200 motion-reduce:transition-none ${open ? 'rotate-180' : ''}`}
+  >
+    <path d="M6 9l6 6 6-6" />
+  </svg>
+)
+
 // ── Primitives ────────────────────────────────────────────────────────────────
 
 const filterPillBase = [
@@ -84,7 +117,7 @@ export function PostCard({ post, index }: { post: PostItem; index: number }) {
   return (
     <a
       href={`/posts/${post.slug}`}
-      className="group flex flex-col bg-white rounded-3xl border border-line overflow-hidden no-underline text-inherit transition-shadow duration-150 motion-reduce:transition-none hover:shadow-[0_8px_28px_rgba(40,40,40,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+      className="group h-full flex flex-col rounded-3xl overflow-hidden bg-white border border-line no-underline text-inherit transition-shadow duration-300 motion-reduce:transition-none hover:shadow-[0_6px_15px_rgba(40,40,40,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
     >
       <div className={`h-[200px] flex items-center justify-center overflow-hidden ${accentBg[index % 2]}`}>
         {imageUrl ? (
@@ -112,7 +145,7 @@ export function PostCard({ post, index }: { post: PostItem; index: number }) {
         <span className="mt-2 font-display font-medium text-sm text-blue inline-flex items-center gap-1.5">
           Ler mais
           <ArrowIcon
-            size={14}
+            size={24}
             className="transition-transform duration-150 ease-out group-hover:translate-x-1 motion-reduce:transform-none"
           />
         </span>
@@ -137,7 +170,7 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
     <article className="max-w-7xl mx-auto mb-14">
       <a
         href={`/posts/${post.slug}`}
-        className="grid grid-cols-1 md:grid-cols-[1.15fr_1fr] bg-white rounded-[28px] overflow-hidden border border-line no-underline text-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+        className="group grid grid-cols-1 md:grid-cols-[1.15fr_1fr] bg-white rounded-[28px] overflow-hidden border border-line no-underline text-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
         <div className="relative bg-blue text-white p-5 lg:p-12 flex flex-col justify-center min-h-[380px]">
 
@@ -154,7 +187,11 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
           </div>
           <div className="mt-7">
             <span className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-orange text-white font-display font-bold text-sm">
-              Ler o post <ArrowIcon size={14} />
+              Ler o post
+              <ArrowIcon
+                size={24}
+                className="transition-transform duration-150 ease-out group-hover:translate-x-1 motion-reduce:transform-none"
+              />
             </span>
           </div>
         </div>
@@ -179,6 +216,66 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
   )
 }
 
+// ── Filter primitives (shared desktop / mobile) ────────────────────────────────
+
+function SearchField({
+  value,
+  onChange,
+  wrapperClassName,
+}: {
+  value: string
+  onChange: (value: string) => void
+  wrapperClassName?: string
+}) {
+  return (
+    <div className={`relative ${wrapperClassName ?? ''}`}>
+      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-mute pointer-events-none">
+        <SearchIcon />
+      </span>
+      <input
+        type="search"
+        aria-label="Buscar posts"
+        placeholder="Buscar no blog…"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full min-w-[280px] py-3 pl-11 pr-5 rounded-full border-[1.5px] border-line bg-white font-body text-sm text-ink placeholder:text-mute focus:outline-none focus:border-blue transition-colors duration-150 motion-reduce:transition-none"
+      />
+    </div>
+  )
+}
+
+function FilterPills({
+  filters,
+  activeFilter,
+  onChange,
+}: {
+  filters: FilterOption[]
+  activeFilter: string
+  onChange: (value: string) => void
+}) {
+  return (
+    <>
+      {[{ label: 'Todos', value: 'all' }, ...filters].map((opt) => {
+        const active = opt.value === activeFilter
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => onChange(opt.value)}
+            aria-pressed={active}
+            className={`${filterPillBase} ${active
+              ? 'bg-blue text-white border-transparent'
+              : 'bg-transparent text-blue border-blue hover:bg-blue/5'
+              }`}
+          >
+            {opt.label}
+          </button>
+        )
+      })}
+    </>
+  )
+}
+
 // ── Main client component ─────────────────────────────────────────────────────
 
 export function BlogListingClient({
@@ -195,6 +292,7 @@ export function BlogListingClient({
   const [search, setSearch] = useState('')
   const [activeFilter, setActiveFilter] = useState('all')
   const [page, setPage] = useState(1)
+  const [filtersOpen, setFiltersOpen] = useState(false)
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
@@ -252,25 +350,18 @@ export function BlogListingClient({
           </header>
 
           {showSearch && (
-            <div className="relative inline-flex">
-              <span className="absolute left-4 top-1/2 -translate-y-1/2 text-mute pointer-events-none">
-                <SearchIcon />
-              </span>
-              <input
-                type="search"
-                aria-label="Buscar posts"
-                placeholder="Buscar no blog…"
-                value={search}
-                onChange={(e) => handleSearch(e.target.value)}
-                className="w-full min-w-[280px] py-3 pl-11 pr-5 rounded-full border-[1.5px] border-line bg-white font-body text-sm text-ink placeholder:text-mute focus:outline-none focus:border-blue transition-colors duration-150 motion-reduce:transition-none"
-              />
-            </div>
+            <SearchField
+              value={search}
+              onChange={handleSearch}
+              wrapperClassName="hidden md:inline-flex"
+            />
           )}
         </div>
 
+        {/* Desktop: label "Filtrar por" + pills inline */}
         {showFilters && filters.length > 0 && (
           <div
-            className="pb-7 mb-7 border-b border-dashed border-line"
+            className="hidden md:block pb-7 mb-7 border-b border-dashed border-line"
             role="group"
             aria-label="Filtrar por categoria"
           >
@@ -278,23 +369,54 @@ export function BlogListingClient({
               <span className="font-body font-bold text-xs uppercase tracking-[0.12em] text-mute mr-2">
                 Filtrar por
               </span>
-              {[{ label: 'Todos', value: 'all' }, ...filters].map((opt) => {
-                const active = opt.value === activeFilter
-                return (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => handleFilterChange(opt.value)}
-                    aria-pressed={active}
-                    className={`${filterPillBase} ${active
-                        ? 'bg-blue text-white border-transparent'
-                        : 'bg-transparent text-blue border-blue hover:bg-blue/5'
-                      }`}
-                  >
-                    {opt.label}
-                  </button>
-                )
-              })}
+              <FilterPills
+                filters={filters}
+                activeFilter={activeFilter}
+                onChange={handleFilterChange}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Mobile: botão "Filtros" que expande busca + pills */}
+        {(showSearch || (showFilters && filters.length > 0)) && (
+          <div className="md:hidden pb-7 mb-7 border-b border-dashed border-line">
+            <button
+              type="button"
+              onClick={() => setFiltersOpen((open) => !open)}
+              aria-expanded={filtersOpen}
+              aria-controls="blog-mobile-filters"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-[1.5px] border-blue bg-transparent text-blue font-display font-medium text-sm cursor-pointer transition-colors duration-150 motion-reduce:transition-none hover:bg-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+            >
+              <FilterIcon />
+              Filtros
+              <ChevronIcon open={filtersOpen} />
+            </button>
+
+            <div
+              className={`grid transition-[grid-template-rows] duration-300 ease-in-out motion-reduce:transition-none ${filtersOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+            >
+              <div className="overflow-hidden">
+                <div
+                  id="blog-mobile-filters"
+                  className="mt-4 flex flex-col gap-4"
+                >
+                  {showSearch && <SearchField value={search} onChange={handleSearch} />}
+                  {showFilters && filters.length > 0 && (
+                    <div
+                      className="flex flex-wrap gap-2.5 items-center"
+                      role="group"
+                      aria-label="Filtrar por categoria"
+                    >
+                      <FilterPills
+                        filters={filters}
+                        activeFilter={activeFilter}
+                        onChange={handleFilterChange}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -304,7 +426,7 @@ export function BlogListingClient({
             {slice.map((post, i) => (
               <div
                 key={post.id}
-                className="animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both motion-reduce:animate-none"
+                className="h-full animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both motion-reduce:animate-none"
                 style={{ animationDelay: `${i * 60}ms` }}
               >
                 <PostCard post={post} index={(safePage - 1) * postsPerPage + i} />
@@ -324,7 +446,7 @@ export function BlogListingClient({
               aria-label="Página anterior"
               className="h-10 w-10 inline-flex items-center justify-center rounded-full font-display font-medium cursor-pointer transition-colors duration-150 motion-reduce:transition-none bg-transparent text-blue border-[1.5px] border-line hover:border-blue disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             >
-              <ArrowIcon size={16} direction="left" />
+              <ArrowIcon size={24} direction="left" />
             </button>
 
             {buildPages().map((p, i) =>
@@ -339,8 +461,8 @@ export function BlogListingClient({
                   onClick={() => setPage(p as number)}
                   aria-current={p === safePage ? 'page' : undefined}
                   className={`h-10 w-10 inline-flex items-center justify-center rounded-full font-display font-medium cursor-pointer transition-colors duration-150 motion-reduce:transition-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper ${p === safePage
-                      ? 'bg-blue text-white border-0'
-                      : 'bg-transparent text-blue border-[1.5px] border-line hover:border-blue'
+                    ? 'bg-blue text-white border-0'
+                    : 'bg-transparent text-blue border-[1.5px] border-line hover:border-blue'
                     }`}
                 >
                   {p}
@@ -355,7 +477,7 @@ export function BlogListingClient({
               aria-label="Próxima página"
               className="h-10 w-10 inline-flex items-center justify-center rounded-full font-display font-medium cursor-pointer transition-colors duration-150 motion-reduce:transition-none bg-transparent text-blue border-[1.5px] border-line hover:border-blue disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
             >
-              <ArrowIcon size={16} />
+              <ArrowIcon size={24} />
             </button>
           </nav>
         )}

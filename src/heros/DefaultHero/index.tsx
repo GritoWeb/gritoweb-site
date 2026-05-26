@@ -34,7 +34,7 @@ export const DefaultHero: React.FC<Page['hero']> = ({
           hasActions ? (
             <>
               {cta1Label && (
-                <Button href={cta1Href ?? '#'} icon={<ArrowIcon size={16} />}>
+                <Button href={cta1Href ?? '#'} icon={<ArrowIcon size={24} />}>
                   {cta1Label}
                 </Button>
               )}

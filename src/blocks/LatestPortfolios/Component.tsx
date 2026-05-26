@@ -77,9 +77,9 @@ export const LatestPortfoliosComponent: React.FC<LatestPortfoliosBlock> = async 
             <PortfolioCardGrid key={item.id} item={item} />
           ))}
         </div>
-        <div>
+        <div className='mt-10'>
           {buttonLabel && (
-            <Button variant="blue" href={buttonHref ?? '/portfolio'} icon={<ArrowIcon size={16} />}>
+            <Button variant="blue" href={buttonHref ?? '/portfolio'} icon={<ArrowIcon size={24} />}>
               {buttonLabel}
             </Button>
           )}

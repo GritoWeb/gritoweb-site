@@ -57,6 +57,39 @@ const ListIcon = () => (
   </svg>
 )
 
+const FilterIcon = () => (
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M3 5h18M6 12h12M10 19h4" />
+  </svg>
+)
+
+const ChevronIcon = ({ open }: { open: boolean }) => (
+  <svg
+    width="14"
+    height="14"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+    className={`transition-transform duration-200 motion-reduce:transition-none ${open ? 'rotate-180' : ''}`}
+  >
+    <path d="M6 9l6 6 6-6" />
+  </svg>
+)
+
 
 // ── Primitives ────────────────────────────────────────────────────────────────
 
@@ -87,17 +120,16 @@ export function PortfolioCardGrid({ item }: { item: PortfolioItem }) {
   return (
     <a
       href={`/portfolio/${item.slug}`}
-      className="group h-full flex flex-col rounded-3xl overflow-hidden bg-white border border-line no-underline text-inherit transition-shadow duration-150 motion-reduce:transition-none hover:shadow-[0_8px_28px_rgba(40,40,40,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+      className="group h-full flex flex-col rounded-3xl overflow-hidden bg-white border border-line no-underline text-inherit transition-shadow duration-300 motion-reduce:transition-none hover:shadow-[0_6px_15px_rgba(40,40,40,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
     >
       <div className={`relative h-[200px] flex items-center justify-center overflow-hidden ${bg}`}>
- 
         {imageUrl ? (
           <Image
             src={imageUrl}
             alt={item.image?.alt ?? item.title}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover"
+            className="flex !relative max-w-[120px] max-h-[120px] object-cover"
           />
         ) : (
           <span className="font-display font-black text-5xl opacity-10 select-none">
@@ -115,15 +147,13 @@ export function PortfolioCardGrid({ item }: { item: PortfolioItem }) {
           </p>
         )}
         <h3 className="m-0 font-display font-bold text-lg text-ink leading-snug">{item.title}</h3>
-        {item.result && (
-          <p className="m-0 font-body text-sm font-medium text-blue mt-auto">{item.result}</p>
-        )}
+        {item.result && <p className="m-0 font-body text-sm font-medium text-blue mt-auto">{item.result}</p>}
       </div>
       <div className="px-6 pb-5">
         <span className="inline-flex items-center gap-1.5 font-display text-sm font-medium text-blue">
           Ler mais
           <ArrowIcon
-            size={14}
+            size={20}
             className="transition-transform duration-150 ease-out group-hover:translate-x-1 motion-reduce:transform-none"
           />
         </span>
@@ -136,7 +166,7 @@ function PortfolioCardList({ item }: { item: PortfolioItem }) {
   return (
     <a
       href={`/portfolio/${item.slug}`}
-      className="flex items-center gap-6 rounded-2xl bg-white border border-line p-5 no-underline text-inherit transition-shadow duration-150 motion-reduce:transition-none hover:shadow-[0_4px_16px_rgba(40,40,40,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
+      className="group flex items-center gap-6 rounded-2xl bg-white border border-line p-5 no-underline text-inherit transition-shadow duration-150 motion-reduce:transition-none hover:shadow-[0_4px_16px_rgba(40,40,40,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
     >
       <div className={`shrink-0 w-16 h-16 rounded-xl flex items-center justify-center overflow-hidden relative ${accentBg[item.accent ?? 'blue']}`}>
         {item.image?.url ? (
@@ -168,8 +198,50 @@ function PortfolioCardList({ item }: { item: PortfolioItem }) {
           <p className="m-0 mt-1 font-body text-sm font-medium text-blue">{item.result}</p>
         )}
       </div>
-      <ArrowIcon size={14} />
+      <ArrowIcon
+        size={24}
+        className="transition-transform duration-150 ease-out group-hover:translate-x-1 motion-reduce:transform-none"
+      />
     </a>
+  )
+}
+
+// ── Filter primitives ─────────────────────────────────────────────────────────
+
+const pillBase = [
+  'px-4 py-2 rounded-full font-display font-medium text-sm cursor-pointer border-[1.5px] transition-colors duration-150 motion-reduce:transition-none',
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper',
+].join(' ')
+
+function FilterPills({
+  filters,
+  activeFilter,
+  onChange,
+}: {
+  filters: FilterOption[]
+  activeFilter: string
+  onChange: (value: string) => void
+}) {
+  return (
+    <>
+      {[{ label: 'Todos', value: 'all' }, ...filters].map((opt) => {
+        const active = opt.value === activeFilter
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => onChange(opt.value)}
+            aria-pressed={active}
+            className={`${pillBase} ${active
+              ? 'bg-orange text-white border-orange'
+              : 'bg-transparent text-ink border-line hover:border-blue hover:text-blue'
+              }`}
+          >
+            {opt.label}
+          </button>
+        )
+      })}
+    </>
   )
 }
 
@@ -186,6 +258,7 @@ export const PortfolioListingClient: React.FC<PortfolioListingClientProps> = ({
 }) => {
   const [activeFilter, setActiveFilter] = useState<string>('all')
   const [view, setView] = useState<'grid' | 'list'>('grid')
+  const [filtersOpen, setFiltersOpen] = useState(false)
 
   const filtered = useMemo(() => {
     if (activeFilter === 'all') return portfolios
@@ -214,80 +287,95 @@ export const PortfolioListingClient: React.FC<PortfolioListingClientProps> = ({
 
         {/* Controls bar */}
         {(showFilters || showViewToggle) && (
-          <div className="flex items-center justify-between flex-wrap gap-4 mb-8">
-            {/* Filter pills */}
-            {showFilters && (
-              <div className="flex items-center gap-2 flex-wrap" role="group" aria-label="Filtrar por categoria">
-                <button
-                  onClick={() => setActiveFilter('all')}
-                  className={[
-                    'px-4 py-2 rounded-full font-display font-medium text-sm cursor-pointer border-[1.5px] transition-colors duration-150 motion-reduce:transition-none',
-                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper',
-                    activeFilter === 'all'
-                      ? 'bg-orange text-white border-orange'
-                      : 'bg-transparent text-ink border-line hover:border-blue hover:text-blue',
-                  ].join(' ')}
-                  aria-pressed={activeFilter === 'all'}
-                >
-                  Todos
-                </button>
-                {filters.map((filter) => (
-                  <button
-                    key={filter.value}
-                    onClick={() => setActiveFilter(filter.value)}
-                    className={[
-                      'px-4 py-2 rounded-full font-display font-medium text-sm cursor-pointer border-[1.5px] transition-colors duration-150 motion-reduce:transition-none',
-                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper',
-                      activeFilter === filter.value
-                        ? 'bg-orange text-white border-orange'
-                        : 'bg-transparent text-ink border-line hover:border-blue hover:text-blue',
-                    ].join(' ')}
-                    aria-pressed={activeFilter === filter.value}
-                  >
-                    {filter.label}
-                  </button>
-                ))}
-              </div>
-            )}
+          <div className="mb-8">
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              {/* Desktop: filter pills inline */}
+              {showFilters && (
+                <div className="hidden md:flex items-center gap-2 flex-wrap" role="group" aria-label="Filtrar por categoria">
+                  <FilterPills
+                    filters={filters}
+                    activeFilter={activeFilter}
+                    onChange={setActiveFilter}
+                  />
+                </div>
+              )}
 
-            {/* View toggle */}
-            {showViewToggle && (
-              <div className="relative flex items-center gap-1 rounded-full border border-line p-1" role="group" aria-label="Modo de visualização">
-                <div
-                  aria-hidden="true"
-                  className={[
-                    'absolute top-1 bottom-1 rounded-full bg-blue',
-                    'transition-transform duration-200 ease-in-out motion-reduce:transition-none',
-                    view === 'list' ? 'translate-x-[calc(100%+4px)]' : 'translate-x-0',
-                  ].join(' ')}
-                  style={{ width: 'calc(50% - 6px)' }}
-                />
+              {/* Mobile: botão "Filtros" recolhível */}
+              {showFilters && (
                 <button
-                  onClick={() => setView('grid')}
-                  aria-pressed={view === 'grid'}
-                  aria-label="Grade"
-                  className={[
-                    'relative z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-display font-medium text-sm cursor-pointer',
-                    'transition-colors duration-200 motion-reduce:transition-none',
-                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-1',
-                    view === 'grid' ? 'text-white' : 'text-mute hover:text-ink',
-                  ].join(' ')}
+                  type="button"
+                  onClick={() => setFiltersOpen((open) => !open)}
+                  aria-expanded={filtersOpen}
+                  aria-controls="portfolio-mobile-filters"
+                  className="md:hidden inline-flex items-center gap-2 px-4 py-2 rounded-full border-[1.5px] border-blue bg-transparent text-blue font-display font-medium text-sm cursor-pointer transition-colors duration-150 motion-reduce:transition-none hover:bg-blue/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
                 >
-                  <GridIcon /> Grade
+                  <FilterIcon />
+                  Filtros
+                  <ChevronIcon open={filtersOpen} />
                 </button>
-                <button
-                  onClick={() => setView('list')}
-                  aria-pressed={view === 'list'}
-                  aria-label="Lista"
-                  className={[
-                    'relative z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-display font-medium text-sm cursor-pointer',
-                    'transition-colors duration-200 motion-reduce:transition-none',
-                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-1',
-                    view === 'list' ? 'text-white' : 'text-mute hover:text-ink',
-                  ].join(' ')}
-                >
-                  <ListIcon /> Lista
-                </button>
+              )}
+
+              {/* View toggle (sempre visível) */}
+              {showViewToggle && (
+                <div className="relative flex items-center gap-1 rounded-full border border-line p-1" role="group" aria-label="Modo de visualização">
+                  <div
+                    aria-hidden="true"
+                    className={[
+                      'absolute top-1 bottom-1 rounded-full bg-blue',
+                      'transition-transform duration-200 ease-in-out motion-reduce:transition-none',
+                      view === 'list' ? 'translate-x-[calc(100%+4px)]' : 'translate-x-0',
+                    ].join(' ')}
+                    style={{ width: 'calc(50% - 6px)' }}
+                  />
+                  <button
+                    onClick={() => setView('grid')}
+                    aria-pressed={view === 'grid'}
+                    aria-label="Grade"
+                    className={[
+                      'relative z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-display font-medium text-sm cursor-pointer',
+                      'transition-colors duration-200 motion-reduce:transition-none',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-1',
+                      view === 'grid' ? 'text-white' : 'text-mute hover:text-ink',
+                    ].join(' ')}
+                  >
+                    <GridIcon /> Grade
+                  </button>
+                  <button
+                    onClick={() => setView('list')}
+                    aria-pressed={view === 'list'}
+                    aria-label="Lista"
+                    className={[
+                      'relative z-10 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full font-display font-medium text-sm cursor-pointer',
+                      'transition-colors duration-200 motion-reduce:transition-none',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-1',
+                      view === 'list' ? 'text-white' : 'text-mute hover:text-ink',
+                    ].join(' ')}
+                  >
+                    <ListIcon /> Lista
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Mobile: painel expansível com os pills */}
+            {showFilters && (
+              <div
+                className={`md:hidden grid transition-[grid-template-rows] duration-300 ease-in-out motion-reduce:transition-none ${filtersOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}
+              >
+                <div className="overflow-hidden">
+                  <div
+                    id="portfolio-mobile-filters"
+                    className="mt-4 flex flex-wrap gap-2.5 items-center"
+                    role="group"
+                    aria-label="Filtrar por categoria"
+                  >
+                    <FilterPills
+                      filters={filters}
+                      activeFilter={activeFilter}
+                      onChange={setActiveFilter}
+                    />
+                  </div>
+                </div>
               </div>
             )}
           </div>

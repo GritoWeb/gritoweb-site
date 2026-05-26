@@ -92,10 +92,10 @@ function FormField({
 
   const enhancedChild = child
     ? cloneElement(child as React.ReactElement<Record<string, unknown>>, {
-        id: inputId,
-        'aria-invalid': error ? true : (child.props as Record<string, unknown>)['aria-invalid'],
-        'aria-describedby': describedBy,
-      })
+      id: inputId,
+      'aria-invalid': error ? true : (child.props as Record<string, unknown>)['aria-invalid'],
+      'aria-describedby': describedBy,
+    })
     : children
 
   return (
@@ -327,7 +327,7 @@ export const ContactSectionComponent: React.FC<ContactSectionBlock> = ({
                 <p className="m-0 text-[13px] text-ink-soft">
                   Seus dados são usados apenas para retorno.
                 </p>
-                <Button type="submit" icon={<ArrowIcon size={16} />} disabled={loading}>
+                <Button type="submit" icon={<ArrowIcon size={24} />} disabled={loading}>
                   {loading ? 'Enviando…' : 'Enviar mensagem'}
                 </Button>
               </div>
