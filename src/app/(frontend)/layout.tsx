@@ -5,6 +5,9 @@ import './styles.css'
 export const metadata = {
   description: 'GritoWeb — Digital studio.',
   title: 'GritoWeb',
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

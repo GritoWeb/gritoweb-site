@@ -24,7 +24,7 @@ export const DefaultHero: React.FC<Page['hero']> = ({
   const hasActions = cta1Label || cta2Label
 
   return (
-    <div className="animate-fade-in">
+    <div>
       <HeroSection
         eyebrow={eyebrow ?? undefined}
         title={heroTitle ? parseTitle(heroTitle) : ''}
@@ -48,7 +48,7 @@ export const DefaultHero: React.FC<Page['hero']> = ({
         }
         media={
           media && typeof media !== 'string' ? (
-            <div className="relative">
+            <div className="relative animate-fade-in">
               <Sparkle size={38} color="#282828" className="absolute top-5 right-12" />
               <Sparkle size={24} color="#FE9D2B" className="absolute bottom-14 left-2.5" />
               <Image

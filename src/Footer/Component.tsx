@@ -1,10 +1,10 @@
 import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
+import Image from 'next/image'
 import React from 'react'
 
 import type { Footer, Header } from '@/payload-types'
 import type { Page } from '@/payload-types'
-import { Logo } from '@/components/Logo/Logo'
 
 const services = [
   { label: 'WordPress sob medida', href: '#' },
@@ -124,12 +124,8 @@ export async function FooterComponent({ locale = 'pt' }: { locale?: string }) {
       <div className="max-w-7xl mx-auto px-6 pt-18 pb-7">
         <div className="grid grid-cols-1 md:grid-cols-[1.5fr_1fr_1fr_1fr] gap-12 items-start">
           <div>
-            <div className="flex items-center gap-3">
-              <Logo size={48} className="text-white" />
-              <p className="font-display font-bold text-2xl leading-none m-0">
-                <span>grito</span>
-                <span className="text-orange">weB</span>
-              </p>
+            <div>
+              <Image src="/balao-branco.png" alt="GritoWeb" width={160} height={200} className="h-11 w-auto" />
             </div>
 
             <p className="text-white/70 text-sm mt-5 max-w-[20rem] leading-relaxed">

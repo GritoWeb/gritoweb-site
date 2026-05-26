@@ -57,7 +57,7 @@ export const SectionCtaComponent: React.FC<SectionCtaBlock> = ({
             alt={media.alt || ''}
             width={media.width ?? 360}
             height={media.height ?? 360}
-            className="w-full max-w-[360px] h-auto animate-in fade-in duration-700 fill-mode-both motion-reduce:animate-none"
+            className="w-full max-w-[360px] h-auto animate-fade-in"
           />
         ) : undefined
       }

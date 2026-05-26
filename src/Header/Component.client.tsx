@@ -1,12 +1,12 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import React, { useState, useEffect } from 'react'
 
 import type { Header } from '@/payload-types'
 import type { Page } from '@/payload-types'
-import { LogoWord } from '@/components/Logo/Logo'
 
 interface HeaderClientProps {
   data: Header
@@ -63,7 +63,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
           aria-label="GritoWeb — home"
           className="no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper rounded-md"
         >
-          <LogoWord />
+          <Image src="/favicon.png" alt="GritoWeb" width={512} height={512} className="h-11 w-auto" />
         </Link>
 
         {/* Desktop nav */}
