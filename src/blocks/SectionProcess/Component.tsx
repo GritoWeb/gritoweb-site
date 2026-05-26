@@ -18,7 +18,7 @@ export const SectionProcessComponent: React.FC<SectionProcessBlock> = ({
 
   return (
     <section
-      className={`relative px-12 py-24 overflow-hidden${isWhite ? ' bg-white' : ''}`}
+      className={`relative px-5 lg:px-12 py-24 overflow-hidden${isWhite ? ' bg-white' : ''}`}
     >
       {!isWhite && <Sparkle size={42} color="#FE9D2B" className="absolute top-14 right-20" />}
       <div className="max-w-7xl mx-auto">
