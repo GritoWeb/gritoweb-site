@@ -5,7 +5,7 @@ import { ArrowIcon } from '@/components/ui/ArrowIcon'
 
 export default function NotFound() {
   return (
-    <section className="relative px-12 py-24 overflow-hidden">
+    <section className="relative px-5 py-24 overflow-hidden">
       <DotGrid
         cols={10}
         rows={5}

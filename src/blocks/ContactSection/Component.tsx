@@ -54,7 +54,7 @@ const inputBaseClasses = [
   'font-body text-base text-ink',
   'transition-colors duration-150 motion-reduce:transition-none',
   'placeholder:text-mute',
-  'focus:outline-none focus:border-orange',
+  'focus:outline-none focus:border-orange focus:[box-shadow:0_1px_0_0_var(--color-orange)]',
   'disabled:opacity-50 disabled:cursor-not-allowed',
   'aria-[invalid=true]:border-orange',
 ].join(' ')
@@ -99,9 +99,9 @@ function FormField({
     : children
 
   return (
-    <div className={['flex flex-col', className].filter(Boolean).join(' ')}>
+    <div className={['group flex flex-col', className].filter(Boolean).join(' ')}>
       {label && (
-        <label htmlFor={inputId} className="font-body font-bold text-xs uppercase tracking-[0.14em] text-ink mb-2">
+        <label htmlFor={inputId} className="font-body font-bold text-xs uppercase tracking-[0.14em] text-ink mb-2 transition-colors duration-150 group-focus-within:text-orange">
           {label}
         </label>
       )}
@@ -262,7 +262,7 @@ export const ContactSectionComponent: React.FC<ContactSectionBlock> = ({
   }
 
   return (
-    <section className="px-6 md:px-12 py-24">
+    <section className="px-5 py-24">
       {(eyebrow || heading) && (
         <div className="max-w-5xl mx-auto mb-14">
           {eyebrow && <p className="font-eyebrow m-0 mb-3">{eyebrow}</p>}

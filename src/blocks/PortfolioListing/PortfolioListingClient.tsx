@@ -193,7 +193,7 @@ export const PortfolioListingClient: React.FC<PortfolioListingClientProps> = ({
   }, [portfolios, activeFilter])
 
   return (
-    <section className="px-6 md:px-12 py-20">
+    <section className="px-5 py-20">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-10">

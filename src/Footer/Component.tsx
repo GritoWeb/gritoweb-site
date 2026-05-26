@@ -2,7 +2,7 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import React from 'react'
 
-import type { Footer } from '@/payload-types'
+import type { Footer, Header } from '@/payload-types'
 import type { Page } from '@/payload-types'
 import { Logo } from '@/components/Logo/Logo'
 
@@ -85,9 +85,9 @@ const linkClasses =
 
 const listClasses = 'list-none p-0 m-0 mt-5 flex flex-col gap-2.5'
 
-type NavItem = NonNullable<Footer['navItems']>[number]
+type HeaderNavItem = NonNullable<Header['navItems']>[number]
 
-function resolveHref(link: NavItem['link'], locale: string): string {
+function resolveHref(link: HeaderNavItem['link'], locale: string): string {
   if (link.type === 'reference' && link.reference && typeof link.reference.value === 'object') {
     const slug = (link.reference.value as Page).slug
     return `/${locale}/${slug}`
@@ -113,8 +113,8 @@ function LinkColumn({ title, items }: { title: string; items: { label: string; h
 }
 
 export async function FooterComponent({ locale = 'pt' }: { locale?: string }) {
-  const footerData: Footer = await getCachedGlobal('footer', 1, locale)()
-  const nav = (footerData?.navItems ?? []).map((item) => ({
+  const headerData: Header = await getCachedGlobal('header', 1, locale)()
+  const nav = (headerData?.navItems ?? []).map((item) => ({
     label: item.link.label,
     href: resolveHref(item.link, locale),
   }))

@@ -27,7 +27,7 @@ export const DefaultHero: React.FC<Page['hero']> = ({
     <div className="animate-fade-in">
       <HeroSection
         eyebrow={eyebrow ?? undefined}
-        title={heroTitle ? parseTitle(heroTitle, 'font-normal') : ''}
+        title={heroTitle ? parseTitle(heroTitle) : ''}
         titleClassName={titleMaxWidthClass(titleMaxWidth as TitleMaxWidth | null | undefined)}
         description={heroDescription ?? undefined}
         actions={

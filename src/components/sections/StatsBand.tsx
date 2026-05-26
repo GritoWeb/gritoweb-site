@@ -12,7 +12,7 @@ type StatsBandProps = {
 
 export function StatsBand({ stats, showDecoration = true }: StatsBandProps) {
   return (
-    <section className="relative bg-blue px-6 md:px-12 py-14 overflow-hidden">
+    <section className="relative bg-blue px-5 py-14 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, i) => (

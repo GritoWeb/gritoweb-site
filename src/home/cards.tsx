@@ -96,7 +96,7 @@ export function ServiceCard({
   const ctaColor = variant === 'orange' ? 'text-orange' : 'text-blue'
 
   return (
-    <div className="flex flex-col gap-4 rounded-3xl border border-line bg-white p-7">
+    <div className="flex flex-col gap-4 rounded-3xl border border-line bg-white p-7 justify-center">
       {icon && (
         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${iconBg}`}>
           {icon}
@@ -119,7 +119,7 @@ export function ServiceCard({
       {ctaLabel && href && (
         <a
           href={href}
-          className={`group mt-auto inline-flex items-center gap-1.5 font-display font-medium text-sm no-underline ${ctaColor}`}
+          className={`group inline-flex items-center gap-1.5 font-display font-medium text-sm no-underline ${ctaColor}`}
         >
           {ctaLabel}
           <ArrowIcon

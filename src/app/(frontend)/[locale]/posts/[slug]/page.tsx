@@ -61,14 +61,14 @@ export default async function PostPage({ params: paramsPromise }: Args) {
   return (
     <>
       {/* ── Breadcrumb ──────────────────────────────────────────────── */}
-      <section className="px-6 md:px-12 pt-6">
+      <section className="px-5 pt-6">
         <div className="max-w-7xl mx-auto">
           <Breadcrumb items={breadcrumbItems} />
         </div>
       </section>
 
       {/* ── Hero ────────────────────────────────────────────────────── */}
-      <section className="px-6 md:px-12 py-10 md:py-14">
+      <section className="px-5 py-10 md:py-14">
         <div className="max-w-3xl mx-auto">
           <div className="flex flex-wrap gap-2 mb-5">
             {tags.map((tag) => (
@@ -115,7 +115,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
       {/* ── Featured image ──────────────────────────────────────────── */}
       {featuredImage?.url && (
-        <section className="px-6 md:px-12 pb-12">
+        <section className="px-5 pb-12">
           <div className="max-w-3xl mx-auto">
             <div className="relative rounded-3xl overflow-hidden bg-blue/8" style={{ aspectRatio: featuredImage.width && featuredImage.height ? `${featuredImage.width}/${featuredImage.height}` : '16/9' }}>
               <Image
@@ -132,7 +132,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
       )}
 
       {/* ── Content ─────────────────────────────────────────────────── */}
-      <section className="px-6 md:px-12 pb-16">
+      <section className="px-5 pb-16">
         <div className="max-w-3xl mx-auto prose prose-lg prose-headings:font-display prose-headings:text-blue prose-a:text-blue prose-strong:text-ink">
           <RichText data={p.content} />
         </div>
@@ -140,7 +140,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
       {/* ── Tags footer ─────────────────────────────────────────────── */}
       {tags.length > 0 && (
-        <section className="px-6 md:px-12 pb-10 border-b border-line">
+        <section className="px-5 pb-10 border-b border-line">
           <div className="max-w-3xl mx-auto flex flex-wrap gap-2 items-center">
             <span className="font-body text-xs text-mute uppercase tracking-widest font-bold mr-1">Tags</span>
             {tags.map((tag) => (
@@ -158,7 +158,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
       {/* ── Author bio ──────────────────────────────────────────────── */}
       {authors.length > 0 && (
-        <section className="px-6 md:px-12 py-14">
+        <section className="px-5 py-14">
           <div className="max-w-3xl mx-auto">
             <p className="font-eyebrow m-0 mb-5">Sobre o autor</p>
             <div className="flex flex-col gap-6">
@@ -177,7 +177,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
       {/* ── Posts relacionados ───────────────────────────────────────── */}
       {relatedPosts.length > 0 && (
-        <section className="bg-white border-t border-line px-6 md:px-12 py-16">
+        <section className="bg-white border-t border-line px-5 py-16">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
               <div>

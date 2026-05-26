@@ -52,7 +52,7 @@ export const LatestPostsComponent: React.FC<LatestPostsBlock> = async ({
   })
 
   return (
-    <section className="px-6 md:px-12 py-20">
+    <section className="px-5 py-20">
       <div className="max-w-7xl mx-auto">
         <div className="mb-10">
           <header className="flex flex-row items-center justify-between gap-3">

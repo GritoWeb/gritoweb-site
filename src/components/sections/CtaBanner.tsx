@@ -31,7 +31,7 @@ export function CtaBanner({
   variant?: 'blue' | 'orange' | 'white'
   className?: string
 }) {
-  const root = ['px-12 py-20', className].filter(Boolean).join(' ')
+  const root = ['px-5 py-20', className].filter(Boolean).join(' ')
   const inner = [
     'relative max-w-7xl mx-auto rounded-[32px] overflow-hidden',
     'p-10 md:p-14',

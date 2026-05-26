@@ -112,7 +112,7 @@ export const SectionServicesComponent: React.FC<SectionServicesBlock> = ({
   services,
 }) => {
   return (
-    <section className="px-12 pt-24 pb-8">
+    <section className="px-5 pt-24 pb-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-end justify-between flex-wrap gap-6 mb-10">
           <SectionTitle

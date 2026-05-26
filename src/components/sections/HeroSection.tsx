@@ -20,7 +20,7 @@ export function HeroSection({
   className?: string
 }) {
   const hasMedia = !!media
-  const root = ['relative px-12 py-16', className].filter(Boolean).join(' ')
+  const root = ['relative px-5 py-16', className].filter(Boolean).join(' ')
   const inner = hasMedia
     ? 'max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1.1fr_1fr] items-center gap-12'
     : 'max-w-7xl mx-auto'

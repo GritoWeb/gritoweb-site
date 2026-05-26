@@ -27,7 +27,7 @@ export const ChecklistGridComponent: React.FC<ChecklistGridBlock> = ({
   items,
 }) => {
   return (
-    <section className="px-12 py-22">
+    <section className="px-5 py-22">
       <div className="max-w-7xl mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-14">
           <SectionTitle

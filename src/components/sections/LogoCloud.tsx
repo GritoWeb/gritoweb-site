@@ -11,7 +11,7 @@ type LogoCloudProps = {
 export function LogoCloud({ eyebrow, title, titleClassName = '', description, items }: LogoCloudProps) {
   const titleClasses = ['m-0 text-blue mx-auto', titleClassName].filter(Boolean).join(' ')
   return (
-    <section className="px-6 md:px-12 py-16 bg-white border-y border-line">
+    <section className="px-5 py-16 bg-white border-y border-line">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-10">
           {eyebrow && <p className="font-eyebrow m-0 mb-3">{eyebrow}</p>}

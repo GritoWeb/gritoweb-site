@@ -7,7 +7,7 @@ type AboutSplitProps = {
 
 export function AboutSplit({ media, children }: AboutSplitProps) {
   return (
-    <section className="px-6 md:px-12 py-20">
+    <section className="px-5 py-20">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-14">
         {media && (
           <div className="shrink-0 w-full lg:w-auto flex justify-center">

@@ -235,7 +235,7 @@ export function BlogListingClient({
   }
 
   return (
-    <section className="px-6 md:px-12 !pt-0 py-24">
+    <section className="px-5 !pt-0 py-24">
       <div className="max-w-7xl mx-auto">
         {featuredPost && <FeaturedPostBanner post={featuredPost} />}
 

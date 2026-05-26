@@ -57,7 +57,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
   return (
     <header className="bg-paper border-b border-line relative z-50">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-6 md:px-12 py-[22px]">
+      <div className="flex items-center justify-between px-5 py-[22px]">
         <Link
           href={`/${locale}`}
           aria-label="GritoWeb — home"
