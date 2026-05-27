@@ -119,7 +119,7 @@ export function ServiceCard({
       {ctaLabel && href && (
         <a
           href={href}
-          className={`group inline-flex items-center gap-1.5 font-display font-medium text-sm no-underline ${ctaColor}`}
+          className={`group inline-flex items-center gap-1.5 font-display font-bold text-sm no-underline  ${ctaColor}`}
         >
           {ctaLabel}
           <ArrowIcon

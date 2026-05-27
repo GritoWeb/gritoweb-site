@@ -39,4 +39,15 @@
   @apply py-16 lg:py-24;
 }
 
+/* Imagens de conteúdo: fade-in ao entrar na viewport (ver FadeInImage) */
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in-img {
+    opacity: 0;
+    transition: opacity 0.7s ease;
+  }
+  .fade-in-img.is-visible {
+    opacity: 1;
+  }
+}
+
 @plugin "@tailwindcss/typography";

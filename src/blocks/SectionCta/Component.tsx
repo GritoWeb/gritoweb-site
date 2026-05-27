@@ -1,5 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
+import { FadeInImage } from '@/components/ui/FadeInImage'
 import type { SectionCtaBlock } from '@/payload-types'
 import type { Media } from '@/payload-types'
 import { CtaBanner } from '@/components/sections/CtaBanner'
@@ -52,12 +52,12 @@ export const SectionCtaComponent: React.FC<SectionCtaBlock> = ({
       }
       media={
         media && typeof media !== 'string' ? (
-          <Image
+          <FadeInImage
             src={media.url!}
             alt={media.alt || ''}
             width={media.width ?? 360}
             height={media.height ?? 360}
-            className="w-full max-w-[360px] h-auto animate-fade-in"
+            className="w-full max-w-[360px] h-auto"
           />
         ) : undefined
       }

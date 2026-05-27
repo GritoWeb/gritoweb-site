@@ -18,7 +18,12 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang={lang}>
-      <body className="flex flex-col min-h-screen">{children}</body>
+      <body className="flex flex-col min-h-screen">
+        <noscript>
+          <style>{`.fade-in-img{opacity:1 !important;}`}</style>
+        </noscript>
+        {children}
+      </body>
     </html>
   )
 }

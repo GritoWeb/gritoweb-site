@@ -18,7 +18,7 @@ const sizeClasses: Record<Size, string> = {
 
 const baseClasses = [
   'group inline-flex items-center justify-center gap-2',
-  'rounded-full font-display font-normal no-underline',
+  'rounded-full font-display font-bold no-underline',
   'transition-opacity duration-150 cursor-pointer',
   'motion-reduce:transition-none',
   'hover:opacity-90',
@@ -85,7 +85,7 @@ export function Button({
         href={disabled ? '#' : href}
         aria-disabled={disabled || undefined}
         tabIndex={disabled ? -1 : undefined}
-        className={disabled ? `${classes} opacity-50 cursor-not-allowed pointer-events-none` : classes}
+        className={disabled ? `${classes}  opacity-50 cursor-not-allowed pointer-events-none` : classes}
       >
         {inner}
       </Link>

@@ -53,11 +53,11 @@
   --text-h1: 3.5rem;
   --text-h1--line-height: 1.05;
   --text-h1--letter-spacing: -0.005em;
-  --text-h1--font-weight: 700;
+  --text-h1--font-weight: 900;
 
   --text-h2: 2.75rem;
   --text-h2--line-height: 1.1;
-  --text-h2--font-weight: 700;
+  --text-h2--font-weight: 900;
 
   --text-h3: 2.125rem;
   --text-h3--line-height: 1.2;

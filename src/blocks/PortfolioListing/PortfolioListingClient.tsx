@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
-import Image from 'next/image'
+import { FadeInImage } from '@/components/ui/FadeInImage'
 import type { Media } from '@/payload-types'
 import { parseTitle } from '@/utilities/parseTitle'
 import { titleMaxWidthClass, type TitleMaxWidth } from '@/utilities/titleMaxWidthClass'
@@ -105,7 +105,7 @@ const tagVariantClasses: Record<string, string> = {
 
 function Tag({ children, variant = 'blue' }: { children: React.ReactNode; variant?: 'blue' | 'orange' }) {
   return (
-    <span className={`inline-flex items-center px-2.5 py-[5px] opacity-80 rounded-full font-body text-[0.625rem] font-bold  tracking-[0.04em] ${tagVariantClasses[variant]}`}>
+    <span className={`inline-flex lowercase items-center px-2.5 py-[5px] opacity-80 rounded-full font-body text-[0.625rem] font-bold  tracking-[0.04em] ${tagVariantClasses[variant]}`}>
       {children}
     </span>
   )
@@ -124,7 +124,7 @@ export function PortfolioCardGrid({ item }: { item: PortfolioItem }) {
     >
       <div className={`relative h-[200px] flex items-center justify-center overflow-hidden ${bg}`}>
         {imageUrl ? (
-          <Image
+          <FadeInImage
             src={imageUrl}
             alt={item.image?.alt ?? item.title}
             fill
@@ -150,10 +150,10 @@ export function PortfolioCardGrid({ item }: { item: PortfolioItem }) {
         {item.result && <p className="m-0 font-body text-sm font-medium text-blue mt-auto">{item.result}</p>}
       </div>
       <div className="px-6 pb-5">
-        <span className="inline-flex items-center gap-1.5 font-display text-sm font-medium text-blue">
+        <span aria-hidden="true" className="inline-flex items-center  gap-1.5 font-display text-sm font-bold text-blue">
           Ler mais
           <ArrowIcon
-            size={20}
+            size={24}
             className="transition-transform duration-150 ease-out group-hover:translate-x-1 motion-reduce:transform-none"
           />
         </span>
@@ -170,7 +170,7 @@ function PortfolioCardList({ item }: { item: PortfolioItem }) {
     >
       <div className={`shrink-0 w-16 h-16 rounded-xl flex items-center justify-center overflow-hidden relative ${accentBg[item.accent ?? 'blue']}`}>
         {item.image?.url ? (
-          <Image
+          <FadeInImage
             src={item.image.url}
             alt={item.image.alt ?? item.title}
             fill

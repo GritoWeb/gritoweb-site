@@ -138,7 +138,7 @@ function Button({
   }
   const base = [
     'inline-flex items-center justify-center gap-2',
-    'rounded-full font-display font-normal px-6 py-3 text-base',
+    'rounded-full font-display font-bold px-6 py-3 text-base',
     'transition-opacity duration-150 cursor-pointer motion-reduce:transition-none',
     'hover:opacity-90',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper',

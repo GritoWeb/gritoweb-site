@@ -68,13 +68,7 @@ export const LatestPostsComponent: React.FC<LatestPostsBlock> = async ({
                 </h2>
               )}
             </div>
-            {buttonLabel && (
-              <div className="mt-10">
-                <Button variant="blue" href={buttonHref ?? '/posts'} icon={<ArrowIcon size={24} />}>
-                  {buttonLabel}
-                </Button>
-              </div>
-            )}
+
           </header>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -82,7 +76,13 @@ export const LatestPostsComponent: React.FC<LatestPostsBlock> = async ({
             <PostCard key={post.id} post={post} index={i} />
           ))}
         </div>
-
+        {buttonLabel && (
+          <div className="mt-10">
+            <Button variant="blue" href={buttonHref ?? '/posts'} icon={<ArrowIcon size={24} />}>
+              {buttonLabel}
+            </Button>
+          </div>
+        )}
       </div>
     </section>
   )

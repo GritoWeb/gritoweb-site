@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import Image from 'next/image'
+import { FadeInImage } from '@/components/ui/FadeInImage'
 import Link from 'next/link'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 
@@ -130,7 +130,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
         <section className="px-5 pb-12">
           <div className="max-w-3xl mx-auto">
             <div className="relative rounded-3xl overflow-hidden bg-blue/8" style={{ aspectRatio: featuredImage.width && featuredImage.height ? `${featuredImage.width}/${featuredImage.height}` : '16/9' }}>
-              <Image
+              <FadeInImage
                 src={featuredImage.url}
                 alt={featuredImage.alt ?? p.title}
                 fill

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import Image from 'next/image'
+import { FadeInImage } from '@/components/ui/FadeInImage'
 import Link from 'next/link'
 
 import type { Metadata } from 'next'
@@ -142,7 +142,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
 
           <div className="relative bg-blue rounded-3xl p-8 min-h-[300px] md:min-h-[420px] flex items-center justify-center overflow-hidden">
             {coverImage?.url ? (
-              <Image
+              <FadeInImage
                 src={coverImage.url}
                 alt={coverImage.alt ?? p.title}
                 fill

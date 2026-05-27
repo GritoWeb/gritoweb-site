@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
-import Image from 'next/image'
+import { FadeInImage } from '@/components/ui/FadeInImage'
 import type { Media } from '@/payload-types'
 import { parseTitle } from '@/utilities/parseTitle'
 import { titleMaxWidthClass, type TitleMaxWidth } from '@/utilities/titleMaxWidthClass'
@@ -121,7 +121,7 @@ export function PostCard({ post, index }: { post: PostItem; index: number }) {
     >
       <div className={`h-[200px] flex items-center justify-center overflow-hidden ${accentBg[index % 2]}`}>
         {imageUrl ? (
-          <Image
+          <FadeInImage
             src={imageUrl}
             alt={image?.alt ?? post.title}
             width={600}
@@ -142,7 +142,7 @@ export function PostCard({ post, index }: { post: PostItem; index: number }) {
         </div>
         <h3 className="m-0 font-bold text-[22px] leading-tight">{post.title}</h3>
         {post.excerpt && <p className="m-0 text-sm text-mute line-clamp-3">{post.excerpt}</p>}
-        <span className="mt-2 font-display font-medium text-sm text-blue inline-flex items-center gap-1.5">
+        <span aria-hidden="true" className="mt-2 font-display font-bold text-sm text-blue inline-flex items-center gap-1.5">
           Ler mais
           <ArrowIcon
             size={24}
@@ -180,7 +180,7 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
           {post.excerpt && <p className="mt-4 max-w-xl text-white/85">{post.excerpt}</p>}
           <div className="flex flex-wrap items-center gap-4 mt-6 text-sm text-white/90">
             {post.categoryLabel && (
-              <span className="inline-flex items-center px-2.5 py-[5px] opacity-80 rounded-full font-body text-[0.625rem] font-bold  tracking-[0.04em] bg-orange text-white">
+              <span className="inline-flex lowercase items-center px-2.5 py-[5px] opacity-80 rounded-full font-body text-[0.625rem] font-bold  tracking-[0.04em] bg-orange text-white">
                 {post.categoryLabel}
               </span>
             )}
@@ -197,7 +197,7 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
         </div>
         <div className="bg-paper-dim flex items-center justify-center p-10 relative">
           {imageUrl ? (
-            <Image
+            <FadeInImage
               src={imageUrl}
               alt={post.image?.alt ?? post.title}
               width={400}

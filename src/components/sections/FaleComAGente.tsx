@@ -1,7 +1,7 @@
 import React from 'react'
 
 const channelClasses =
-  'inline-flex items-center gap-3 px-6 py-3.5 rounded-full border-[1.5px] border-blue text-blue no-underline font-display font-medium transition-colors duration-150 motion-reduce:transition-none hover:bg-blue hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper'
+  'inline-flex items-center gap-3 px-6 py-3.5 rounded-full border-[1.5px] border-blue text-blue no-underline font-display font-bold transition-colors duration-150 motion-reduce:transition-none hover:bg-blue hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper'
 
 function MailIcon() {
   return (

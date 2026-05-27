@@ -31,7 +31,7 @@ const buttonSize: Record<string, string> = {
 
 const buttonBase = [
   'group inline-flex items-center justify-center gap-2',
-  'rounded-full font-display font-medium no-underline',
+  'rounded-full font-display font-bold no-underline',
   'transition-opacity duration-150 cursor-pointer',
   'motion-reduce:transition-none',
   'hover:opacity-90',
@@ -122,7 +122,7 @@ const tagVariant: Record<string, string> = {
 }
 
 const tagBase =
-  'inline-flex items-center px-3 py-1.5 rounded-full font-body text-xs font-bold uppercase tracking-[0.04em]'
+  'inline-flex items-center px-3 py-1.5 rounded-full  text-xs font-bold uppercase tracking-[0.04em]'
 
 export function Tag({
   children,
@@ -240,7 +240,7 @@ export function IconBadge({
 // ── StepBullet ─────────────────────────────────────────────
 
 const stepBulletBase =
-  'inline-flex items-center justify-center h-14 w-14 rounded-full font-display font-black text-xl'
+  'inline-flex items-center justify-center h-14 w-14 rounded-full font-display text-xl'
 
 const stepBulletVariant: Record<string, string> = {
   blue: 'bg-blue text-white',

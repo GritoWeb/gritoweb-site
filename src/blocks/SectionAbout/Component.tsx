@@ -1,5 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
+import { FadeInImage } from '@/components/ui/FadeInImage'
 import type { SectionAboutBlock } from '@/payload-types'
 import type { Media } from '@/payload-types'
 import { AboutSplit, AboutFeatures } from '@/components/sections'
@@ -25,7 +25,7 @@ export const SectionAboutComponent: React.FC<SectionAboutBlock> = ({
       <AboutSplit
         media={
           media && typeof media !== 'string' ? (
-            <Image
+            <FadeInImage
               src={media.url!}
               alt={media.alt || ''}
               width={media.width ?? 520}
