@@ -56,7 +56,7 @@ export const LatestPortfoliosComponent: React.FC<LatestPortfoliosBlock> = async 
   })
 
   return (
-    <section className="px-5 py-20">
+    <section className="px-5 section-y">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-end  justify-between flex-wrap gap-6 mb-10">
           <header className="flex flex-col gap-3">

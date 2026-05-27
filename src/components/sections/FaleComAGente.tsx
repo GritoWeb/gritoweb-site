@@ -35,7 +35,7 @@ export function FaleComAGente({
   chatMark: React.ReactNode
   className?: string
 }) {
-  const root = ['relative px-5 py-20 bg-paper border-t border-line', className].filter(Boolean).join(' ')
+  const root = ['relative px-5 section-y bg-paper border-t border-line', className].filter(Boolean).join(' ')
 
   return (
     <section className={root}>

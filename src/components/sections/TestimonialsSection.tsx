@@ -9,7 +9,7 @@ export function TestimonialsSection({
   children: React.ReactNode
   className?: string
 }) {
-  const root = ['relative px-6 lg:px-12 py-20 lg:py-24', className].filter(Boolean).join(' ')
+  const root = ['relative px-6 lg:px-12 section-y', className].filter(Boolean).join(' ')
   return (
     <section className={root}>
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">

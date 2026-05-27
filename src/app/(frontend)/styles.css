@@ -34,4 +34,9 @@
   }
 }
 
+/* Espaçamento vertical padrão das seções/blocos (mobile → desktop) */
+@utility section-y {
+  @apply py-16 lg:py-24;
+}
+
 @plugin "@tailwindcss/typography";

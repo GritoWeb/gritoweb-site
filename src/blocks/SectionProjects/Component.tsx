@@ -50,7 +50,7 @@ export const SectionProjectsComponent: React.FC<SectionProjectsBlock> = ({
   projects,
 }) => {
   return (
-    <section className="bg-white border-y border-line px-5 py-20">
+    <section className="bg-white border-y border-line px-5 section-y">
       <div className="max-w-7xl mx-auto">
         <div className="flex items-end justify-between flex-wrap gap-6 mb-9">
           <SectionTitle

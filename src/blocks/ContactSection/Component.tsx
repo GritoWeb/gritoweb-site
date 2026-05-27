@@ -262,7 +262,7 @@ export const ContactSectionComponent: React.FC<ContactSectionBlock> = ({
   }
 
   return (
-    <section className="px-5 py-24">
+    <section className="px-5 section-y">
       {(eyebrow || heading) && (
         <div className="max-w-5xl mx-auto mb-14">
           {eyebrow && <p className="font-eyebrow m-0 mb-3">{eyebrow}</p>}
