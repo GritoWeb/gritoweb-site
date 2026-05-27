@@ -113,30 +113,6 @@ export const Posts: CollectionConfig<'posts'> = {
             },
           ],
         },
-        {
-          name: 'meta',
-          label: 'SEO',
-          fields: [
-            {
-              name: 'title',
-              label: 'Meta Title',
-              type: 'text',
-              localized: true,
-            },
-            {
-              name: 'description',
-              label: 'Meta Description',
-              type: 'textarea',
-              localized: true,
-            },
-            {
-              name: 'image',
-              label: 'Meta Image',
-              type: 'upload',
-              relationTo: 'media',
-            },
-          ],
-        },
       ],
     },
     {

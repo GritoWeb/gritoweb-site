@@ -7,6 +7,12 @@ import { fileURLToPath } from 'url'
 import { CloudflareContext, getCloudflareContext } from '@opennextjs/cloudflare'
 import { GetPlatformProxyOptions } from 'wrangler'
 import { r2Storage } from '@payloadcms/storage-r2'
+import { seoPlugin } from '@payloadcms/plugin-seo'
+import type {
+  GenerateTitle,
+  GenerateDescription,
+  GenerateURL,
+} from '@payloadcms/plugin-seo/types'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -51,6 +57,25 @@ const cloudflare =
     ? await getCloudflareContextFromWrangler()
     : await getCloudflareContext({ async: true })
 
+// SEO plugin — defaults used by the "auto-generate" buttons in the admin.
+type SeoDoc = { title?: string; excerpt?: string; summary?: string; slug?: string }
+
+const generateTitle: GenerateTitle = ({ doc }) => {
+  const { title } = (doc ?? {}) as SeoDoc
+  return title ? `${title} | Grito` : 'Grito'
+}
+
+const generateDescription: GenerateDescription = ({ doc }) => {
+  const { excerpt, summary } = (doc ?? {}) as SeoDoc
+  return excerpt || summary || ''
+}
+
+const generateURL: GenerateURL = ({ doc }) => {
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? ''
+  const { slug } = (doc ?? {}) as SeoDoc
+  return slug ? `${base}/${slug}` : base
+}
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -82,6 +107,21 @@ export default buildConfig({
     r2Storage({
       bucket: cloudflare.env.R2,
       collections: { media: true },
+    }),
+    seoPlugin({
+      collections: ['pages', 'posts', 'portfolios'],
+      uploadsCollection: 'media',
+      generateTitle,
+      generateDescription,
+      generateURL,
+      // Plugin defaults title/description/image to localized. Keep title and
+      // description per-locale (pt/en), but make the OG image a single shared value.
+      fields: ({ defaultFields }) =>
+        defaultFields.map((field) =>
+          'name' in field && field.name === 'image'
+            ? { ...field, localized: false }
+            : field,
+        ),
     }),
   ],
 })

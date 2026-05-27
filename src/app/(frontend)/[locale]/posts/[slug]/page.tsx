@@ -7,7 +7,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { RichText } from '@payloadcms/richtext-lexical/react'
 
+import type { Metadata } from 'next'
+
 import type { Post, Media, Tag, User } from '@/payload-types'
+import { generateMeta } from '@/utilities/generateMeta'
 import { ArrowIcon } from '@/components/ui/ArrowIcon'
 import { parseTitle } from '@/utilities/parseTitle'
 import { Breadcrumb } from '@/components/ui/Breadcrumb'
@@ -19,6 +22,15 @@ import { ChatMark } from '@/home/illustrations'
 export const dynamic = 'force-dynamic'
 
 type Args = { params: Promise<{ locale: string; slug: string }> }
+
+export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+  const { locale, slug } = await paramsPromise
+  const post = await queryPostBySlug({
+    slug: decodeURIComponent(slug),
+    locale: locale as 'pt' | 'en',
+  })
+  return generateMeta({ doc: post, locale: locale as 'pt' | 'en' })
+}
 
 export default async function PostPage({ params: paramsPromise }: Args) {
   const { locale, slug } = await paramsPromise

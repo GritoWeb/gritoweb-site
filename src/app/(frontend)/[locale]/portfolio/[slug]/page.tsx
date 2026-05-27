@@ -6,7 +6,10 @@ import configPromise from '@payload-config'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import type { Metadata } from 'next'
+
 import type { Portfolio, Media, PortfolioTag } from '@/payload-types'
+import { generateMeta } from '@/utilities/generateMeta'
 import { parseTitle } from '@/utilities/parseTitle'
 import { ArrowIcon } from '@/components/ui/ArrowIcon'
 import { Button } from '@/components/Button'
@@ -23,6 +26,15 @@ import { Sparkle, ChatMark } from '@/home/illustrations'
 export const dynamic = 'force-dynamic'
 
 type Args = { params: Promise<{ locale: string; slug: string }> }
+
+export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+  const { locale, slug } = await paramsPromise
+  const portfolio = await queryPortfolioBySlug({
+    slug: decodeURIComponent(slug),
+    locale: locale as 'pt' | 'en',
+  })
+  return generateMeta({ doc: portfolio, locale: locale as 'pt' | 'en' })
+}
 
 export default async function PortfolioPage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
