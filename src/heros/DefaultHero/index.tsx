@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import type { Page } from '@/payload-types'
 import type { Media } from '@/payload-types'
 import { HeroSection } from '@/components/sections'
@@ -8,6 +7,7 @@ import { parseTitle } from '@/utilities/parseTitle'
 import { titleMaxWidthClass, type TitleMaxWidth } from '@/utilities/titleMaxWidthClass'
 import { Sparkle } from '@/home/illustrations'
 import { ArrowIcon } from '@/components/ui/ArrowIcon'
+import { FadeInImage } from '@/components/ui/FadeInImage'
 
 export const DefaultHero: React.FC<Page['hero']> = ({
   eyebrow,
@@ -48,14 +48,15 @@ export const DefaultHero: React.FC<Page['hero']> = ({
         }
         media={
           media && typeof media !== 'string' ? (
-            <div className="relative animate-fade-in">
-              <Sparkle size={38} color="#282828" className="absolute top-5 right-12" />
-              <Sparkle size={24} color="#FE9D2B" className="absolute bottom-14 left-2.5" />
-              <Image
+            <div className="relative">
+              <Sparkle size={38} color="#282828" className="absolute top-5 right-12 animate-fade-in" />
+              <Sparkle size={24} color="#FE9D2B" className="absolute bottom-14 left-2.5 animate-fade-in" />
+              <FadeInImage
                 src={media.url!}
                 alt={media.alt || ''}
                 width={media.width ?? 480}
                 height={media.height ?? 480}
+                priority
                 className="w-full max-w-[480px] h-auto"
               />
             </div>
