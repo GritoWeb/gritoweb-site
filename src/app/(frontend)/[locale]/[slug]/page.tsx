@@ -8,7 +8,10 @@ import type { Metadata } from 'next'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
+import { buildAsyncBlocks } from '@/blocks/buildAsyncBlocks'
 import { generateMeta } from '@/utilities/generateMeta'
+import { PageContent } from '@/components/PageContent'
+import type { Page } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,6 +38,15 @@ export default async function Page({ params: paramsPromise }: Args) {
   const page = await queryPageBySlug({ slug: decodedSlug, locale: locale as 'pt' | 'en', draft })
 
   if (!page) notFound()
+
+  if (draft) {
+    const asyncBlocks = buildAsyncBlocks(page.layout)
+    return (
+      <article>
+        <PageContent initialPage={page as Page} asyncBlocks={asyncBlocks} />
+      </article>
+    )
+  }
 
   return (
     <article>
