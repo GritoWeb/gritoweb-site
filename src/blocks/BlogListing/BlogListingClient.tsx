@@ -7,6 +7,7 @@ import type { Media } from '@/payload-types'
 import { parseTitle } from '@/utilities/parseTitle'
 import { titleMaxWidthClass, type TitleMaxWidth } from '@/utilities/titleMaxWidthClass'
 import { ArrowIcon } from '@/components/ui/ArrowIcon'
+import { AnimatedCard } from '@/components/ui/AnimatedCard'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -473,13 +474,9 @@ export function BlogListingClient({
         {slice.length > 0 ? (
           <div key={`${activeFilter}-${safePage}`} className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {slice.map((post, i) => (
-              <div
-                key={post.id}
-                className="h-full animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both motion-reduce:animate-none"
-                style={{ animationDelay: `${i * 60}ms` }}
-              >
+              <AnimatedCard key={post.id} delay={i * 60}>
                 <PostCard post={post} index={(safePage - 1) * postsPerPage + i} locale={locale} />
-              </div>
+              </AnimatedCard>
             ))}
           </div>
         ) : (

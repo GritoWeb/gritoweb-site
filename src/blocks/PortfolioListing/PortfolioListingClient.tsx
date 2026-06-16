@@ -7,6 +7,7 @@ import type { Media } from '@/payload-types'
 import { parseTitle } from '@/utilities/parseTitle'
 import { titleMaxWidthClass, type TitleMaxWidth } from '@/utilities/titleMaxWidthClass'
 import { ArrowIcon } from '@/components/ui/ArrowIcon'
+import { AnimatedCard } from '@/components/ui/AnimatedCard'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -386,13 +387,9 @@ export const PortfolioListingClient: React.FC<PortfolioListingClientProps> = ({
         {view === 'grid' && (
           <div key={`grid-${activeFilter}`} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((item, i) => (
-              <div
-                key={item.id}
-                className="h-full animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both motion-reduce:animate-none"
-                style={{ animationDelay: `${i * 60}ms` }}
-              >
+              <AnimatedCard key={item.id} delay={i * 60}>
                 <PortfolioCardGrid item={item} />
-              </div>
+              </AnimatedCard>
             ))}
           </div>
         )}
@@ -400,13 +397,9 @@ export const PortfolioListingClient: React.FC<PortfolioListingClientProps> = ({
         {view === 'list' && (
           <div key={`list-${activeFilter}`} className="flex flex-col gap-3">
             {filtered.map((item, i) => (
-              <div
-                key={item.id}
-                className="animate-in fade-in slide-in-from-bottom-3 duration-500 fill-mode-both motion-reduce:animate-none"
-                style={{ animationDelay: `${i * 50}ms` }}
-              >
+              <AnimatedCard key={item.id} delay={i * 50} className="">
                 <PortfolioCardList item={item} />
-              </div>
+              </AnimatedCard>
             ))}
           </div>
         )}
