@@ -23,14 +23,22 @@ export function FadeInImage({ className, alt, onLoad, priority, ...props }: Imag
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    // Priority (LCP) images must never start hidden — skip the fade entirely.
-    if (priority) return
-
     const el = ref.current
     if (!el) return
 
-    // The image may already be complete (served from cache) before onLoad fires.
-    if (el.complete && el.naturalWidth > 0) setLoaded(true)
+    // Cached images won't fire onLoad — reveal immediately without waiting for
+    // the IntersectionObserver, which may never fire during page transitions.
+    if (el.complete && el.naturalWidth > 0) {
+      setLoaded(true)
+      setInView(true)
+      return
+    }
+
+    // Priority images are already in view — skip the IntersectionObserver.
+    if (priority) {
+      setInView(true)
+      return
+    }
 
     if (typeof IntersectionObserver === 'undefined') {
       setInView(true)
@@ -53,9 +61,7 @@ export function FadeInImage({ className, alt, onLoad, priority, ...props }: Imag
     return () => observer.disconnect()
   }, [priority])
 
-  const merged = priority
-    ? className
-    : ['fade-in-img', inView && loaded && 'is-visible', className].filter(Boolean).join(' ')
+  const merged = ['fade-in-img', inView && loaded && 'is-visible', className].filter(Boolean).join(' ')
 
   return (
     <Image
@@ -65,10 +71,10 @@ export function FadeInImage({ className, alt, onLoad, priority, ...props }: Imag
       alt={alt}
       className={merged}
       onLoad={(event) => {
-        if (!priority) setLoaded(true)
+        setLoaded(true)
         onLoad?.(event)
       }}
-      onError={() => { if (!priority) setLoaded(true) }}
+      onError={() => { setLoaded(true) }}
     />
   )
 }
