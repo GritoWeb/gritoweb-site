@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const locales = ['pt', 'en'] as const
-const defaultLocale = 'pt'
 const cookieName = 'NEXT_LOCALE'
+
+const cookieOptions = {
+  path: '/',
+  maxAge: 60 * 60 * 24 * 365,
+  sameSite: 'lax' as const,
+}
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
@@ -18,39 +22,31 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Check if URL already has a valid locale prefix
-  const pathnameLocale = locales.find(
-    (loc) => pathname.startsWith(`/${loc}/`) || pathname === `/${loc}`,
-  )
-
-  if (pathnameLocale) {
-    // URL already has locale prefix — forward via header and keep cookie in sync
-    const requestHeaders = new Headers(request.headers)
-    requestHeaders.set('x-locale', pathnameLocale)
-
-    const response = NextResponse.next({ request: { headers: requestHeaders } })
-    response.cookies.set(cookieName, pathnameLocale, {
-      path: '/',
-      maxAge: 60 * 60 * 24 * 365,
-      sameSite: 'lax',
-    })
+  // Redirect legacy /pt URLs to the unprefixed version (Portuguese is the default)
+  if (pathname.startsWith('/pt/') || pathname === '/pt') {
+    const rest = pathname.slice(3)
+    const newUrl = new URL(rest || '/', request.url)
+    newUrl.search = request.nextUrl.search
+    const response = NextResponse.redirect(newUrl, 301)
+    response.cookies.set(cookieName, 'pt', cookieOptions)
     return response
   }
 
-  // No locale prefix — detect locale and redirect
-  const cookieLocale = request.cookies.get(cookieName)?.value
-  const validCookieLocale = locales.includes(cookieLocale as (typeof locales)[number])
-    ? (cookieLocale as (typeof locales)[number])
-    : null
+  // /en/* — serve English, pass through
+  if (pathname.startsWith('/en/') || pathname === '/en') {
+    const requestHeaders = new Headers(request.headers)
+    requestHeaders.set('x-locale', 'en')
+    const response = NextResponse.next({ request: { headers: requestHeaders } })
+    response.cookies.set(cookieName, 'en', cookieOptions)
+    return response
+  }
 
-  const acceptLanguage = request.headers.get('accept-language') ?? ''
-  const browserLocale = acceptLanguage.toLowerCase().startsWith('pt') ? 'pt' : defaultLocale
-
-  const locale = validCookieLocale ?? browserLocale
-
-  const newUrl = new URL(`/${locale}${pathname}`, request.url)
-  newUrl.search = request.nextUrl.search
-  return NextResponse.redirect(newUrl, 307)
+  // No locale prefix — serve Portuguese (default, no redirect)
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-locale', 'pt')
+  const response = NextResponse.next({ request: { headers: requestHeaders } })
+  response.cookies.set(cookieName, 'pt', cookieOptions)
+  return response
 }
 
 export const config = {

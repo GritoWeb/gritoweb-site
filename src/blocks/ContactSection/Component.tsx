@@ -3,6 +3,8 @@
 import React, { useState, useId, Children, cloneElement, isValidElement } from 'react'
 import type { ContactSectionBlock } from '@/payload-types'
 import { ArrowIcon } from '@/components/ui/ArrowIcon'
+import { Button } from '@/components/Button'
+import { submitContact } from './actions'
 
 // ── Icons ────────────────────────────────────────────────────────────────────
 
@@ -120,43 +122,6 @@ function FormField({
   )
 }
 
-function Button({
-  children,
-  variant = 'primary',
-  icon,
-  iconPosition = 'right',
-  className = '',
-  ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: 'primary' | 'ghost'
-  icon?: React.ReactNode
-  iconPosition?: 'left' | 'right'
-}) {
-  const variantClasses = {
-    primary: 'bg-orange text-white',
-    ghost: 'bg-transparent text-ink-soft border-[1.5px] border-line hover:border-blue hover:text-blue',
-  }
-  const base = [
-    'inline-flex items-center justify-center gap-2',
-    'rounded-full font-display font-bold px-6 py-3 text-base',
-    'transition-opacity duration-150 cursor-pointer motion-reduce:transition-none',
-    'hover:opacity-90',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper',
-    'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none',
-    variantClasses[variant],
-    className,
-  ]
-    .filter(Boolean)
-    .join(' ')
-
-  return (
-    <button className={base} {...props}>
-      {icon && iconPosition === 'left' && icon}
-      {children}
-      {icon && iconPosition === 'right' && icon}
-    </button>
-  )
-}
 
 function IconBadge({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
@@ -245,11 +210,7 @@ export const ContactSectionComponent: React.FC<ContactSectionBlock> = ({
     event.preventDefault()
     setLoading(true)
     try {
-      await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
-      })
+      await submitContact(form)
     } finally {
       setLoading(false)
       setSent(true)

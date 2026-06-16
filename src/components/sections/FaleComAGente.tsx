@@ -38,7 +38,7 @@ export function FaleComAGente({
   const root = ['relative px-5 section-y bg-paper border-t border-line', className].filter(Boolean).join(' ')
 
   return (
-    <section className={root}>
+    <section aria-label="Contato" className={root}>
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-12">
         <div className="flex flex-col text-center lg:text-start lg:flex-row items-center lg:gap-6">
           {chatMark}

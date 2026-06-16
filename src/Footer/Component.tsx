@@ -90,17 +90,19 @@ type HeaderNavItem = NonNullable<Header['navItems']>[number]
 function resolveHref(link: HeaderNavItem['link'], locale: string): string {
   if (link.type === 'reference' && link.reference && typeof link.reference.value === 'object') {
     const slug = (link.reference.value as Page).slug
-    return `/${locale}/${slug}`
+    return locale === 'en' ? `/en/${slug}` : `/${slug}`
   }
   return link.url ?? '#'
 }
 
 function LinkColumn({ title, items }: { title: string; items: { label: string; href: string }[] }) {
+  const visibleItems = items.filter((item) => item.href !== '#')
+  if (visibleItems.length === 0) return null
   return (
     <nav aria-label={title}>
       <h3 className={columnTitleClasses}>{title}</h3>
       <ul className={listClasses}>
-        {items.map((item) => (
+        {visibleItems.map((item) => (
           <li key={item.label}>
             <Link href={item.href} className={linkClasses}>
               {item.label}
@@ -132,19 +134,21 @@ export async function FooterComponent({ locale = 'pt' }: { locale?: string }) {
               {description}
             </p>
 
-            <ul className="flex gap-2.5 mt-6 list-none p-0 m-0">
-              {socials.map((social) => (
-                <li key={social.label}>
-                  <a
-                    href={social.href}
-                    aria-label={social.label}
-                    className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-white/20 text-white no-underline transition-colors duration-150 motion-reduce:transition-none hover:bg-white/10 hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-blue"
-                  >
-                    {social.icon}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            {socials.some((s) => s.href !== '#') && (
+              <ul className="flex gap-2.5 mt-6 list-none p-0 m-0">
+                {socials.filter((s) => s.href !== '#').map((social) => (
+                  <li key={social.label}>
+                    <a
+                      href={social.href}
+                      aria-label={social.label}
+                      className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-white/20 text-white no-underline transition-colors duration-150 motion-reduce:transition-none hover:bg-white/10 hover:border-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-blue"
+                    >
+                      {social.icon}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <LinkColumn title="Navigation" items={nav} />
@@ -169,18 +173,20 @@ export async function FooterComponent({ locale = 'pt' }: { locale?: string }) {
 
         <div className="flex items-center justify-between flex-wrap gap-4">
           <small className="font-body text-xs text-white/60 tracking-tight">{copyright}</small>
-          <ul className="flex items-center gap-5 list-none p-0 m-0 flex-wrap">
-            {policies.map((policy, index) => (
-              <li key={policy.label} className="flex items-center gap-5">
-                {index > 0 && (
-                  <span aria-hidden="true" className="text-white/25 text-xs">·</span>
-                )}
-                <Link href={policy.href} className={`${linkClasses} text-xs`}>
-                  {policy.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {policies.some((p) => p.href !== '#') && (
+            <ul className="flex items-center gap-5 list-none p-0 m-0 flex-wrap">
+              {policies.filter((p) => p.href !== '#').map((policy, index) => (
+                <li key={policy.label} className="flex items-center gap-5">
+                  {index > 0 && (
+                    <span aria-hidden="true" className="text-white/25 text-xs">·</span>
+                  )}
+                  <Link href={policy.href} className={`${linkClasses} text-xs`}>
+                    {policy.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </footer>

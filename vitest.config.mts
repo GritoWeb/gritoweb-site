@@ -8,5 +8,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     include: ['tests/int/**/*.int.spec.ts'],
+    // Integration tests share a single local D1 (miniflare) SQLite file; running test
+    // files in parallel causes lock contention. Run them sequentially.
+    fileParallelism: false,
   },
 })

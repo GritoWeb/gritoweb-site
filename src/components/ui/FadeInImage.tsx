@@ -17,12 +17,15 @@ import { useEffect, useRef, useState } from 'react'
  * the hidden state (handled in CSS), and environments without
  * IntersectionObserver reveal the image as soon as it loads.
  */
-export function FadeInImage({ className, alt, onLoad, ...props }: ImageProps) {
+export function FadeInImage({ className, alt, onLoad, priority, ...props }: ImageProps) {
   const ref = useRef<HTMLImageElement | null>(null)
   const [inView, setInView] = useState(false)
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
+    // Priority (LCP) images must never start hidden — skip the fade entirely.
+    if (priority) return
+
     const el = ref.current
     if (!el) return
 
@@ -48,23 +51,24 @@ export function FadeInImage({ className, alt, onLoad, ...props }: ImageProps) {
 
     observer.observe(el)
     return () => observer.disconnect()
-  }, [])
+  }, [priority])
 
-  const merged = ['fade-in-img', inView && loaded && 'is-visible', className]
-    .filter(Boolean)
-    .join(' ')
+  const merged = priority
+    ? className
+    : ['fade-in-img', inView && loaded && 'is-visible', className].filter(Boolean).join(' ')
 
   return (
     <Image
       {...props}
+      priority={priority}
       ref={ref}
       alt={alt}
       className={merged}
       onLoad={(event) => {
-        setLoaded(true)
+        if (!priority) setLoaded(true)
         onLoad?.(event)
       }}
-      onError={() => setLoaded(true)}
+      onError={() => { if (!priority) setLoaded(true) }}
     />
   )
 }

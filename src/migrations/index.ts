@@ -22,6 +22,8 @@ import * as migration_20260520_184119___name from './20260520_184119___name';
 import * as migration_20260520_200609 from './20260520_200609';
 import * as migration_20260521_114354_hero_title_max_width from './20260521_114354_hero_title_max_width';
 import * as migration_20260527_124345_add_seo_meta_fields from './20260527_124345_add_seo_meta_fields';
+import * as migration_20260603_add_2fa_fields from './20260603_add_2fa_fields';
+import * as migration_20260615_141615_add_posts_fts from './20260615_141615_add_posts_fts';
 
 export const migrations = [
   {
@@ -142,6 +144,16 @@ export const migrations = [
   {
     up: migration_20260527_124345_add_seo_meta_fields.up,
     down: migration_20260527_124345_add_seo_meta_fields.down,
-    name: '20260527_124345_add_seo_meta_fields'
+    name: '20260527_124345_add_seo_meta_fields',
+  },
+  {
+    up: migration_20260603_add_2fa_fields.up,
+    down: migration_20260603_add_2fa_fields.down,
+    name: '20260603_add_2fa_fields',
+  },
+  {
+    up: migration_20260615_141615_add_posts_fts.up,
+    down: migration_20260615_141615_add_posts_fts.down,
+    name: '20260615_141615_add_posts_fts'
   },
 ];

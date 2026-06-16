@@ -13,7 +13,7 @@ function initials(name = '') {
 
 export const PullQuoteComponent: React.FC<PullQuoteBlock> = ({ eyebrow, quote, author, role }) => {
   return (
-    <section className="bg-white border-y border-line px-5 section-y">
+    <section aria-label="Depoimento em destaque" className="bg-white border-y border-line px-5 section-y">
       <div className="max-w-3xl mx-auto text-center relative">
         <Sparkle size={32} color="#1A5EAB" className="absolute top-0 left-0 opacity-25" />
         <Sparkle size={24} color="#FE9D2B" className="absolute bottom-0 right-0 opacity-25" />

@@ -21,20 +21,20 @@ import { ChatMark } from '@/home/illustrations'
 
 export const dynamic = 'force-dynamic'
 
-type Args = { params: Promise<{ locale: string; slug: string }> }
+const locale = 'pt' as const
+
+type Args = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { locale, slug } = await paramsPromise
-  const post = await queryPostBySlug({
-    slug: decodeURIComponent(slug),
-    locale: locale as 'pt' | 'en',
-  })
-  return generateMeta({ doc: post, locale: locale as 'pt' | 'en' })
+  const { slug } = await paramsPromise
+  const decodedSlug = decodeURIComponent(slug)
+  const post = await queryPostBySlug({ slug: decodedSlug })
+  return generateMeta({ doc: post, locale, path: `/posts/${decodedSlug}` })
 }
 
 export default async function PostPage({ params: paramsPromise }: Args) {
-  const { locale, slug } = await paramsPromise
-  const post = await queryPostBySlug({ slug: decodeURIComponent(slug), locale: locale as 'pt' | 'en' })
+  const { slug } = await paramsPromise
+  const post = await queryPostBySlug({ slug: decodeURIComponent(slug) })
   if (!post) notFound()
 
   const p = post as Post
@@ -59,13 +59,12 @@ export default async function PostPage({ params: paramsPromise }: Args) {
     })
 
   const firstTag = tags[0] ?? null
-  const dateLocale = locale === 'en' ? 'en-US' : 'pt-BR'
   const publishedDate = p.publishedAt
-    ? new Intl.DateTimeFormat(dateLocale, { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date(p.publishedAt))
+    ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date(p.publishedAt))
     : null
 
   const breadcrumbItems = [
-    { label: 'Blog', href: `/${locale}/blog` },
+    { label: 'Blog', href: '/blog' },
     ...(firstTag ? [{ label: firstTag.title }] : []),
     { label: p.title },
   ]
@@ -73,11 +72,11 @@ export default async function PostPage({ params: paramsPromise }: Args) {
   return (
     <>
       {/* ── Breadcrumb ──────────────────────────────────────────────── */}
-      <section className="px-5 pt-6">
+      <div className="px-5 pt-6">
         <div className="max-w-7xl mx-auto">
           <Breadcrumb items={breadcrumbItems} />
         </div>
-      </section>
+      </div>
 
       {/* ── Hero ────────────────────────────────────────────────────── */}
       <section className="px-5 py-10 md:py-14">
@@ -127,7 +126,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
       {/* ── Featured image ──────────────────────────────────────────── */}
       {featuredImage?.url && (
-        <section className="px-5 pb-12">
+        <div className="px-5 pb-12">
           <div className="max-w-3xl mx-auto">
             <div className="relative rounded-3xl overflow-hidden bg-blue/8" style={{ aspectRatio: featuredImage.width && featuredImage.height ? `${featuredImage.width}/${featuredImage.height}` : '16/9' }}>
               <Image
@@ -140,7 +139,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
               />
             </div>
           </div>
-        </section>
+        </div>
       )}
 
       {/* ── Content ─────────────────────────────────────────────────── */}
@@ -152,20 +151,20 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
       {/* ── Tags footer ─────────────────────────────────────────────── */}
       {tags.length > 0 && (
-        <section className="px-5 pb-10 border-b border-line">
+        <div className="px-5 pb-10 border-b border-line">
           <div className="max-w-3xl mx-auto flex flex-wrap gap-2 items-center">
             <span className="font-body text-xs text-mute uppercase tracking-widest font-bold mr-1">Tags</span>
             {tags.map((tag) => (
               <Link
                 key={tag.id}
-                href={`/${locale}/blog?tag=${tag.slug}`}
+                href={`/blog?tag=${tag.slug}`}
                 className="inline-flex items-center px-3 py-1.5 rounded-full font-body text-xs font-bold uppercase tracking-[0.04em] bg-paper-dim text-ink-soft border border-line no-underline hover:border-blue hover:text-blue transition-colors"
               >
                 {tag.title}
               </Link>
             ))}
           </div>
-        </section>
+        </div>
       )}
 
       {/* ── Author bio ──────────────────────────────────────────────── */}
@@ -196,7 +195,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
                 <p className="font-eyebrow m-0 mb-3">Continue lendo</p>
                 <h2 className="m-0">Posts relacionados</h2>
               </div>
-              <Link href={`/${locale}/blog`} className="font-display font-medium text-sm text-blue no-underline hover:opacity-75 transition-opacity">
+              <Link href="/blog" className="font-display font-medium text-sm text-blue no-underline hover:opacity-75 transition-opacity">
                 Ver todos os posts <ArrowIcon size={24} />
               </Link>
             </div>
@@ -221,7 +220,7 @@ export default async function PostPage({ params: paramsPromise }: Args) {
   )
 }
 
-const queryPostBySlug = cache(async ({ slug, locale }: { slug: string; locale: 'pt' | 'en' }) => {
+const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { headers } from 'next/headers'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import type { BlogListingBlock, Post, Tag, Media } from '@/payload-types'
@@ -23,7 +24,7 @@ function normalizePost(post: PartialPost): PostItem {
 
   return {
     id: String(post.id),
-    title: post.title,
+    title: post.title ?? '',
     slug: post.slug,
     excerpt: post.excerpt ?? post.meta?.description ?? null,
     date: post.publishedAt ?? null,
@@ -44,16 +45,23 @@ export const BlogListingComponent: React.FC<BlogListingBlock> = async ({
 }) => {
   const payload = await getPayload({ config: configPromise })
 
+  // Locale comes from the x-locale header set by the middleware (pt default / en).
+  const headersList = await headers()
+  const locale = headersList.get('x-locale') === 'en' ? 'en' : 'pt'
+
   const featuredPostId =
     featuredPost && typeof featuredPost === 'object'
       ? (featuredPost as Post).id
       : (featuredPost as number | null)
 
+  // Note: text search is now served by /api/search (FTS5). This query only feeds the
+  // default browse view (category filter + pagination run client-side over this set).
   const [postsResult, tagsResult, featuredDoc] = await Promise.all([
     payload.find({
       collection: 'posts',
       depth: 1,
       limit: 200,
+      locale,
       overrideAccess: false,
       sort: '-publishedAt',
       select: {
@@ -70,6 +78,7 @@ export const BlogListingComponent: React.FC<BlogListingBlock> = async ({
       collection: 'tags',
       depth: 0,
       limit: 100,
+      locale,
       overrideAccess: false,
     }),
     featuredPostId
@@ -77,12 +86,17 @@ export const BlogListingComponent: React.FC<BlogListingBlock> = async ({
           collection: 'posts',
           id: featuredPostId,
           depth: 1,
+          locale,
           overrideAccess: false,
         })
       : Promise.resolve(null),
   ])
 
-  const posts: PostItem[] = postsResult.docs.map((doc) => normalizePost(doc as PartialPost))
+  // Show a post only in the locale it has content for: skip posts with no title in the
+  // active locale (they would otherwise render as blank cards).
+  const posts: PostItem[] = postsResult.docs
+    .filter((doc) => Boolean((doc as PartialPost).title))
+    .map((doc) => normalizePost(doc as PartialPost))
 
   const filters: FilterOption[] = tagsResult.docs.map((tag) => ({
     label: tag.title,
@@ -90,7 +104,7 @@ export const BlogListingComponent: React.FC<BlogListingBlock> = async ({
   }))
 
   let featured: FeaturedPostItem | null = null
-  if (featuredDoc) {
+  if (featuredDoc && featuredDoc.title) {
     const base = normalizePost(featuredDoc)
     featured = {
       ...base,
@@ -109,6 +123,7 @@ export const BlogListingComponent: React.FC<BlogListingBlock> = async ({
       postsPerPage={postsPerPage ?? 9}
       showSearch={showSearch ?? true}
       showFilters={showFilters ?? true}
+      locale={locale}
     />
   )
 }

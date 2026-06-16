@@ -12,6 +12,7 @@ import { authenticated } from '../../access/authenticated'
 import { authenticatedOrPublished } from '../../access/authenticatedOrPublished'
 import { generatePreviewPath } from '../../utilities/generatePreviewPath'
 import { revalidateDelete, revalidatePost } from './hooks/revalidatePost'
+import { removePostFromSearchIndex, syncPostSearchIndex } from './hooks/syncPostSearchIndex'
 import { slugField } from 'payload'
 
 export const Posts: CollectionConfig<'posts'> = {
@@ -153,8 +154,8 @@ export const Posts: CollectionConfig<'posts'> = {
     slugField(),
   ],
   hooks: {
-    afterChange: [revalidatePost],
-    afterDelete: [revalidateDelete],
+    afterChange: [revalidatePost, syncPostSearchIndex],
+    afterDelete: [revalidateDelete, removePostFromSearchIndex],
   },
   versions: {
     drafts: {

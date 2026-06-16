@@ -147,6 +147,17 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  twoFactorSecret?: string | null;
+  twoFactorEnabled?: boolean | null;
+  twoFactorRecoveryCodes?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -1027,6 +1038,9 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  twoFactorSecret?: T;
+  twoFactorEnabled?: T;
+  twoFactorRecoveryCodes?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

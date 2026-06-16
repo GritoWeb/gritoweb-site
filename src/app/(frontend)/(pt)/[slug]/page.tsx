@@ -15,27 +15,26 @@ import type { Page } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
 
+const locale = 'pt' as const
+
 type Args = {
-  params: Promise<{ locale: string; slug: string }>
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { isEnabled: draft } = await draftMode()
-  const { locale, slug } = await paramsPromise
-  const page = await queryPageBySlug({
-    slug: decodeURIComponent(slug),
-    locale: locale as 'pt' | 'en',
-    draft,
-  })
-  return generateMeta({ doc: page, locale: locale as 'pt' | 'en' })
+  const { slug } = await paramsPromise
+  const decodedSlug = decodeURIComponent(slug)
+  const page = await queryPageBySlug({ slug: decodedSlug, draft })
+  return generateMeta({ doc: page, locale, path: `/${decodedSlug}` })
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { locale, slug } = await paramsPromise
+  const { slug } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
 
-  const page = await queryPageBySlug({ slug: decodedSlug, locale: locale as 'pt' | 'en', draft })
+  const page = await queryPageBySlug({ slug: decodedSlug, draft })
 
   if (!page) notFound()
 
@@ -56,20 +55,18 @@ export default async function Page({ params: paramsPromise }: Args) {
   )
 }
 
-const queryPageBySlug = cache(
-  async ({ slug, locale, draft }: { slug: string; locale: 'pt' | 'en'; draft: boolean }) => {
-    const payload = await getPayload({ config: configPromise })
+const queryPageBySlug = cache(async ({ slug, draft }: { slug: string; draft: boolean }) => {
+  const payload = await getPayload({ config: configPromise })
 
-    const result = await payload.find({
-      collection: 'pages',
-      draft,
-      limit: 1,
-      pagination: false,
-      overrideAccess: draft,
-      locale,
-      where: { slug: { equals: slug } },
-    })
+  const result = await payload.find({
+    collection: 'pages',
+    draft,
+    limit: 1,
+    pagination: false,
+    overrideAccess: draft,
+    locale,
+    where: { slug: { equals: slug } },
+  })
 
-    return result.docs?.[0] ?? null
-  },
-)
+  return result.docs?.[0] ?? null
+})

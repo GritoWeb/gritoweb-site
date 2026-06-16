@@ -15,22 +15,18 @@ import type { Page } from '@/payload-types'
 
 export const dynamic = 'force-dynamic'
 
-type Args = {
-  params: Promise<{ locale: string }>
+const locale = 'pt' as const
+
+export async function generateMetadata(): Promise<Metadata> {
+  const { isEnabled: draft } = await draftMode()
+  const page = await queryHomePage({ draft })
+  return generateMeta({ doc: page, locale, path: '/' })
 }
 
-export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+export default async function HomePage() {
   const { isEnabled: draft } = await draftMode()
-  const { locale } = await paramsPromise
-  const page = await queryHomePage({ locale: locale as 'pt' | 'en', draft })
-  return generateMeta({ doc: page, locale: locale as 'pt' | 'en' })
-}
 
-export default async function HomePage({ params: paramsPromise }: Args) {
-  const { isEnabled: draft } = await draftMode()
-  const { locale } = await paramsPromise
-
-  const page = await queryHomePage({ locale: locale as 'pt' | 'en', draft })
+  const page = await queryHomePage({ draft })
 
   if (!page) notFound()
 
@@ -51,20 +47,18 @@ export default async function HomePage({ params: paramsPromise }: Args) {
   )
 }
 
-const queryHomePage = cache(
-  async ({ locale, draft }: { locale: 'pt' | 'en'; draft: boolean }) => {
-    const payload = await getPayload({ config: configPromise })
+const queryHomePage = cache(async ({ draft }: { draft: boolean }) => {
+  const payload = await getPayload({ config: configPromise })
 
-    const result = await payload.find({
-      collection: 'pages',
-      draft,
-      limit: 1,
-      pagination: false,
-      overrideAccess: draft,
-      locale,
-      where: { slug: { equals: 'home' } },
-    })
+  const result = await payload.find({
+    collection: 'pages',
+    draft,
+    limit: 1,
+    pagination: false,
+    overrideAccess: draft,
+    locale,
+    where: { slug: { equals: 'home' } },
+  })
 
-    return result.docs?.[0] ?? null
-  },
-)
+  return result.docs?.[0] ?? null
+})

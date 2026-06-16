@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 
 // ── Orange span ────────────────────────────────────────────
 
@@ -94,15 +95,16 @@ export function Button({
 
   if (href) {
     return (
-      <a
-        href={href}
+      <Link
+        href={disabled ? '#' : href}
+        aria-disabled={disabled || undefined}
+        tabIndex={disabled ? -1 : undefined}
         className={[classes, disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : '']
           .filter(Boolean)
           .join(' ')}
-        aria-disabled={disabled || undefined}
       >
         {inner}
-      </a>
+      </Link>
     )
   }
 

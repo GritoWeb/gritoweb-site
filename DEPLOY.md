@@ -110,6 +110,30 @@ Funções `generateStaticParams` que consultam o banco D1 durante `next build` f
 
 ---
 
+## Busca full-text dos posts (FTS5)
+
+A busca do blog usa uma tabela virtual SQLite **FTS5** (`posts_fts`) no D1, sincronizada
+via hooks do Payload (apenas posts **publicados**, todos os locales). Detalhes em
+`src/migrations/20260615_141615_add_posts_fts.ts`, `src/lib/postsSearchIndex.ts` e
+`src/collections/Posts/hooks/syncPostSearchIndex.ts`. O endpoint é `GET /api/search`.
+
+**Aplicar a migration + popular o índice** (local):
+```bash
+pnpm payload migrate
+pnpm reindex:search        # = pnpm tsx scripts/reindex-search.ts
+```
+Em produção a migration entra junto do `pnpm run deploy:database`; rode o reindex uma vez
+após o primeiro deploy (ou sempre que recriar a tabela).
+
+> ⚠️ **Export do D1:** o D1 **não exporta** bancos que contêm tabelas virtuais. Para rodar
+> `wrangler d1 export` é preciso primeiro `DROP TABLE posts_fts`, exportar, e então recriar
+> a tabela (re-aplicar a migration + `pnpm reindex:search`).
+
+> 💾 **Storage:** o índice FTS consome ~2–3× o tamanho do texto puro indexado. Lembre do
+> limite de 10 GB do D1.
+
+---
+
 ## Estrutura de recursos na Cloudflare
 
 | Recurso | Nome | Binding |

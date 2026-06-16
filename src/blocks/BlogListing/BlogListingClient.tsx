@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import type { Media } from '@/payload-types'
 import { parseTitle } from '@/utilities/parseTitle'
 import { titleMaxWidthClass, type TitleMaxWidth } from '@/utilities/titleMaxWidthClass'
@@ -37,7 +38,12 @@ export type BlogListingClientProps = {
   postsPerPage: number
   showSearch: boolean
   showFilters: boolean
+  locale: 'pt' | 'en'
 }
+
+// Cap on how many FTS matches we pull per query; client paginates/filters over them.
+const SEARCH_LIMIT = 100
+const SEARCH_DEBOUNCE_MS = 280
 
 // ── SVG helpers ───────────────────────────────────────────────────────────────
 
@@ -109,21 +115,30 @@ function Tag({ children, index }: { children: React.ReactNode; index: number }) 
   return <span className={`${tagBase} ${variant}`}>{children}</span>
 }
 
-export function PostCard({ post, index }: { post: PostItem; index: number }) {
+export function PostCard({
+  post,
+  index,
+  locale,
+}: {
+  post: PostItem
+  index: number
+  locale?: 'pt' | 'en'
+}) {
   const image = post.image
   const imageUrl =
     image && typeof image === 'object' && image.url ? image.url : null
+  const hrefPrefix = locale === 'en' ? '/en' : ''
 
   return (
-    <a
-      href={`/posts/${post.slug}`}
+    <Link
+      href={`${hrefPrefix}/posts/${post.slug}`}
       className="group h-full flex flex-col rounded-3xl overflow-hidden bg-white border border-line no-underline text-inherit transition-shadow duration-300 motion-reduce:transition-none hover:shadow-[0_6px_15px_rgba(40,40,40,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
     >
       <div className={`h-[200px] flex items-center justify-center overflow-hidden ${accentBg[index % 2]}`}>
         {imageUrl ? (
           <Image
             src={imageUrl}
-            alt={image?.alt ?? post.title}
+            alt={image?.alt ?? post.title ?? ''}
             width={600}
             height={200}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
@@ -131,7 +146,7 @@ export function PostCard({ post, index }: { post: PostItem; index: number }) {
           />
         ) : (
           <span className="font-display font-black text-5xl opacity-10 select-none">
-            {post.title.charAt(0).toUpperCase()}
+            {(post.title ?? '').charAt(0).toUpperCase()}
           </span>
         )}
       </div>
@@ -150,15 +165,16 @@ export function PostCard({ post, index }: { post: PostItem; index: number }) {
           />
         </span>
       </div>
-    </a>
+    </Link>
   )
 }
 
 // ── FeaturedPostBanner ────────────────────────────────────────────────────────
 
-function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
+function FeaturedPostBanner({ post, locale }: { post: FeaturedPostItem; locale?: 'pt' | 'en' }) {
   const imageUrl =
     post.image && typeof post.image === 'object' && post.image.url ? post.image.url : null
+  const hrefPrefix = locale === 'en' ? '/en' : ''
 
   const formattedDate = post.date
     ? new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' }).format(
@@ -168,8 +184,8 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
 
   return (
     <article className="max-w-7xl mx-auto mb-14">
-      <a
-        href={`/posts/${post.slug}`}
+      <Link
+        href={`${hrefPrefix}/posts/${post.slug}`}
         className="group grid grid-cols-1 md:grid-cols-[1.15fr_1fr] bg-white rounded-[28px] overflow-hidden border border-line no-underline text-inherit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
       >
         <div className="relative bg-blue text-white p-5 lg:p-12 flex flex-col justify-center min-h-[380px]">
@@ -199,7 +215,7 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
           {imageUrl ? (
             <Image
               src={imageUrl}
-              alt={post.image?.alt ?? post.title}
+              alt={post.image?.alt ?? post.title ?? ''}
               width={400}
               height={360}
               sizes="(max-width: 768px) 100vw, 40vw"
@@ -207,11 +223,11 @@ function FeaturedPostBanner({ post }: { post: FeaturedPostItem }) {
             />
           ) : (
             <span className="font-display font-black text-[8rem] text-blue/10 select-none">
-              {post.title.charAt(0).toUpperCase()}
+              {(post.title ?? '').charAt(0).toUpperCase()}
             </span>
           )}
         </div>
-      </a>
+      </Link>
     </article>
   )
 }
@@ -288,23 +304,56 @@ export function BlogListingClient({
   postsPerPage,
   showSearch,
   showFilters,
+  locale,
 }: BlogListingClientProps) {
   const [search, setSearch] = useState('')
   const [activeFilter, setActiveFilter] = useState('all')
   const [page, setPage] = useState(1)
   const [filtersOpen, setFiltersOpen] = useState(false)
+  // null = not searching (browse the server-provided `posts`); array = FTS results.
+  const [searchResults, setSearchResults] = useState<PostItem[] | null>(null)
+  const [searchLoading, setSearchLoading] = useState(false)
+
+  // Search-as-you-type → debounced call to the FTS5 endpoint. Text matching happens
+  // server-side; category filtering + pagination stay client-side over the results.
+  useEffect(() => {
+    const q = search.trim()
+    if (!q) {
+      setSearchResults(null)
+      setSearchLoading(false)
+      return
+    }
+
+    setSearchLoading(true)
+    const controller = new AbortController()
+    const timer = setTimeout(async () => {
+      try {
+        const res = await fetch(
+          `/api/search?q=${encodeURIComponent(q)}&locale=${locale}&limit=${SEARCH_LIMIT}`,
+          { signal: controller.signal },
+        )
+        if (!res.ok) throw new Error(`search failed: ${res.status}`)
+        const data = (await res.json()) as { docs: PostItem[] }
+        setSearchResults(data.docs ?? [])
+      } catch (err) {
+        if ((err as Error).name !== 'AbortError') setSearchResults([])
+      } finally {
+        setSearchLoading(false)
+      }
+    }, SEARCH_DEBOUNCE_MS)
+
+    return () => {
+      clearTimeout(timer)
+      controller.abort()
+    }
+  }, [search, locale])
+
+  const isSearching = search.trim().length > 0
+  const source = searchResults ?? posts
 
   const filtered = useMemo(() => {
-    const q = search.trim().toLowerCase()
-    return posts.filter((p) => {
-      const matchesCategory = activeFilter === 'all' || p.categoryId === activeFilter
-      const matchesSearch =
-        !q ||
-        p.title.toLowerCase().includes(q) ||
-        (p.excerpt ?? '').toLowerCase().includes(q)
-      return matchesCategory && matchesSearch
-    })
-  }, [posts, search, activeFilter])
+    return source.filter((p) => activeFilter === 'all' || p.categoryId === activeFilter)
+  }, [source, activeFilter])
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / postsPerPage))
   const safePage = Math.min(page, totalPages)
@@ -335,7 +384,7 @@ export function BlogListingClient({
   return (
     <section className="px-5 !pt-0 py-24">
       <div className="max-w-7xl mx-auto">
-        {featuredPost && <FeaturedPostBanner post={featuredPost} />}
+        {featuredPost && <FeaturedPostBanner post={featuredPost} locale={locale} />}
 
         <div className="flex items-baseline justify-between gap-6 flex-wrap mb-6">
           <header className="flex flex-col gap-3 max-w-3xl">
@@ -429,12 +478,14 @@ export function BlogListingClient({
                 className="h-full animate-in fade-in slide-in-from-bottom-4 duration-500 fill-mode-both motion-reduce:animate-none"
                 style={{ animationDelay: `${i * 60}ms` }}
               >
-                <PostCard post={post} index={(safePage - 1) * postsPerPage + i} />
+                <PostCard post={post} index={(safePage - 1) * postsPerPage + i} locale={locale} />
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-center text-mute py-20 animate-in fade-in duration-300 motion-reduce:animate-none">Nenhum post encontrado.</p>
+          <p className="text-center text-mute py-20 animate-in fade-in duration-300 motion-reduce:animate-none">
+            {isSearching && searchLoading ? 'Buscando…' : 'Nenhum post encontrado.'}
+          </p>
         )}
 
         {totalPages > 1 && (

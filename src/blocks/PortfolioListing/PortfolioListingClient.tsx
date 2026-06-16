@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import type { Media } from '@/payload-types'
 import { parseTitle } from '@/utilities/parseTitle'
 import { titleMaxWidthClass, type TitleMaxWidth } from '@/utilities/titleMaxWidthClass'
@@ -118,18 +119,19 @@ export function PortfolioCardGrid({ item }: { item: PortfolioItem }) {
   const bg = accentBg[item.accent ?? 'blue']
 
   return (
-    <a
+    <Link
       href={`/portfolio/${item.slug}`}
       className="group h-full flex flex-col rounded-3xl overflow-hidden bg-white border border-line no-underline text-inherit transition-shadow duration-300 motion-reduce:transition-none hover:shadow-[0_6px_15px_rgba(40,40,40,0.08)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
     >
-      <div className={`relative h-[200px] flex items-center justify-center overflow-hidden ${bg}`}>
+      <div className={`h-[200px] flex items-center justify-center overflow-hidden ${bg}`}>
         {imageUrl ? (
           <Image
             src={imageUrl}
             alt={item.image?.alt ?? item.title}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="flex !relative max-w-[120px] max-h-[120px] object-cover"
+            width={120}
+            height={120}
+            sizes="120px"
+            className="object-cover"
           />
         ) : (
           <span className="font-display font-black text-5xl opacity-10 select-none">
@@ -158,13 +160,13 @@ export function PortfolioCardGrid({ item }: { item: PortfolioItem }) {
           />
         </span>
       </div>
-    </a>
+    </Link>
   )
 }
 
 function PortfolioCardList({ item }: { item: PortfolioItem }) {
   return (
-    <a
+    <Link
       href={`/portfolio/${item.slug}`}
       className="group flex items-center gap-6 rounded-2xl bg-white border border-line p-5 no-underline text-inherit transition-shadow duration-150 motion-reduce:transition-none hover:shadow-[0_4px_16px_rgba(40,40,40,0.06)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper"
     >
@@ -202,7 +204,7 @@ function PortfolioCardList({ item }: { item: PortfolioItem }) {
         size={24}
         className="transition-transform duration-150 ease-out group-hover:translate-x-1 motion-reduce:transform-none"
       />
-    </a>
+    </Link>
   )
 }
 

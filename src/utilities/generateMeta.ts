@@ -14,12 +14,14 @@ type DocWithMeta = Partial<Page> | Partial<Post> | Partial<Portfolio> | null | u
 export const generateMeta = ({
   doc,
   locale,
+  path,
 }: {
   doc: DocWithMeta
   locale?: 'pt' | 'en'
+  path?: string
 }): Metadata => {
   const meta = doc?.meta
-  const title = meta?.title || (doc?.title ? `${doc.title} | Grito` : 'Grito')
+  const title = meta?.title || (doc?.title ? `${doc.title} | GritoWeb` : 'GritoWeb')
   const description = meta?.description || undefined
 
   const ogImage =
@@ -29,6 +31,7 @@ export const generateMeta = ({
     metadataBase: new URL(getBaseURL()),
     title,
     description,
+    ...(path ? { alternates: { canonical: path } } : {}),
     openGraph: {
       title,
       description: description ?? undefined,

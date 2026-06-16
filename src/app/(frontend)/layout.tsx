@@ -3,8 +3,9 @@ import { headers } from 'next/headers'
 import './styles.css'
 
 export const metadata = {
-  description: 'GritoWeb — Digital studio.',
-  title: 'GritoWeb',
+  title: 'GritoWeb — Agência Digital | WordPress, E-Commerce e UX/UI em Sorocaba',
+  description:
+    'GritoWeb é um estúdio digital de Itapetininga especializado em WordPress, e-commerce, landing pages, UX/UI e branding.',
   icons: {
     icon: '/favicon.png',
   },

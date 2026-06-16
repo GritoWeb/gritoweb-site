@@ -45,7 +45,7 @@ export const ChecklistGridComponent: React.FC<ChecklistGridBlock> = ({
                 <CheckIcon />
               </span>
               <div>
-                <h4 className="m-0 font-display font-bold text-lg text-ink">{item.title}</h4>
+                <h3 className="m-0 font-display font-bold text-lg text-ink">{item.title}</h3>
                 {item.description && (
                   <p className="m-0 mt-1.5 text-mute text-[15px]">{item.description}</p>
                 )}

@@ -25,21 +25,21 @@ import { Sparkle, ChatMark } from '@/home/illustrations'
 
 export const dynamic = 'force-dynamic'
 
-type Args = { params: Promise<{ locale: string; slug: string }> }
+const locale = 'pt' as const
+
+type Args = { params: Promise<{ slug: string }> }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { locale, slug } = await paramsPromise
-  const portfolio = await queryPortfolioBySlug({
-    slug: decodeURIComponent(slug),
-    locale: locale as 'pt' | 'en',
-  })
-  return generateMeta({ doc: portfolio, locale: locale as 'pt' | 'en' })
+  const { slug } = await paramsPromise
+  const decodedSlug = decodeURIComponent(slug)
+  const portfolio = await queryPortfolioBySlug({ slug: decodedSlug })
+  return generateMeta({ doc: portfolio, locale, path: `/portfolio/${decodedSlug}` })
 }
 
 export default async function PortfolioPage({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { locale, slug } = await paramsPromise
-  const portfolio = await queryPortfolioBySlug({ slug: decodeURIComponent(slug), locale: locale as 'pt' | 'en' })
+  const { slug } = await paramsPromise
+  const portfolio = await queryPortfolioBySlug({ slug: decodeURIComponent(slug) })
   if (!portfolio) notFound()
 
   const p = portfolio as Portfolio
@@ -90,7 +90,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
     })
 
   const breadcrumbItems = [
-    { label: 'Portfólio', href: `/${locale}/portfolio` },
+    { label: 'Portfólio', href: '/portfolio' },
     ...(tag ? [{ label: tag.title }] : []),
     { label: p.title },
   ]
@@ -98,11 +98,11 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
   return (
     <>
       {/* ── Breadcrumb ──────────────────────────────────────────────── */}
-      <section className="px-5 pt-6">
+      <div className="px-5 pt-6">
         <div className="max-w-7xl mx-auto">
           <Breadcrumb items={breadcrumbItems} />
         </div>
-      </section>
+      </div>
 
       {/* ── Hero ────────────────────────────────────────────────────── */}
       <section className="px-5 py-10 md:py-14">
@@ -134,7 +134,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
                   Ver o site ao vivo <ArrowIcon size={24} />
                 </Button>
               )}
-              <Button href={p.nextProjectHref ?? `/${locale}/portfolio`} variant="ghost">
+              <Button href={p.nextProjectHref ?? '/portfolio'} variant="ghost">
                 Próximo projeto
               </Button>
             </div>
@@ -162,11 +162,11 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
 
       {/* ── Meta strip ──────────────────────────────────────────────── */}
       {metaItems.length > 0 && (
-        <section className="px-5 pb-8">
+        <div className="px-5 pb-8">
           <div className="max-w-7xl mx-auto">
             <MetaStrip items={metaItems.slice(0, 4)} />
           </div>
-        </section>
+        </div>
       )}
 
       {/* ── Desafio ─────────────────────────────────────────────────── */}
@@ -181,8 +181,8 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
             </div>
             {p.challengeBody && (
               <div className="text-ink-soft leading-relaxed space-y-4">
-                {p.challengeBody.split('\n\n').map((paragraph, i) => (
-                  <p key={i} className="m-0">{paragraph}</p>
+                {p.challengeBody.split('\n\n').map((paragraph) => (
+                  <p key={paragraph} className="m-0">{paragraph}</p>
                 ))}
               </div>
             )}
@@ -207,7 +207,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
                     </p>
                   )}
                   {step.title && (
-                    <h4 className="mt-1 m-0 font-bold text-blue text-xl">{step.title}</h4>
+                    <h3 className="mt-1 m-0 font-bold text-blue text-xl">{step.title}</h3>
                   )}
                   {step.description && (
                     <p className="mt-2 m-0 text-[15px] text-mute leading-relaxed">{step.description}</p>
@@ -239,13 +239,13 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
 
       {/* ── Big Quote ────────────────────────────────────────────────── */}
       {p.quoteText && (
-        <section className="px-5 py-8">
+        <div className="px-5 py-8">
           <BigQuote
             quote={p.quoteText}
             author={p.quoteAuthor}
             role={p.quoteRole}
           />
-        </section>
+        </div>
       )}
 
       {/* ── Resultados ───────────────────────────────────────────────── */}
@@ -311,7 +311,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
                 <p className="font-eyebrow m-0 mb-3">Continue navegando</p>
                 <h2 className="m-0">Projetos relacionados</h2>
               </div>
-              <Link href={`/${locale}/portfolio`} className="font-display font-medium text-sm text-blue no-underline hover:opacity-75 transition-opacity">
+              <Link href="/portfolio" className="font-display font-medium text-sm text-blue no-underline hover:opacity-75 transition-opacity">
                 Ver portfólio completo <ArrowIcon size={24} />
               </Link>
             </div>
@@ -336,7 +336,7 @@ export default async function PortfolioPage({ params: paramsPromise }: Args) {
   )
 }
 
-const queryPortfolioBySlug = cache(async ({ slug, locale }: { slug: string; locale: 'pt' | 'en' }) => {
+const queryPortfolioBySlug = cache(async ({ slug }: { slug: string }) => {
   const { isEnabled: draft } = await draftMode()
   const payload = await getPayload({ config: configPromise })
 

@@ -18,7 +18,7 @@ type NavItem = NonNullable<Header['navItems']>[number]
 function resolveHref(link: NavItem['link'], locale: string): string {
   if (link.type === 'reference' && link.reference && typeof link.reference.value === 'object') {
     const slug = (link.reference.value as Page).slug
-    return `/${locale}/${slug}`
+    return locale === 'en' ? `/en/${slug}` : `/${slug}`
   }
   return link.url ?? '#'
 }
@@ -50,8 +50,12 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
   const otherLocale = locale === 'pt' ? 'en' : 'pt'
 
   function switchLocale() {
-    const rest = pathname.slice(locale.length + 1)
-    window.location.href = `/${otherLocale}${rest}`
+    if (locale === 'pt') {
+      window.location.href = `/en${pathname}`
+    } else {
+      const rest = pathname.startsWith('/en') ? pathname.slice(3) || '/' : pathname
+      window.location.href = rest
+    }
   }
 
   return (
@@ -59,7 +63,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data, locale }) => {
       {/* Top bar */}
       <div className="flex items-center justify-between px-5 py-[22px]">
         <Link
-          href={`/${locale}`}
+          href={locale === 'en' ? '/en' : '/'}
           aria-label="GritoWeb — home"
           className="no-underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue focus-visible:ring-offset-2 focus-visible:ring-offset-paper rounded-md"
         >

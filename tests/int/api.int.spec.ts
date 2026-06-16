@@ -1,3 +1,6 @@
+// @vitest-environment node
+// Backend test: must run under Node. Importing payload.config pulls in wrangler
+// (getPlatformProxy), whose esbuild dependency fails under jsdom's TextEncoder.
 import { getPayload, Payload } from 'payload'
 import config from '@/payload.config'
 
