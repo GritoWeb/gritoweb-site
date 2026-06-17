@@ -114,6 +114,7 @@ export default buildConfig({
     seoPlugin({
       collections: ['pages', 'posts', 'portfolios'],
       uploadsCollection: 'media',
+      tabbedUI: true,
       generateTitle,
       generateDescription,
       generateURL,
