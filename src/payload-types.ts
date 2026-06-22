@@ -648,6 +648,10 @@ export interface Post {
    * Image shown on post listing cards.
    */
   featuredImage?: (number | null) | Media;
+  /**
+   * Banner image shown on the single post page. Falls back to cover image if empty.
+   */
+  postBanner?: (number | null) | Media;
   publishedAt?: string | null;
   authors?: (number | User)[] | null;
   /**
@@ -1540,6 +1544,7 @@ export interface PostsSelect<T extends boolean = true> {
   relatedPosts?: T;
   tags?: T;
   featuredImage?: T;
+  postBanner?: T;
   publishedAt?: T;
   authors?: T;
   generateSlug?: T;

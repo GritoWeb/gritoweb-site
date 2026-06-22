@@ -101,6 +101,7 @@ export const BlogListingComponent: React.FC<BlogListingBlock> = async ({
   const filters: FilterOption[] = tagsResult.docs.map((tag) => ({
     label: tag.title,
     value: String(tag.id),
+    slug: tag.slug,
   }))
 
   let featured: FeaturedPostItem | null = null

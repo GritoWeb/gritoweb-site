@@ -63,6 +63,7 @@ export const PortfolioListingComponent: React.FC<PortfolioListingBlock> = async 
   const filters: FilterOption[] = tagsResult.docs.map((tag) => ({
     label: tag.title,
     value: String(tag.id),
+    slug: tag.slug,
   }))
 
   return (

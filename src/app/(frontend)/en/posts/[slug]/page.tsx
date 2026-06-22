@@ -39,6 +39,8 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
   const p = post as Post
   const featuredImage = p.featuredImage && typeof p.featuredImage === 'object' ? (p.featuredImage as Media) : null
+  const postBanner = p.postBanner && typeof p.postBanner === 'object' ? (p.postBanner as Media) : null
+  const bannerImage = postBanner ?? featuredImage
   const authors = ((p.authors as User[]) ?? []).filter((a) => typeof a === 'object')
   const tags = ((p.tags as Tag[]) ?? []).filter((t) => typeof t === 'object')
   const relatedPosts: PostItem[] = ((p.relatedPosts as Post[]) ?? [])
@@ -94,10 +96,6 @@ export default async function PostPage({ params: paramsPromise }: Args) {
 
           <h1 className="m-0 text-blue">{parseTitle(p.title)}</h1>
 
-          {p.excerpt && (
-            <p className="mt-4 text-ink-soft text-lg leading-relaxed">{p.excerpt}</p>
-          )}
-
           <div className="flex flex-wrap items-center gap-5 mt-7">
             {authors.length > 0 && (
               <div className="flex items-center gap-3">
@@ -124,14 +122,14 @@ export default async function PostPage({ params: paramsPromise }: Args) {
         </div>
       </section>
 
-      {/* ── Featured image ──────────────────────────────────────────── */}
-      {featuredImage?.url && (
+      {/* ── Post banner ──────────────────────────────────────────── */}
+      {bannerImage?.url && (
         <div className="px-5 pb-12">
           <div className="max-w-3xl mx-auto">
-            <div className="relative rounded-3xl overflow-hidden bg-blue/8" style={{ aspectRatio: featuredImage.width && featuredImage.height ? `${featuredImage.width}/${featuredImage.height}` : '16/9' }}>
+            <div className="relative rounded-3xl overflow-hidden bg-blue/8" style={{ aspectRatio: bannerImage.width && bannerImage.height ? `${bannerImage.width}/${bannerImage.height}` : '16/9' }}>
               <Image
-                src={featuredImage.url}
-                alt={featuredImage.alt ?? p.title}
+                src={bannerImage.url}
+                alt={bannerImage.alt ?? p.title}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 768px"

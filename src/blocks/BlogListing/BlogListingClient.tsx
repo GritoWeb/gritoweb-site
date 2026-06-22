@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useMemo, useEffect } from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Media } from '@/payload-types'
@@ -27,6 +28,7 @@ export type FeaturedPostItem = PostItem
 export type FilterOption = {
   label: string
   value: string
+  slug: string
 }
 
 export type BlogListingClientProps = {
@@ -307,11 +309,22 @@ export function BlogListingClient({
   showFilters,
   locale,
 }: BlogListingClientProps) {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const initialFilter = useMemo(() => {
+    const tagSlug = searchParams.get('tag')
+    if (!tagSlug) return 'all'
+    const match = filters.find((f) => f.slug === tagSlug)
+    return match ? match.value : 'all'
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   const [search, setSearch] = useState('')
-  const [activeFilter, setActiveFilter] = useState('all')
+  const [activeFilter, setActiveFilter] = useState(initialFilter)
   const [page, setPage] = useState(1)
   const [filtersOpen, setFiltersOpen] = useState(false)
-  // null = not searching (browse the server-provided `posts`); array = FTS results.
   const [searchResults, setSearchResults] = useState<PostItem[] | null>(null)
   const [searchLoading, setSearchLoading] = useState(false)
 
@@ -363,6 +376,15 @@ export function BlogListingClient({
   const handleFilterChange = (value: string) => {
     setActiveFilter(value)
     setPage(1)
+    const params = new URLSearchParams(searchParams.toString())
+    if (value === 'all') {
+      params.delete('tag')
+    } else {
+      const match = filters.find((f) => f.value === value)
+      if (match) params.set('tag', match.slug)
+    }
+    const qs = params.toString()
+    router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false })
   }
 
   const handleSearch = (value: string) => {

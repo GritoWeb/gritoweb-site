@@ -127,6 +127,16 @@ export const Posts: CollectionConfig<'posts'> = {
       },
     },
     {
+      name: 'postBanner',
+      label: 'Post banner (single)',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        position: 'sidebar',
+        description: 'Banner image shown on the single post page. Falls back to cover image if empty.',
+      },
+    },
+    {
       name: 'publishedAt',
       type: 'date',
       admin: {

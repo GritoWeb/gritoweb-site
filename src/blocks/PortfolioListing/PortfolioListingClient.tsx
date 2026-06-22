@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import type { Media } from '@/payload-types'
@@ -28,6 +29,7 @@ export type PortfolioItem = {
 export type FilterOption = {
   label: string
   value: string
+  slug: string
 }
 
 export type PortfolioListingClientProps = {
@@ -259,9 +261,34 @@ export const PortfolioListingClient: React.FC<PortfolioListingClientProps> = ({
   showFilters,
   showViewToggle,
 }) => {
-  const [activeFilter, setActiveFilter] = useState<string>('all')
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const initialFilter = useMemo(() => {
+    const tagSlug = searchParams.get('tag')
+    if (!tagSlug) return 'all'
+    const match = filters.find((f) => f.slug === tagSlug)
+    return match ? match.value : 'all'
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const [activeFilter, setActiveFilter] = useState<string>(initialFilter)
   const [view, setView] = useState<'grid' | 'list'>('grid')
   const [filtersOpen, setFiltersOpen] = useState(false)
+
+  const handleFilterChange = (value: string) => {
+    setActiveFilter(value)
+    const params = new URLSearchParams(searchParams.toString())
+    if (value === 'all') {
+      params.delete('tag')
+    } else {
+      const match = filters.find((f) => f.value === value)
+      if (match) params.set('tag', match.slug)
+    }
+    const qs = params.toString()
+    router.replace(`${pathname}${qs ? `?${qs}` : ''}`, { scroll: false })
+  }
 
   const filtered = useMemo(() => {
     if (activeFilter === 'all') return portfolios
@@ -298,7 +325,7 @@ export const PortfolioListingClient: React.FC<PortfolioListingClientProps> = ({
                   <FilterPills
                     filters={filters}
                     activeFilter={activeFilter}
-                    onChange={setActiveFilter}
+                    onChange={handleFilterChange}
                   />
                 </div>
               )}
@@ -375,7 +402,7 @@ export const PortfolioListingClient: React.FC<PortfolioListingClientProps> = ({
                     <FilterPills
                       filters={filters}
                       activeFilter={activeFilter}
-                      onChange={setActiveFilter}
+                      onChange={handleFilterChange}
                     />
                   </div>
                 </div>
